@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>关于vs编写c语言时的不安全报错</title>
+      <link href="2021/05/30/5-30/"/>
+      <url>2021/05/30/5-30/</url>
+      
+        <content type="html"><![CDATA[<p>之所以会报错，是因为vs觉得scanf函数不安全，所以我们只需要取消安全检查就可以了，在头文件前加上 _CRT_SECURE_NO_WARNING 就可以了</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> c语言 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vs </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="2021/05/28/hello-world/"/>
       <url>2021/05/28/hello-world/</url>

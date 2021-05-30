@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>goat的blog</title>
+  <title>goatのblog</title>
   
   
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-05-28T12:18:52.779Z</updated>
+  <updated>2021-05-30T02:31:06.004Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于vs编写c语言时的不安全报错</title>
+    <link href="http://example.com/2021/05/30/5-30/"/>
+    <id>http://example.com/2021/05/30/5-30/</id>
+    <published>2021-05-30T02:21:28.000Z</published>
+    <updated>2021-05-30T02:31:06.004Z</updated>
+    
+    <content type="html"><![CDATA[<p>之所以会报错，是因为vs觉得scanf函数不安全，所以我们只需要取消安全检查就可以了，在头文件前加上 _CRT_SECURE_NO_WARNING 就可以了</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;之所以会报错，是因为vs觉得scanf函数不安全，所以我们只需要取消安全检查就可以了，在头文件前加上 _CRT_SECURE_NO_WARNING 就可以了&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="c语言" scheme="http://example.com/categories/c%E8%AF%AD%E8%A8%80/"/>
+    
+    
+    <category term="vs" scheme="http://example.com/tags/vs/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
