@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-05-30T11:13:33.029Z</updated>
+  <updated>2021-05-30T11:15:59.804Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>关于搭建博客时遇到的麻烦报错</title>
-    <link href="http://example.com/2021/05/30/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/"/>
-    <id>http://example.com/2021/05/30/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</id>
+    <link href="http://example.com/2021/05/30/001/"/>
+    <id>http://example.com/2021/05/30/001/</id>
     <published>2021-05-30T11:00:28.000Z</published>
-    <updated>2021-05-30T11:13:33.029Z</updated>
+    <updated>2021-05-30T11:15:59.804Z</updated>
     
     
       
