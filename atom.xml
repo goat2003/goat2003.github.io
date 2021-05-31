@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-05-30T14:17:56.701Z</updated>
+  <updated>2021-05-31T10:02:06.392Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>malloc函数</title>
+    <link href="http://example.com/2021/05/31/malloc%E5%87%BD%E6%95%B0/"/>
+    <id>http://example.com/2021/05/31/malloc%E5%87%BD%E6%95%B0/</id>
+    <published>2021-05-31T10:01:28.000Z</published>
+    <updated>2021-05-31T10:02:06.392Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今天学习了malloc函数，个人感觉就是一个划分内存空间的工具，&lt;br&gt;以下是关于malloc函数的定义。&lt;br&gt;C语言中malloc是动态内存分配函数。&lt;br&gt;函数原型：&lt;code&gt;void *malloc(unsigned int</summary>
+        
+      
+    
+    
+    
+    <category term="c语言" scheme="http://example.com/categories/c%E8%AF%AD%E8%A8%80/"/>
+    
+    
+    <category term="c语言" scheme="http://example.com/tags/c%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
   
   <entry>
     <title>关于搭建博客时遇到的麻烦报错</title>

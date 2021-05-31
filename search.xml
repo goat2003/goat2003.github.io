@@ -4,11 +4,36 @@
   
     
     <entry>
+      <title>malloc函数</title>
+      <link href="2021/05/31/malloc%E5%87%BD%E6%95%B0/"/>
+      <url>2021/05/31/malloc%E5%87%BD%E6%95%B0/</url>
+      
+        <content type="html"><![CDATA[<p>今天学习了malloc函数，个人感觉就是一个划分内存空间的工具，<br>以下是关于malloc函数的定义。<br>C语言中malloc是动态内存分配函数。<br>函数原型：<code>void *malloc(unsigned int num_bytes);</code><br>参数：num_bytes 是无符号整型，用于表示分配的字节数。<br>返回值：如果分配成功则返回指向被分配内存的指针(此存储区中的初始值不确定)，否则返回空指针NULL。void* 表示未确定类型的指针，void *可以指向任何类型的数据，更明确的说是指申请内存空间时还不知道用户是用这段空间来存储什么类型的数据（比如是char还是int或者…）<br>功能：分配长度为num_bytes字节的内存块<br>注意：当内存不再使用时，应使用free()函数将内存块释放。函数返回的指针一定要适当对齐，使其可以用于任何数据对象。关于该函数的原型，在以前malloc返回的是char型指针，新的ANSIC标准规定，该函数返回为void型指针，因此必要时要进行类型转换。<br>我们来观看一下实例：</p><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&quot;stdio.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&quot;malloc.h&quot;</span><span class="comment">//malloc()函数被包含在malloc.h里面</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span>*a=<span class="literal">NULL</span>;<span class="comment">//声明一个指向a的char*类型的指针</span></span><br><span class="line">    </span><br><span class="line">a=(<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="number">100</span>*<span class="keyword">sizeof</span>(<span class="keyword">char</span>));<span class="comment">//使用malloc分配内存的首地址，然后赋值给a</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(!a)<span class="comment">//如果malloc失败，可以得到一些log</span></span><br><span class="line">        </span><br><span class="line">&#123;</span><br><span class="line">perror(<span class="string">&quot;malloc&quot;</span>);</span><br><span class="line"><span class="keyword">return</span><span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">sprintf</span>(a,<span class="string">&quot;%s&quot;</span>,<span class="string">&quot;HelloWorld\n&quot;</span>);<span class="comment">//&quot;HelloWorld\n&quot;写入a指向的地址</span></span><br><span class="line">    </span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>,a);<span class="comment">//输出用户输入的数据</span></span><br><span class="line">    </span><br><span class="line"><span class="built_in">free</span>(a);<span class="comment">//释放掉使用的内存地址</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;<span class="comment">//例2有无内存泄露？</span></span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>看一下运行结果，<br>我在再来看一下反汇编窗口<br><img src="https://img-blog.csdnimg.cn/20210531175142777.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dvYXRfMjAwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以看到区别，编译器在运行我们写的代码时，会提前根据所定义的类型来给我们分配缓冲区，也就是堆栈空间，例如图中对变量b的定义与赋值，而我们使用amlloc函数时，则会给我们额外分配动态内存（push 64h）。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> c语言 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> c语言 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>关于搭建博客时遇到的麻烦报错</title>
       <link href="2021/05/30/001/"/>
       <url>2021/05/30/001/</url>
       
-        <content type="html"><![CDATA[<p><strong>1、hexo初始化博客</strong><br>这里主要有两个命令，一个是npm install -g hexo-cli，这个命令能碰到的的问题主要是卡住，建议下载一个淘宝镜像<br>第二个是hexo init，这里的问题整整卡了我两天，我的报错是（fatal: unable to access …）解决方法:首先我们可以去添加三条新的环境变量，添加万这三条以后去博客根目录里hexobush并再次输入命令，问题基本解决，如果还不行的话，可以去cmd里再次输入。<br><img src="/images/001/001.jpg" alt="001"><br><strong>2、hexo d命令</strong><br>该命令意思是讲你的本地文件夹上传到github上，解决方法是查看你的根目录配置文件，翻到最下面查看branch后的代码，如果是march请将它改为main，具体原因好像是因为github最近讲march分支改为了main分支。如果还未解决的话可能是因为你的repository设置有问题（还是根目录配置文件的最底层）这里我们放置的链接必须是ssh链接，如下图，因为我们是通过ssh与github获得连接的，所以使用https的形式会报错。<br><img src="/images/001/002.jpg" alt="002"></p><p><strong>3、git clone命令</strong><br>使用该命令时报错 fatal: remote error: You can’t push to git，解决方法参考下面的文章<br><a href="https://xvideos.blog.csdn.net/article/details/52367128">https://xvideos.blog.csdn.net/article/details/52367128</a><br>大概意思是由于我们与github建立的是ssh连接，而我们在git clone时并没有通过ssh的方式去获得连接如一下报错<br>fatal: remote error:<br>You can’t push to git://github.com/user_name/user_repo.git<br>Use <a href="mailto:&#103;&#x69;&#x74;&#64;&#x67;&#x69;&#116;&#x68;&#117;&#98;&#46;&#x63;&#111;&#109;">&#103;&#x69;&#x74;&#64;&#x67;&#x69;&#116;&#x68;&#117;&#98;&#46;&#x63;&#111;&#109;</a>:user_name/user_repo.git<br>这里我们只需要使用以下代码就可以了<br>$ git remote rm origin<br>$ git remote add origin <a href="mailto:&#103;&#x69;&#116;&#x40;&#x67;&#105;&#116;&#x68;&#x75;&#x62;&#46;&#x63;&#111;&#x6d;">&#103;&#x69;&#116;&#x40;&#x67;&#105;&#116;&#x68;&#x75;&#x62;&#46;&#x63;&#111;&#x6d;</a>:user_name/user_repo.git</p>]]></content>
+        <content type="html"><![CDATA[<p><strong>1、hexo初始化博客</strong><br>这里主要有两个命令，一个是npm install -g hexo-cli，这个命令能碰到的的问题主要是卡住，建议下载一个淘宝镜像<br>第二个是hexo init，这里的问题整整卡了我两天，我的报错是（fatal: unable to access …）解决方法:首先我们可以去添加三条新的环境变量，添加万这三条以后去博客根目录里hexobush并再次输入命令，问题基本解决，如果还不行的话，可以去cmd里再次输入。<br><img src="/images/001/001.jpg" alt="001"><br><strong>2、hexo d命令</strong><br>该命令意思是讲你的本地文件夹上传到github上，解决方法是查看你的根目录配置文件，翻到最下面查看branch后的代码，如果是march请将它改为main，具体原因好像是因为github最近讲march分支改为了main分支。如果还未解决的话可能是因为你的repository设置有问题（还是根目录配置文件的最底层）这里我们放置的链接必须是ssh链接，如下图，因为我们是通过ssh与github获得连接的，所以使用https的形式会报错。<br><img src="/images/001/002.jpg" alt="002"></p><p><strong>3、git clone命令</strong><br>使用该命令时报错 fatal: remote error: You can’t push to git，解决方法参考下面的文章<br><a href="https://xvideos.blog.csdn.net/article/details/52367128">https://xvideos.blog.csdn.net/article/details/52367128</a><br>大概意思是由于我们与github建立的是ssh连接，而我们在git clone时并没有通过ssh的方式去获得连接如一下报错<br>fatal: remote error:<br>You can’t push to git://github.com/user_name/user_repo.git<br>Use <a href="mailto:&#x67;&#105;&#x74;&#x40;&#103;&#x69;&#116;&#104;&#x75;&#98;&#46;&#99;&#x6f;&#109;">&#x67;&#105;&#x74;&#x40;&#103;&#x69;&#116;&#104;&#x75;&#98;&#46;&#99;&#x6f;&#109;</a>:user_name/user_repo.git<br>这里我们只需要使用以下代码就可以了<br>$ git remote rm origin<br>$ git remote add origin <a href="mailto:&#x67;&#x69;&#x74;&#x40;&#103;&#x69;&#x74;&#104;&#117;&#98;&#x2e;&#x63;&#x6f;&#109;">&#x67;&#x69;&#x74;&#x40;&#103;&#x69;&#x74;&#104;&#117;&#98;&#x2e;&#x63;&#x6f;&#109;</a>:user_name/user_repo.git</p>]]></content>
       
       
       <categories>
