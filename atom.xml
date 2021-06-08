@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-06-04T14:17:24.447Z</updated>
+  <updated>2021-06-08T05:28:09.599Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pe字段总结(持续更新中...)</title>
+    <link href="http://example.com/2021/06/08/pe%E6%96%87%E4%BB%B6%E5%AF%B9%E9%BD%90/"/>
+    <id>http://example.com/2021/06/08/pe%E6%96%87%E4%BB%B6%E5%AF%B9%E9%BD%90/</id>
+    <published>2021-06-08T05:27:00.000Z</published>
+    <updated>2021-06-08T05:28:09.599Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;内存对齐与文件对齐&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;一个pe文件无论在磁盘和内存中存放都会进行对齐，但他们的对齐值会不相同。&lt;br&gt;PE 文件头里边的FileAligment</summary>
+        
+      
+    
+    
+    
+    <category term="pe" scheme="http://example.com/categories/pe/"/>
+    
+    
+    <category term="pe" scheme="http://example.com/tags/pe/"/>
+    
+  </entry>
   
   <entry>
     <title>pe字段总结(持续更新中...)</title>
