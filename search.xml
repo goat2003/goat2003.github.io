@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>对于硬编码的一些理解（水）</title>
+      <link href="2021/06/08/%E5%AF%B9%E4%BA%8E%E7%A1%AC%E7%BC%96%E7%A0%81%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%88%E6%B0%B4%EF%BC%89/"/>
+      <url>2021/06/08/%E5%AF%B9%E4%BA%8E%E7%A1%AC%E7%BC%96%E7%A0%81%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%88%E6%B0%B4%EF%BC%89/</url>
+      
+        <content type="html"><![CDATA[<p>在最近的学习过程中，了解到了硬编码这一个名词，于是就去百度了一下，从字面意思上来看，我对硬编码的理解就是一种类似于编程语言的东西，但百度过后发现好像每一篇文章对硬编码的讲解都不大一样，搞得我一脸懵逼，于是就来总结一下各篇文章的讲解。首先我们看一下百度百科的结果：</p><blockquote><p>硬编码是将数据直接嵌入到程序或其他可执行对象的源代码中的软件开发实践，与从外部获取数据或在运行时生成数据不同。<br>硬编码数据通常只能通过编辑源代码和重新编译可执行文件来修改，尽管可以使用调试器或十六进制编辑器在内存或磁盘上进行更改。<br>硬编码的数据通常表示不变的信息，例如物理常量，版本号和静态文本元素。<br>另一方面，软编码数据对用户输入，HTTP服务器响应或配置文件等任意信息进行编码，并在运行时确定。</p></blockquote><p>看完以后仍然一脸懵逼，于是继续百度，过程中看到了一个例子：<br><strong>硬编码：</strong></p><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (a == <span class="number">2</span>) &#123;</span><br><span class="line">　　a = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在此，a直接用固定数值2限定死了，如果想要修改的话(修改a的值或者==号右边的值都是很不方便的，而且很容易出错）很不方便。</p><p><strong>软编码</strong></p><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> b = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (a == b) &#123;</span><br><span class="line">　　a ++;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在此，a和b都是变量名称，我们完全可以在初始化a和b的时候给二者赋值，不必直接用固定数值限定死，这样有利于方便修改，可谓”占据制高点，统筹全局”。<br>转载于:<a href="https://www.cnblogs.com/zhongshujunqia/p/4611543.html">https://www.cnblogs.com/zhongshujunqia/p/4611543.html</a><br>看过这两条例子以后，大概了解到硬编码只是一种编程方式。再结合百度百科的结果：<strong>硬编码数据通常只能通过编辑源代码和重新编译可执行文件来修改，尽管可以使用调试器或十六进制编辑器在内存或磁盘上进行更改。</strong>大概了解到硬编码是把一个本来应该（可以）写到配置信息中的信息直接在程序代码中写死了。<br>例如，写了一个收发邮件的程序，用户名，密码，服务器地址等最好做成外部配置， 但是如果直接写死在程序代码中，每次改信息时需要重新编译了……这种程序不好维护。一般懒的程序员或者初学者这种程序产量较大。<br>在计算机程序或文本编辑中，hardcode(这个词比hard code用起来要频繁一些)是指将可变变量用一个固定值来代替的方法。<br>用这种方法编译后，如果以后需要更改此变量就非常困难了。<br>大部分程序语言里，可以将一个固定数值定义为一个标记，然后用这个特殊标记来取代变量名称。当标记名称改变时，变量名不变，这样，当重新编译整个程序时，所有变量都不再是固定值，这样就更容易的实现了改变变量的目的。<br>尽管通过编辑器的查找替换功能也能实现整个变量名称的替换，但也很有可能出现多换或者少换的情况，而在计算机程序中，任何小错误的出现都是不可饶恕的。<br>最好的方法是单独为变量名划分空间，来实现这种变化，就如同前面说的那样，将需要改变的变量名暂时用一个定义好的标记名称来代替就是一种很好的方法。<br>通常情况下，都应该避免使用hardcode方法。有时也用hardcode来形容那些非常难学的语言，比如C或者C++语言，相对的，用softcode来形容象VB这类简单好用的程序语言。<br><strong>hardcode就是固化的代码</strong>。有的代码不能写死，不然修改起来很麻烦。比如说写链接写死<a href="http://www.abc.com,所有的地方都用这个,如果下次域名变了,那么就要找到所有的www.abc.com修改成新的域名./">www.abc.com，所有的地方都用这个，如果下次域名变了，那么就要找到所有的www.abc.com修改成新的域名。</a><br>但是如果用一个常量来存放<a href="http://www.abc.com,然后所有链接都引用常量,那么以后修改就只要修改常量了./">www.abc.com，然后所有链接都引用常量，那么以后修改就只要修改常量了。</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 计算机 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 计算机 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>pe文件对齐</title>
       <link href="2021/06/08/pe%E6%96%87%E4%BB%B6%E5%AF%B9%E9%BD%90/"/>
       <url>2021/06/08/pe%E6%96%87%E4%BB%B6%E5%AF%B9%E9%BD%90/</url>
@@ -83,7 +108,7 @@
       <link href="2021/05/30/001/"/>
       <url>2021/05/30/001/</url>
       
-        <content type="html"><![CDATA[<p><strong>1、hexo初始化博客</strong><br>这里主要有两个命令，一个是npm install -g hexo-cli，这个命令能碰到的的问题主要是卡住，建议下载一个淘宝镜像<br>第二个是hexo init，这里的问题整整卡了我两天，我的报错是（fatal: unable to access …）解决方法:首先我们可以去添加三条新的环境变量，添加万这三条以后去博客根目录里hexobush并再次输入命令，问题基本解决，如果还不行的话，可以去cmd里再次输入。<br><img src="/images/001/001.jpg" alt="001"><br><strong>2、hexo d命令</strong><br>该命令意思是讲你的本地文件夹上传到github上，解决方法是查看你的根目录配置文件，翻到最下面查看branch后的代码，如果是march请将它改为main，具体原因好像是因为github最近讲march分支改为了main分支。如果还未解决的话可能是因为你的repository设置有问题（还是根目录配置文件的最底层）这里我们放置的链接必须是ssh链接，如下图，因为我们是通过ssh与github获得连接的，所以使用https的形式会报错。<br><img src="/images/001/002.jpg" alt="002"></p><p><strong>3、git clone命令</strong><br>使用该命令时报错 fatal: remote error: You can’t push to git，解决方法参考下面的文章<br><a href="https://xvideos.blog.csdn.net/article/details/52367128">https://xvideos.blog.csdn.net/article/details/52367128</a><br>大概意思是由于我们与github建立的是ssh连接，而我们在git clone时并没有通过ssh的方式去获得连接如一下报错<br>fatal: remote error:<br>You can’t push to git://github.com/user_name/user_repo.git<br>Use <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#x69;&#116;&#x68;&#117;&#98;&#x2e;&#99;&#x6f;&#109;">&#103;&#x69;&#116;&#64;&#x67;&#x69;&#116;&#x68;&#117;&#98;&#x2e;&#99;&#x6f;&#109;</a>:user_name/user_repo.git<br>这里我们只需要使用以下代码就可以了<br>$ git remote rm origin<br>$ git remote add origin <a href="mailto:&#x67;&#105;&#116;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#46;&#x63;&#111;&#109;">&#x67;&#105;&#116;&#x40;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#46;&#x63;&#111;&#109;</a>:user_name/user_repo.git</p>]]></content>
+        <content type="html"><![CDATA[<p><strong>1、hexo初始化博客</strong><br>这里主要有两个命令，一个是npm install -g hexo-cli，这个命令能碰到的的问题主要是卡住，建议下载一个淘宝镜像<br>第二个是hexo init，这里的问题整整卡了我两天，我的报错是（fatal: unable to access …）解决方法:首先我们可以去添加三条新的环境变量，添加万这三条以后去博客根目录里hexobush并再次输入命令，问题基本解决，如果还不行的话，可以去cmd里再次输入。<br><img src="/images/001/001.jpg" alt="001"><br><strong>2、hexo d命令</strong><br>该命令意思是讲你的本地文件夹上传到github上，解决方法是查看你的根目录配置文件，翻到最下面查看branch后的代码，如果是march请将它改为main，具体原因好像是因为github最近讲march分支改为了main分支。如果还未解决的话可能是因为你的repository设置有问题（还是根目录配置文件的最底层）这里我们放置的链接必须是ssh链接，如下图，因为我们是通过ssh与github获得连接的，所以使用https的形式会报错。<br><img src="/images/001/002.jpg" alt="002"></p><p><strong>3、git clone命令</strong><br>使用该命令时报错 fatal: remote error: You can’t push to git，解决方法参考下面的文章<br><a href="https://xvideos.blog.csdn.net/article/details/52367128">https://xvideos.blog.csdn.net/article/details/52367128</a><br>大概意思是由于我们与github建立的是ssh连接，而我们在git clone时并没有通过ssh的方式去获得连接如一下报错<br>fatal: remote error:<br>You can’t push to git://github.com/user_name/user_repo.git<br>Use <a href="mailto:&#x67;&#105;&#116;&#64;&#x67;&#x69;&#116;&#104;&#117;&#98;&#x2e;&#x63;&#x6f;&#x6d;">&#x67;&#105;&#116;&#64;&#x67;&#x69;&#116;&#104;&#117;&#98;&#x2e;&#x63;&#x6f;&#x6d;</a>:user_name/user_repo.git<br>这里我们只需要使用以下代码就可以了<br>$ git remote rm origin<br>$ git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#x40;&#103;&#105;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#111;&#109;">&#x67;&#x69;&#116;&#x40;&#103;&#105;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#111;&#109;</a>:user_name/user_repo.git</p>]]></content>
       
       
       <categories>

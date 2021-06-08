@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/2021/06/08/%E5%AF%B9%E4%BA%8E%E7%A1%AC%E7%BC%96%E7%A0%81%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%88%E6%B0%B4%EF%BC%89/</loc>
+    
+    <lastmod>2021-06-08</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://example.com/2021/05/31/malloc%E5%87%BD%E6%95%B0/</loc>
     
     <lastmod>2021-06-08</lastmod>
@@ -157,6 +164,13 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>http://example.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/</loc>
+    <lastmod>2021-06-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   
   <url>
@@ -175,6 +189,13 @@
   
   <url>
     <loc>http://example.com/categories/pe/</loc>
+    <lastmod>2021-06-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/</loc>
     <lastmod>2021-06-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

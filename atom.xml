@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-06-08T05:47:04.184Z</updated>
+  <updated>2021-06-08T08:58:55.583Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>对于硬编码的一些理解（水）</title>
+    <link href="http://example.com/2021/06/08/%E5%AF%B9%E4%BA%8E%E7%A1%AC%E7%BC%96%E7%A0%81%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%88%E6%B0%B4%EF%BC%89/"/>
+    <id>http://example.com/2021/06/08/%E5%AF%B9%E4%BA%8E%E7%A1%AC%E7%BC%96%E7%A0%81%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%88%E6%B0%B4%EF%BC%89/</id>
+    <published>2021-06-08T08:58:28.000Z</published>
+    <updated>2021-06-08T08:58:55.583Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在最近的学习过程中，了解到了硬编码这一个名词，于是就去百度了一下，从字面意思上来看，我对硬编码的理解就是一种类似于编程语言的东西，但百度过后发现好像每一篇文章对硬编码的讲解都不大一样，搞得我一脸懵逼，于是就来总结一下各篇文章的讲解。首先我们看一下百度百科的结果：&lt;/p&gt;
+&lt;</summary>
+        
+      
+    
+    
+    
+    <category term="计算机" scheme="http://example.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/"/>
+    
+    
+    <category term="计算机" scheme="http://example.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/"/>
+    
+  </entry>
   
   <entry>
     <title>pe文件对齐</title>
