@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-06-10T13:30:06.256Z</updated>
+  <updated>2021-06-11T10:30:21.794Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pe文件结构新增节</title>
+    <link href="http://example.com/2021/06/11/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E6%96%B0%E5%A2%9E%E8%8A%82/"/>
+    <id>http://example.com/2021/06/11/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E6%96%B0%E5%A2%9E%E8%8A%82/</id>
+    <published>2021-06-11T10:30:28.000Z</published>
+    <updated>2021-06-11T10:30:21.794Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;strong&gt;首先先了解一下节表&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如下图，打开一个exe文件，我们可以看到有多个节表。&lt;br&gt;&lt;img</summary>
+        
+      
+    
+    
+    
+    <category term="pe" scheme="http://example.com/categories/pe/"/>
+    
+    
+    <category term="pe" scheme="http://example.com/tags/pe/"/>
+    
+  </entry>
   
   <entry>
     <title>pe文件结构在空白区添加代码</title>
