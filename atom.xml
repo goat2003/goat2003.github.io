@@ -149,6 +149,32 @@
   </entry>
   
   <entry>
+    <title>PE文件笔记一 PE介绍</title>
+    <link href="http://example.com/2021/06/01/pe%E6%80%BB%E7%BB%931/"/>
+    <id>http://example.com/2021/06/01/pe%E6%80%BB%E7%BB%931/</id>
+    <published>2021-06-01T14:01:28.000Z</published>
+    <updated>2021-06-12T02:53:25.618Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;近期发现了一个超牛逼的大佬，和大佬写的超详细的pe总结，所以就根据（抄袭）大佬文章做一些pe总结来巩固学习。&lt;/p&gt;
+&lt;p&gt;先挂上大佬文章链接：&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="pe" scheme="http://example.com/categories/pe/"/>
+    
+    
+    <category term="pe" scheme="http://example.com/tags/pe/"/>
+    
+  </entry>
+  
+  <entry>
     <title>malloc函数</title>
     <link href="http://example.com/2021/05/31/malloc%E5%87%BD%E6%95%B0/"/>
     <id>http://example.com/2021/05/31/malloc%E5%87%BD%E6%95%B0/</id>
