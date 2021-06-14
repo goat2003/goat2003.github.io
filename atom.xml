@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-06-12T03:33:18.417Z</updated>
+  <updated>2021-06-14T09:55:41.916Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>对于硬编码的一些理解（水）</title>
+    <link href="http://example.com/2021/06/14/esp%E5%AE%9A%E5%BE%8B%E8%84%B1%E5%A3%B3/"/>
+    <id>http://example.com/2021/06/14/esp%E5%AE%9A%E5%BE%8B%E8%84%B1%E5%A3%B3/</id>
+    <published>2021-06-14T09:55:28.000Z</published>
+    <updated>2021-06-14T09:55:41.916Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;esp定律脱壳&lt;/p&gt;
+&lt;p&gt;————————————纯属个人理解，如有不对求大佬指正。&lt;/p&gt;
+&lt;p&gt;看了好多关于esp定律脱壳的文章，都没看懂，o(≧口≦)o，可能是本人太笨了吧。所以就来浅谈一下自己对于esp脱壳的理解。&lt;/p&gt;
+&lt;p&gt;个人对于esp脱壳的理解是先把壳</summary>
+        
+      
+    
+    
+    
+    <category term="逆向" scheme="http://example.com/categories/%E9%80%86%E5%90%91/"/>
+    
+    
+    <category term="逆向" scheme="http://example.com/tags/%E9%80%86%E5%90%91/"/>
+    
+  </entry>
   
   <entry>
     <title>pe总结2（转载）</title>
