@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-06-15T07:55:09.300Z</updated>
+  <updated>2021-06-15T08:35:58.638Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,34 +17,140 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%938/"/>
-    <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%938/</id>
-    <published>2021-06-15T07:55:09.210Z</published>
-    <updated>2021-06-15T07:55:09.300Z</updated>
+    <title>PE文件笔记十 扩大节</title>
+    <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%9310/"/>
+    <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%9310/</id>
+    <published>2021-06-15T07:59:28.000Z</published>
+    <updated>2021-06-15T08:35:58.638Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;title: pe总结8&lt;br&gt;date: 2021-06-15 15:56:28&lt;br&gt;top_img: /images/002.jpg&lt;br&gt;cover: /images/004.jpg&lt;br&gt;tags: &lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;pe&lt;br&gt;categories:</summary>
+    <summary type="html">&lt;p&gt;经过前面的实战&lt;a href=&quot;https://www.52pojie.cn/thread-1408866-1-1.html&quot;&gt;PE文件笔记八 实战之HOOK程序添加弹窗&lt;/a&gt;和&lt;a</summary>
         
       
     
     
     
+    <category term="pe" scheme="http://example.com/categories/pe/"/>
+    
+    
+    <category term="pe" scheme="http://example.com/tags/pe/"/>
     
   </entry>
   
   <entry>
-    <title>pe总结5</title>
+    <title>PE文件笔记九 实战之HOOK程序添加弹窗续</title>
+    <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%939/"/>
+    <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%939/</id>
+    <published>2021-06-15T07:58:28.000Z</published>
+    <updated>2021-06-15T08:36:30.838Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在前面的&lt;a href=&quot;https://www.52pojie.cn/thread-1408866-1-1.html&quot;&gt;PE文件笔记八</summary>
+        
+      
+    
+    
+    
+    <category term="pe" scheme="http://example.com/categories/pe/"/>
+    
+    
+    <category term="pe" scheme="http://example.com/tags/pe/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PE文件笔记八 实战之HOOK程序添加弹窗</title>
+    <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%938/"/>
+    <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%938/</id>
+    <published>2021-06-15T07:56:28.000Z</published>
+    <updated>2021-06-15T08:39:34.750Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;前面学习了PE的结构后，尝试结合先前所学，修改PE文件来实现给程序添加弹窗的功能PS：这篇笔记并&lt;strong&gt;没有怎么涉及PE的知识点&lt;/strong&gt;，重点放在了&lt;strong&gt;HOOK、反汇编和硬编码&lt;/strong&gt;上，对PE不是很了解也可以看看，涉及PE知识点的内</summary>
+        
+      
+    
+    
+    
+    <category term="pe" scheme="http://example.com/categories/pe/"/>
+    
+    
+    <category term="pe" scheme="http://example.com/tags/pe/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PE文件笔记七 RVA与FOA转换</title>
+    <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%937/"/>
+    <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%937/</id>
+    <published>2021-06-15T07:53:28.000Z</published>
+    <updated>2021-06-15T08:38:57.422Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;前面学习了在块表中提到了VA和FOA，这次来学习它们之间的转换&lt;/p&gt;
+&lt;h1 id=&quot;VA转FOA&quot;&gt;&lt;a href=&quot;#VA转FOA&quot; class=&quot;headerlink&quot; title=&quot;VA转FOA&quot;&gt;&lt;/a&gt;VA转FOA&lt;/h1&gt;&lt;p&gt;在先前的笔记&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="pe" scheme="http://example.com/categories/pe/"/>
+    
+    
+    <category term="pe" scheme="http://example.com/tags/pe/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PE文件笔记六 节表和节</title>
+    <link href="http://example.com/2021/06/15/PE%E6%80%BB%E7%BB%936/"/>
+    <id>http://example.com/2021/06/15/PE%E6%80%BB%E7%BB%936/</id>
+    <published>2021-06-15T07:50:28.000Z</published>
+    <updated>2021-06-15T08:40:07.159Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;前面学习了PE的DOS部首和PE文件头，这次学习的结构为PE节表&lt;/p&gt;
+&lt;p&gt;PS：关于PE文件头中扩展PE头的&lt;strong&gt;数据目录项&lt;/strong&gt;，其中包含了导入表、导出表、重定位表等等，暂且留作之后&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&quot;PE节表&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="pe" scheme="http://example.com/categories/pe/"/>
+    
+    
+    <category term="pe" scheme="http://example.com/tags/pe/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PE文件笔记五 PE文件头之扩展PE头</title>
     <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%935/"/>
     <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%935/</id>
     <published>2021-06-15T07:47:28.000Z</published>
-    <updated>2021-06-15T07:47:52.878Z</updated>
+    <updated>2021-06-15T08:40:39.134Z</updated>
     
     
       
@@ -67,11 +173,11 @@
   </entry>
   
   <entry>
-    <title>pe总结4</title>
+    <title>PE文件笔记四 PE文件头之标准PE头</title>
     <link href="http://example.com/2021/06/15/PE%E6%80%BB%E7%BB%934/"/>
     <id>http://example.com/2021/06/15/PE%E6%80%BB%E7%BB%934/</id>
     <published>2021-06-15T07:45:28.000Z</published>
-    <updated>2021-06-15T07:45:48.908Z</updated>
+    <updated>2021-06-15T08:41:17.390Z</updated>
     
     
       
@@ -95,11 +201,11 @@
   </entry>
   
   <entry>
-    <title>pe总结3</title>
+    <title>PE文件笔记三 DOS部分</title>
     <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%933/"/>
     <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%933/</id>
     <published>2021-06-15T07:38:28.000Z</published>
-    <updated>2021-06-15T07:39:52.422Z</updated>
+    <updated>2021-06-15T08:41:35.471Z</updated>
     
     
       
@@ -177,11 +283,11 @@
   </entry>
   
   <entry>
-    <title>pe总结2（转载）</title>
+    <title>PE文件笔记二 PE文件的两种状态</title>
     <link href="http://example.com/2021/06/12/pe%E6%80%BB%E7%BB%932/"/>
     <id>http://example.com/2021/06/12/pe%E6%80%BB%E7%BB%932/</id>
     <published>2021-06-12T03:34:28.000Z</published>
-    <updated>2021-06-12T03:33:18.417Z</updated>
+    <updated>2021-06-15T08:41:54.181Z</updated>
     
     
       
@@ -431,27 +537,6 @@
     
     
     <category term="vs" scheme="http://example.com/tags/vs/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://example.com/2021/05/28/hello-world/"/>
-    <id>http://example.com/2021/05/28/hello-world/</id>
-    <published>2021-05-28T12:18:52.779Z</published>
-    <updated>2021-05-30T14:19:19.203Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
-        
-      
-    
-    
-    
     
   </entry>
   

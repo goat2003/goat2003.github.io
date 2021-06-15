@@ -1,0 +1,946 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PE文件笔记六 节表和节 | 西城の博客</title><meta name="keywords" content="pe"><meta name="author" content="西城"><meta name="copyright" content="西城"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前面学习了PE的DOS部首和PE文件头，这次学习的结构为PE节表 PS：关于PE文件头中扩展PE头的数据目录项，其中包含了导入表、导出表、重定位表等等，暂且留作之后  PE节表PE节表作用表示Image的section头格式 PE节表结构     PE节表结构 对应C中的结构体 说明    多个IMAGE_SECTION_HEADER 多个_IMAGE_SECTION_HEADER 每个_IMAG">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PE文件笔记六 节表和节">
+<meta property="og:url" content="http://example.com/2021/06/15/PE%E6%80%BB%E7%BB%936/index.html">
+<meta property="og:site_name" content="西城の博客">
+<meta property="og:description" content="前面学习了PE的DOS部首和PE文件头，这次学习的结构为PE节表 PS：关于PE文件头中扩展PE头的数据目录项，其中包含了导入表、导出表、重定位表等等，暂且留作之后  PE节表PE节表作用表示Image的section头格式 PE节表结构     PE节表结构 对应C中的结构体 说明    多个IMAGE_SECTION_HEADER 多个_IMAGE_SECTION_HEADER 每个_IMAG">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/004.jpg">
+<meta property="article:published_time" content="2021-06-15T07:50:28.000Z">
+<meta property="article:modified_time" content="2021-06-15T08:40:07.159Z">
+<meta property="article:author" content="西城">
+<meta property="article:tag" content="pe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/004.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/06/15/PE%E6%80%BB%E7%BB%936/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 西城","link":"链接: ","source":"来源: 西城の博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PE文件笔记六 节表和节',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-06-15 16:40:07'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="/css/gundong.css"><link rel="stylesheet" href="/css/jianbian.css"><link rel="stylesheet" href="/css/touming.css"><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/shubiao.css"><link rel="stylesheet" href="/css/zhedie.css"><script src="/js/sakura.js"></script><!--在线聊天if theme.daovoice
+  script(src=url_for(theme.CDN.daovoice) defer)--><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="西城の博客" type="application/atom+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/loading.gif" data-original="/img/tit.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/images/001.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">西城の博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">PE文件笔记六 节表和节</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-06-15T07:50:28.000Z" title="发表于 2021-06-15 15:50:28">2021-06-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-06-15T08:40:07.159Z" title="更新于 2021-06-15 16:40:07">2021-06-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/pe/">pe</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="PE文件笔记六 节表和节"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>前面学习了PE的DOS部首和PE文件头，这次学习的结构为PE节表</p>
+<p>PS：关于PE文件头中扩展PE头的<strong>数据目录项</strong>，其中包含了导入表、导出表、重定位表等等，暂且留作之后</p>
+<hr>
+<h1 id="PE节表"><a href="#PE节表" class="headerlink" title="PE节表"></a>PE节表</h1><h2 id="PE节表作用"><a href="#PE节表作用" class="headerlink" title="PE节表作用"></a>PE节表作用</h2><p>表示Image的section头格式</p>
+<h2 id="PE节表结构"><a href="#PE节表结构" class="headerlink" title="PE节表结构"></a>PE节表结构</h2><p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210330204244302.png" alt="image-20210330204244302"></p>
+<hr>
+<table>
+<thead>
+<tr>
+<th align="left">PE节表结构</th>
+<th align="left">对应C中的结构体</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>多个</strong>IMAGE_SECTION_HEADER</td>
+<td align="left"><strong>多个</strong>_IMAGE_SECTION_HEADER</td>
+<td align="left">每个_IMAGE_SECTION_HEADER描述后面的一个节</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="结构体截图"><a href="#结构体截图" class="headerlink" title="结构体截图"></a>结构体截图</h2><p>在winnt.h中找到_IMAGE_SECTION_HEADER，得到以下截图（具体查找对应C结构体方法在<a target="_blank" rel="noopener" href="https://www.52pojie.cn/forum.php?mod=viewthread&tid=1391994&page=1&extra=#37411342_pe%E5%9C%A8c%E4%B8%AD%E7%9A%84%E5%AE%9A%E4%B9%89">PE文件笔记一 PE介绍</a>中已经说明了，这里不再赘述）</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210330204852909.png" alt="image-20210330204852909"></p>
+<hr>
+<h2 id="结构体代码"><a href="#结构体代码" class="headerlink" title="结构体代码"></a>结构体代码</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码#define IMAGE_SIZEOF_SHORT_NAME              8</span><br><span class="line">typedef struct _IMAGE_SECTION_HEADER &#123;</span><br><span class="line">    BYTE    Name[IMAGE_SIZEOF_SHORT_NAME];</span><br><span class="line">    union &#123;</span><br><span class="line">            DWORD   PhysicalAddress;</span><br><span class="line">            DWORD   VirtualSize;</span><br><span class="line">    &#125; Misc;</span><br><span class="line">    DWORD   VirtualAddress;</span><br><span class="line">    DWORD   SizeOfRawData;</span><br><span class="line">    DWORD   PointerToRawData;</span><br><span class="line">    DWORD   PointerToRelocations;</span><br><span class="line">    DWORD   PointerToLinenumbers;</span><br><span class="line">    WORD    NumberOfRelocations;</span><br><span class="line">    WORD    NumberOfLinenumbers;</span><br><span class="line">    DWORD   Characteristics;</span><br><span class="line">&#125; IMAGE_SECTION_HEADER, *PIMAGE_SECTION_HEADER;</span><br><span class="line">#define IMAGE_SIZEOF_SECTION_HEADER          40</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="结构体成员分析"><a href="#结构体成员分析" class="headerlink" title="结构体成员分析"></a>结构体成员分析</h2><p>相比于扩展PE头，节表的成员并不算太多，但有部分成员仅针对.obj文件</p>
+<p>下表为结构成员对应数据宽度和说明，加黑的成员为重点</p>
+<table>
+<thead>
+<tr>
+<th align="left">成员</th>
+<th align="left">数据宽度</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Name</strong></td>
+<td align="left">BYTE[8]=8字节</td>
+<td align="left">节名称</td>
+</tr>
+<tr>
+<td align="left">Misc.PhysicalAddress</td>
+<td align="left">DWORD（4字节）</td>
+<td align="left">节的文件地址</td>
+</tr>
+<tr>
+<td align="left"><strong>Misc.VirtualSize</strong></td>
+<td align="left">DWORD（4字节）</td>
+<td align="left">节的虚拟大小</td>
+</tr>
+<tr>
+<td align="left"><strong>VirtualAddress</strong></td>
+<td align="left">DWORD（4字节）</td>
+<td align="left">节在内存中的偏移地址</td>
+</tr>
+<tr>
+<td align="left"><strong>SizeOfRawData</strong></td>
+<td align="left">DWORD（4字节）</td>
+<td align="left">节在文件中对齐后的尺寸</td>
+</tr>
+<tr>
+<td align="left"><strong>PointerToRawData</strong></td>
+<td align="left">DWORD（4字节）</td>
+<td align="left">节区在文件中的偏移</td>
+</tr>
+<tr>
+<td align="left">PointerToRelocations</td>
+<td align="left">DWORD（4字节）</td>
+<td align="left">.obj文件有效</td>
+</tr>
+<tr>
+<td align="left">PointerToLinenumbers</td>
+<td align="left">DWORD（4字节）</td>
+<td align="left">调试相关</td>
+</tr>
+<tr>
+<td align="left">NumberOfRelocations</td>
+<td align="left">WORD（2字节）</td>
+<td align="left">.obj文件有效</td>
+</tr>
+<tr>
+<td align="left">NumberOfLinenumbers</td>
+<td align="left">WORD（2字节）</td>
+<td align="left">行号表中行号的数量</td>
+</tr>
+<tr>
+<td align="left"><strong>Characteristics</strong></td>
+<td align="left">DWORD（4字节）</td>
+<td align="left">节的属性</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="Name"><a href="#Name" class="headerlink" title="Name"></a>Name</h3><h4 id="官方翻译"><a href="#官方翻译" class="headerlink" title="官方翻译"></a>官方翻译</h4><p>一个8字节、用空填充的UTF-8字符串。如果字符串长度正好是8个字符，则没有结束空字符。对于较长的名称，该成员包含一个正斜杠(/)，后面是十进制数字的ASCII表示形式，<strong>该数字是字符串表中的偏移量</strong>。可执行映像<strong>不使用</strong>字符串表，也<strong>不支持超过8个字符的节名</strong></p>
+<h4 id="通俗版"><a href="#通俗版" class="headerlink" title="通俗版"></a>通俗版</h4><p>ASCII字符串 可自定义 只截取8个 可以8个字节都是名字</p>
+<hr>
+<h3 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h3><h4 id="官方翻译-1"><a href="#官方翻译-1" class="headerlink" title="官方翻译"></a>官方翻译</h4><p>Misc 双字，该字段是一个union型的数据，这是该节在<strong>没有对齐前的真实尺寸</strong>,该值<strong>可以不准确</strong></p>
+<hr>
+<h4 id="通俗版-1"><a href="#通俗版-1" class="headerlink" title="通俗版"></a>通俗版</h4><p>这是一个联合结构，可以使用下面两个值其中的任何一个，<strong>一般是取Misc.VirtualSize</strong></p>
+<h4 id="Misc-PhysicalAddress"><a href="#Misc-PhysicalAddress" class="headerlink" title="Misc.PhysicalAddress"></a>Misc.PhysicalAddress</h4><p>文件地址</p>
+<hr>
+<h4 id="Misc-VirtualSize"><a href="#Misc-VirtualSize" class="headerlink" title="Misc.VirtualSize"></a>Misc.VirtualSize</h4><p>节加载到内存时的总大小，以字节为单位。如果该值大于SizeOfRawData成员，则该section将被0填充。此字段仅对可执行Image有效，对于object files应设置为0</p>
+<hr>
+<h3 id="VirtualAddress"><a href="#VirtualAddress" class="headerlink" title="VirtualAddress"></a>VirtualAddress</h3><h4 id="官方翻译-2"><a href="#官方翻译-2" class="headerlink" title="官方翻译"></a>官方翻译</h4><p>section载入内存时的第一个字节的地址，相对于image base。对于object files，这是应用重定位之前的第一个字节的地址</p>
+<h4 id="通俗版-2"><a href="#通俗版-2" class="headerlink" title="通俗版"></a>通俗版</h4><p>在内存中的偏移地址，加上ImageBase才是在内存中的真正地址（VA）</p>
+<p>VA：Full Name Virtual Address（全名虚拟地址）， is the in-memory virtual address（是内存中的虚拟地址）</p>
+<p>VirtualAddress又被称为节区的RVA地址，RVA：Relative Virtual Offset （相对虚拟偏移）</p>
+<p>VA = RVA（VirtualAddress） + ImageBase ，即 内存中的虚拟地址 = 虚拟地址 + 镜像基地址</p>
+<hr>
+<h3 id="SizeOfRawData"><a href="#SizeOfRawData" class="headerlink" title="SizeOfRawData"></a>SizeOfRawData</h3><h4 id="官方翻译-3"><a href="#官方翻译-3" class="headerlink" title="官方翻译"></a>官方翻译</h4><p><strong>磁盘上</strong>初始化数据的大小，以字节为单位。这个值必须是IMAGE_OPTIONAL_HEADER结构文件对齐<strong>FileAlignment</strong>成员的倍数。如果该值小于VirtualSize成员，则节的其余部分将被填充为0。如果该节只包含未初始化的数据，则该成员为零</p>
+<h4 id="通俗版-3"><a href="#通俗版-3" class="headerlink" title="通俗版"></a>通俗版</h4><p>节在文件中对齐后的尺寸</p>
+<hr>
+<h3 id="PointerToRawData"><a href="#PointerToRawData" class="headerlink" title="PointerToRawData"></a>PointerToRawData</h3><h4 id="官方翻译-4"><a href="#官方翻译-4" class="headerlink" title="官方翻译"></a>官方翻译</h4><p>指向COFF文件中的第一页的文件指针。这个值必须是IMAGE_OPTIONAL_HEADER结构文件对齐<strong>FileAlignment</strong>成员的倍数。如果一个section只包含未初始化的数据，则将该成员设为0</p>
+<hr>
+<h4 id="通俗版-4"><a href="#通俗版-4" class="headerlink" title="通俗版"></a>通俗版</h4><p>节区在文件中的偏移，又被称为FOA：File Offset Address 文件偏移地址</p>
+<hr>
+<h3 id="PointerToRelocations"><a href="#PointerToRelocations" class="headerlink" title="PointerToRelocations"></a>PointerToRelocations</h3><h4 id="官方翻译-5"><a href="#官方翻译-5" class="headerlink" title="官方翻译"></a>官方翻译</h4><p>指向该节重定位项开始的文件指针。如果没有重新定位，则此值为零</p>
+<h4 id="通俗版-5"><a href="#通俗版-5" class="headerlink" title="通俗版"></a>通俗版</h4><p>在”.obj”文件中使用，指向重定位表的指针</p>
+<hr>
+<h3 id="PointerToLinenumbers"><a href="#PointerToLinenumbers" class="headerlink" title="PointerToLinenumbers"></a>PointerToLinenumbers</h3><h4 id="官方翻译-6"><a href="#官方翻译-6" class="headerlink" title="官方翻译"></a>官方翻译</h4><p>指向section行号表开头的文件指针。如果没有COFF line numbers，该值为0</p>
+<hr>
+<h4 id="通俗版-6"><a href="#通俗版-6" class="headerlink" title="通俗版"></a>通俗版</h4><p>行号表的位置（供调试用）</p>
+<hr>
+<h3 id="NumberOfRelocations"><a href="#NumberOfRelocations" class="headerlink" title="NumberOfRelocations"></a>NumberOfRelocations</h3><h4 id="官方翻译-7"><a href="#官方翻译-7" class="headerlink" title="官方翻译"></a>官方翻译</h4><p>section重定位表项的数量。对于可执行映像，此值为0</p>
+<hr>
+<h4 id="通俗版-7"><a href="#通俗版-7" class="headerlink" title="通俗版"></a>通俗版</h4><p>重定位表的个数（在OBJ文件中使用）</p>
+<hr>
+<h3 id="NumberOfLinenumbers"><a href="#NumberOfLinenumbers" class="headerlink" title="NumberOfLinenumbers"></a>NumberOfLinenumbers</h3><h4 id="官方翻译-8"><a href="#官方翻译-8" class="headerlink" title="官方翻译"></a>官方翻译</h4><p>section的行号条目的数量</p>
+<hr>
+<h4 id="通俗版-8"><a href="#通俗版-8" class="headerlink" title="通俗版"></a>通俗版</h4><p>行号表中行号的数量</p>
+<hr>
+<h3 id="Characteristics"><a href="#Characteristics" class="headerlink" title="Characteristics"></a>Characteristics</h3><h4 id="官方翻译-9"><a href="#官方翻译-9" class="headerlink" title="官方翻译"></a>官方翻译</h4><p>节的特征。定义了以下值</p>
+<table>
+<thead>
+<tr>
+<th align="left">宏定义</th>
+<th align="left">值</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">无</td>
+<td align="left">0x00000000</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">无</td>
+<td align="left">0x00000001</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">无</td>
+<td align="left">0x00000002</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">无</td>
+<td align="left">0x00000004</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_TYPE_NO_PAD</td>
+<td align="left">0x00000008</td>
+<td align="left">该节不得填塞至下一边界线。这个标志过时了，被IMAGE_SCN_ALIGN_1BYTES取代</td>
+</tr>
+<tr>
+<td align="left">无</td>
+<td align="left">0x00000010</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_CNT_CODE</td>
+<td align="left">0x00000020</td>
+<td align="left">该节包含可执行代码</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_CNT_INITIALIZED_DATA</td>
+<td align="left">0x00000040</td>
+<td align="left">该节包含初始化的数据</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_CNT_UNINITIALIZED_DATA</td>
+<td align="left">0x00000080</td>
+<td align="left">该节包含未初始化的数据</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_LNK_OTHER</td>
+<td align="left">0x00000100</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_LNK_INFO</td>
+<td align="left">0x00000200</td>
+<td align="left">该节包含解释或其他信息。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">无</td>
+<td align="left">0x00000400</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_LNK_REMOVE</td>
+<td align="left">0x00000800</td>
+<td align="left">该节将不会成为image的一部分。这只对object files有效。</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_LNK_COMDAT</td>
+<td align="left">0x00001000</td>
+<td align="left">该节包含COMDAT数据。这只对object files有效。</td>
+</tr>
+<tr>
+<td align="left">无</td>
+<td align="left">0x00002000</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_NO_DEFER_SPEC_EXC</td>
+<td align="left">0x00004000</td>
+<td align="left">该节包含重置TLB项中的speculative异常处理位</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_GPREL</td>
+<td align="left">0x00008000</td>
+<td align="left">该节包含通过全局指针引用的数据</td>
+</tr>
+<tr>
+<td align="left">无</td>
+<td align="left">0x00010000</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_PURGEABLE</td>
+<td align="left">0x00020000</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_LOCKED</td>
+<td align="left">0x00040000</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_PRELOAD</td>
+<td align="left">0x00080000</td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_1BYTES</td>
+<td align="left">0x00100000</td>
+<td align="left">在1字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_2BYTES</td>
+<td align="left">0x00200000</td>
+<td align="left">在2字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_4BYTES</td>
+<td align="left">0x00300000</td>
+<td align="left">在4字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_8BYTES</td>
+<td align="left">0x00400000</td>
+<td align="left">在8字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_16BYTES</td>
+<td align="left">0x00500000</td>
+<td align="left">在16字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_32BYTES</td>
+<td align="left">0x00600000</td>
+<td align="left">在32字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_64BYTES</td>
+<td align="left">0x00700000</td>
+<td align="left">在64字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_128BYTES</td>
+<td align="left">0x00800000</td>
+<td align="left">在128字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_256BYTES</td>
+<td align="left">0x00900000</td>
+<td align="left">在256字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_512BYTES</td>
+<td align="left">0x00A00000</td>
+<td align="left">在512字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_1024BYTES</td>
+<td align="left">0x00B00000</td>
+<td align="left">在1024字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_2048BYTES</td>
+<td align="left">0x00C00000</td>
+<td align="left">在2048字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_4096BYTES</td>
+<td align="left">0x00D00000</td>
+<td align="left">在4096字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_ALIGN_8192BYTES</td>
+<td align="left">0x00E00000</td>
+<td align="left">在8192字节的边界上对齐数据。这只对object files有效</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_LNK_NRELOC_OVFL</td>
+<td align="left">0x01000000</td>
+<td align="left">该节包含扩展的重新定位。该节的重定位计数超过了节头中为其保留的16位。如果节头中的NumberOfRelocations字段为0xffff，则实际的重定位计数存储在第一次重定位的VirtualAddress字段中。如果设置了IMAGE_SCN_LNK_NRELOC_OVFL，并且该section中的重定位值小于0xffff，则会产生错误</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_DISCARDABLE</td>
+<td align="left">0x02000000</td>
+<td align="left">该节可以根据需要丢弃</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_NOT_CACHED</td>
+<td align="left">0x04000000</td>
+<td align="left">不能缓存该节</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_NOT_PAGED</td>
+<td align="left">0x08000000</td>
+<td align="left">该节不能分页</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_SHARED</td>
+<td align="left">0x10000000</td>
+<td align="left">该节可以在内存中共享</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_EXECUTE</td>
+<td align="left">0x20000000</td>
+<td align="left">该节可以作为代码执行</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_READ</td>
+<td align="left">0x40000000</td>
+<td align="left">该节可以读</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_WRITE</td>
+<td align="left">0x80000000</td>
+<td align="left">该节可以写</td>
+</tr>
+</tbody></table>
+<hr>
+<h4 id="通俗版-9"><a href="#通俗版-9" class="headerlink" title="通俗版"></a>通俗版</h4><p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210401202645060.png" alt="image-20210401202645060"></p>
+<hr>
+<h2 id="实战分析"><a href="#实战分析" class="headerlink" title="实战分析"></a>实战分析</h2><p>从先前分析的扩展PE头的结尾开始看起，选中部分为节表</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210401204202037.png" alt="image-20210401204202037"></p>
+<hr>
+<p>因为有多个节，这里取第一个节进行分析，按顺序依次将数据填入对应的成员得到：</p>
+<table>
+<thead>
+<tr>
+<th align="left">成员</th>
+<th align="left">值</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Name</strong></td>
+<td align="left">2E 74 65 78 74 00 00 00</td>
+<td align="left">对应ASCII为 .text，即节名</td>
+</tr>
+<tr>
+<td align="left">Misc</td>
+<td align="left">0x001990A9</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><strong>VirtualAddress</strong></td>
+<td align="left">0x00001000</td>
+<td align="left">RVA=0x1000</td>
+</tr>
+<tr>
+<td align="left"><strong>SizeOfRawData</strong></td>
+<td align="left">0x00199200</td>
+<td align="left">节在文件中对齐后的尺寸为0x00199200</td>
+</tr>
+<tr>
+<td align="left"><strong>PointerToRawData</strong></td>
+<td align="left">0x00000400</td>
+<td align="left">FOA=0x400</td>
+</tr>
+<tr>
+<td align="left">PointerToRelocations</td>
+<td align="left">0x00000000</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">PointerToLinenumbers</td>
+<td align="left">0x00000000</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">NumberOfRelocations</td>
+<td align="left">0x0000</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">NumberOfLinenumbers</td>
+<td align="left">0x0000</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><strong>Characteristics</strong></td>
+<td align="left">0x60000020</td>
+<td align="left">详见下方</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="Name-1"><a href="#Name-1" class="headerlink" title="Name"></a>Name</h3><p>该节的节名为 .text</p>
+<hr>
+<h3 id="VirtualAddress-1"><a href="#VirtualAddress-1" class="headerlink" title="VirtualAddress"></a>VirtualAddress</h3><p>节的RVA为0x1000</p>
+<p>通过RVA可以得到VA=RVA+ImageBase（在内存中虚拟的地址 = 虚拟地址 + 镜像基地址）</p>
+<p>ImageBase在前面的扩展PE头中已经得知是0x400000，不清楚的可以回顾<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1405930-1-1.html#37759493_%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE">PE文件笔记五 PE文件头之扩展PE头</a>，这里不再赘述</p>
+<p>所以得到VA=0x1000+0x400000=0x401000</p>
+<p>为了验证这一点，将程序启动，使其加载到内存后再用Winhex查看其状态（具体流程在<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1393291-1-1.html#37444347_%E8%BF%90%E8%A1%8C%E6%80%81">PE文件笔记二 PE文件的两种状态</a>中已经说明）</p>
+<p>得到：</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210401210954485.png" alt="image-20210401210954485"></p>
+<hr>
+<p>可以清楚地看到，第一个节的位置对应VA，验证完毕</p>
+<hr>
+<h3 id="Misc和SizeOfRawData"><a href="#Misc和SizeOfRawData" class="headerlink" title="Misc和SizeOfRawData"></a>Misc和SizeOfRawData</h3><p>Misc：该节在没有对齐前的真实尺寸为0x001990A9</p>
+<p>结合前面得到的VA，可以算出，该节在内存中的末尾位置为:VA+Misc=0x401000+0x001990A9=0x59A0A9</p>
+<p>于是要转到相应的位置进行查看：</p>
+<p>在WinHex的底部找到偏移量：XXXX，单击</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210401211633311.png" alt="image-20210401211633311"></p>
+<hr>
+<p>在弹出的窗口中修改要跳转的VA（虚拟地址）</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210401213744534.png" alt="image-20210401213744534"></p>
+<hr>
+<p>跳转后得到：</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210401213810759.png" alt="image-20210401213810759"></p>
+<p>可以看到，已经跳转到了第一个节的末尾</p>
+<hr>
+<p>SizeOfRawData：该节在文件中对齐后的尺寸为0x00199200</p>
+<p>结合前面得到的VA，可以算出，该节在内存中的末尾位置为:VA+SizeOfRawData=0x401000+0x00199200=0x59A200</p>
+<p>于是要转到相应的位置进行查看：</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210401213943737.png" alt="image-20210401213943737"></p>
+<hr>
+<p>发现附近都是00，因为该地址为节在内存中的首地址+<strong>文件对齐</strong>后的地址，<strong>在内存中（运行态）无效</strong></p>
+<p>并且此时会发现SizeOfRawData=0x00199200=(Misc ÷ FileAlignment)<strong>向上取整</strong>×FileAlignment</p>
+<p>即SizeOfRawData=0x00199200=(0x001990A9整除0x200+1)×0x200=（0xCC8+1）×0x200 = 0xCC9 × 0x200 = 0x00199200</p>
+<p>满足SizeOfRawData的定义</p>
+<p>其实SizeOfRawData在<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1393291-1-1.html#37444347_%E8%BF%90%E8%A1%8C%E6%80%81">PE文件笔记二 PE文件的两种状态</a>中也已经说明了，这里主要是强调SizeOfRawData在运行态时无效，且验证了SizeOfRawData在运行态时的来源，有关文件对齐和内存对齐等的知识可以前往回顾</p>
+<hr>
+<p>在内存中(运行态时)，实际上 该节在内存中的末尾位置应该为：VA+<strong>内存对齐</strong>后的大小</p>
+<p>但是在节的属性中并没有表示内存对齐后大小的成员，内存对齐后的大小是如何得来的？</p>
+<h4 id="内存对齐后的大小"><a href="#内存对齐后的大小" class="headerlink" title="内存对齐后的大小"></a>内存对齐后的大小</h4><p>决定内存对齐后的大小的因素有2个：</p>
+<ul>
+<li>内存对齐：即SectionAlignment</li>
+<li>Max{Misc,SizeOfRawData}：Misc和SizeOfRawData的最大值</li>
+</ul>
+<p>内存对齐后的大小 = (Max{Misc,SizeOfRawData} ÷ SectionAlignment) <strong>向上取整</strong> × SectionAlignment</p>
+<hr>
+<p>取SizeOfRawData很容易理解，但为什么还和Misc有关？</p>
+<p>Misc表示的是实际大小难道不是一定小于文件对齐后的大小吗？</p>
+<p><strong>并不是</strong>，实际大小也可能要比文件对其后的大小要大，就拿全局变量为例</p>
+<p>全局变量可以分为两种：有初始值的和没有初始值的</p>
+<p>有初始值的全局变量在文件中就已经为其分配了空间，而没有初始值的全局变量只有到程序加载到内存中(运行态)后才会为其分配空间</p>
+<p>假设当前存储的全局变量都是<strong>没有有初始值</strong>的，即在文件中没有为其分配空间，也就是在文件中大小为0，这也就导致SizeOfRawData为0，因此，此时的Misc &gt; SizeOfRawData</p>
+<p>所以<strong>内存对齐后的大小要综合Misc和SizeOfRawData决定</strong></p>
+<hr>
+<p>于是按照上面的公式计算：</p>
+<p>内存对齐后的大小 = (Max{0x001990A9,0x00199200} ÷ 0x1000) <strong>向上取整</strong> × 0x1000 = (0x199200 ÷ 0x1000)向上取整 × 0x1000 = 0x19A000</p>
+<p>该节在内存中的末尾位置应该为：VA+<strong>内存对齐</strong>后的大小 = 0x401000+0x19A000=0x59B000</p>
+<p>再转到相应位置去查看：</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210404131954044.png" alt="image-20210404131954044"></p>
+<hr>
+<p>发现已经到达下一个节，和下一个节的起始位置根据VirtualAddress + ImageBase = 0x400000+0x0019b000=0x59B000相匹配</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210404131821611.png" alt="image-20210404131821611"></p>
+<hr>
+<h3 id="PointerToRawData-1"><a href="#PointerToRawData-1" class="headerlink" title="PointerToRawData"></a>PointerToRawData</h3><p>节区在文件中的偏移为0x400，这里引入了一个概念：FOA，即文件偏移地址</p>
+<p>所以PointerToRawData=FOA=文件偏移地址，同样在运行态无效，在<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1393291-1-1.html#37444347_%E8%BF%90%E8%A1%8C%E6%80%81">PE文件笔记二 PE文件的两种状态</a>也可以回顾</p>
+<hr>
+<h3 id="Characteristics-1"><a href="#Characteristics-1" class="headerlink" title="Characteristics"></a>Characteristics</h3><p>此时Characteristics=0x60000020=0x40000000+0x20000000+0x00000020</p>
+<p>对照前面的表格：</p>
+<table>
+<thead>
+<tr>
+<th align="left">宏定义</th>
+<th align="left">值</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">IMAGE_SCN_CNT_CODE</td>
+<td align="left">0x00000020</td>
+<td align="left">该节包含可执行代码</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_EXECUTE</td>
+<td align="left">0x20000000</td>
+<td align="left">该节可以作为代码执行</td>
+</tr>
+<tr>
+<td align="left">IMAGE_SCN_MEM_READ</td>
+<td align="left">0x40000000</td>
+<td align="left">该节可以读</td>
+</tr>
+</tbody></table>
+<p>所以得到了该节的属性为：包含可执行代码、可以作为代码执行、可以读</p>
+<hr>
+<h2 id="自写代码解析节表"><a href="#自写代码解析节表" class="headerlink" title="自写代码解析节表"></a>自写代码解析节表</h2><p>在先前代码的基础上，进一步改进</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码// PE.cpp : Defines the entry point for the console application.</span><br><span class="line">//</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;malloc.h&gt;</span><br><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">#include &lt;winnt.h&gt;</span><br><span class="line">//在VC6这个比较旧的环境里，没有定义64位的这个宏，需要自己定义，在VS2019中无需自己定义</span><br><span class="line">#define IMAGE_FILE_MACHINE_AMD64  0x8664</span><br><span class="line">int main(int argc, char* argv[])</span><br><span class="line">&#123;</span><br><span class="line">    //创建DOS对应的结构体指针</span><br><span class="line">    _IMAGE_DOS_HEADER* dos;</span><br><span class="line">    //读取文件，返回文件句柄</span><br><span class="line">    HANDLE hFile = CreateFileA(&quot;C:\\Users\\lyl610abc\\Desktop\\dbgview64.exe&quot;, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, 0);</span><br><span class="line">    //根据文件句柄创建映射</span><br><span class="line">    HANDLE hMap = CreateFileMappingA(hFile, NULL, PAGE_READONLY, 0, 0, 0);</span><br><span class="line">    //映射内容</span><br><span class="line">    LPVOID pFile = MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0);</span><br><span class="line">    //类型转换，用结构体的方式来读取</span><br><span class="line">    dos = (_IMAGE_DOS_HEADER*)pFile;</span><br><span class="line">    //输出dos-&gt;e_magic，以十六进制输出</span><br><span class="line">    printf(&quot;dos-&gt;e_magic:%X\n&quot;, dos-&gt;e_magic);</span><br><span class="line"></span><br><span class="line">    //创建指向PE文件头标志的指针</span><br><span class="line">    DWORD* peId;</span><br><span class="line">    //让PE文件头标志指针指向其对应的地址=DOS首地址+偏移</span><br><span class="line">    peId = (DWORD*)((UINT)dos + dos-&gt;e_lfanew);</span><br><span class="line">    //输出PE文件头标志，其值应为4550，否则不是PE文件</span><br><span class="line">    printf(&quot;peId:%X\n&quot;, *peId);</span><br><span class="line"></span><br><span class="line">    //创建指向可选PE头的第一个成员magic的指针</span><br><span class="line">    WORD* magic;</span><br><span class="line">    //让magic指针指向其对应的地址=PE文件头标志地址+PE文件头标志大小+标准PE头大小</span><br><span class="line">    magic = (WORD*)((UINT)peId + sizeof(DWORD) + sizeof(_IMAGE_FILE_HEADER));</span><br><span class="line">    //输出magic，其值为0x10b代表32位程序，其值为0x20b代表64位程序</span><br><span class="line">    printf(&quot;magic:%X\n&quot;, *magic);</span><br><span class="line">    //根据magic判断为32位程序还是64位程序</span><br><span class="line">    switch (*magic) &#123;</span><br><span class="line">    case IMAGE_NT_OPTIONAL_HDR32_MAGIC:</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;32位程序\n&quot;);</span><br><span class="line">        //确定为32位程序后，就可以使用_IMAGE_NT_HEADERS来接收数据了</span><br><span class="line">        //创建指向PE文件头的指针</span><br><span class="line">        _IMAGE_NT_HEADERS* nt;</span><br><span class="line">        //让PE文件头指针指向其对应的地址</span><br><span class="line">        nt = (_IMAGE_NT_HEADERS*)peId;</span><br><span class="line">        printf(&quot;Machine:%X\n&quot;, nt-&gt;FileHeader.Machine);</span><br><span class="line">        printf(&quot;Magic:%X\n&quot;, nt-&gt;OptionalHeader.Magic);</span><br><span class="line"></span><br><span class="line">        //创建一个指针数组，该指针数组用来存储所有的节表指针</span><br><span class="line">        //这里相当于_IMAGE_SECTION_HEADER* sectionArr[nt-&gt;FileHeader.NumberOfSections],声明了一个动态数组</span><br><span class="line">        _IMAGE_SECTION_HEADER** sectionArr = (_IMAGE_SECTION_HEADER**) malloc(sizeof(_IMAGE_SECTION_HEADER*) * nt-&gt;FileHeader.NumberOfSections);</span><br><span class="line"></span><br><span class="line">        //创建指向块表的指针</span><br><span class="line">        _IMAGE_SECTION_HEADER* sectionHeader;</span><br><span class="line">        //让块表的指针指向其对应的地址</span><br><span class="line">        sectionHeader = (_IMAGE_SECTION_HEADER*)((UINT)nt + sizeof(_IMAGE_NT_HEADERS));</span><br><span class="line">        //计数，用来计算块表地址</span><br><span class="line">        int cnt = 0;</span><br><span class="line">        //比较 计数 和 块表的个数，即遍历所有块表</span><br><span class="line">        while(cnt&lt; nt-&gt;FileHeader.NumberOfSections)&#123;</span><br><span class="line">            //创建指向块表的指针</span><br><span class="line">            _IMAGE_SECTION_HEADER* section;</span><br><span class="line">            //让块表的指针指向其对应的地址=第一个块表地址+计数*块表的大小</span><br><span class="line">            section = (_IMAGE_SECTION_HEADER*)((UINT)sectionHeader + sizeof(_IMAGE_SECTION_HEADER)*cnt);</span><br><span class="line">            //将得到的块表指针存入数组</span><br><span class="line">            sectionArr[cnt++] = section;</span><br><span class="line">            //输出块表名称</span><br><span class="line">            printf(&quot;%s\n&quot;, section-&gt;Name);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    case IMAGE_NT_OPTIONAL_HDR64_MAGIC:</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;64位程序\n&quot;);</span><br><span class="line">        //确定为64位程序后，就可以使用_IMAGE_NT_HEADERS64来接收数据了</span><br><span class="line">        //创建指向PE文件头的指针</span><br><span class="line">        _IMAGE_NT_HEADERS64* nt;</span><br><span class="line">        nt = (_IMAGE_NT_HEADERS64*)peId;</span><br><span class="line">        printf(&quot;Machine:%X\n&quot;, nt-&gt;FileHeader.Machine);</span><br><span class="line">        printf(&quot;Magic:%X\n&quot;, nt-&gt;OptionalHeader.Magic);</span><br><span class="line"></span><br><span class="line">        //创建一个指针数组，该指针数组用来存储所有的节表指针</span><br><span class="line">        //这里相当于_IMAGE_SECTION_HEADER* sectionArr[nt-&gt;FileHeader.NumberOfSections],声明了一个动态数组</span><br><span class="line">        _IMAGE_SECTION_HEADER** sectionArr = (_IMAGE_SECTION_HEADER**)malloc(sizeof(_IMAGE_SECTION_HEADER*) * nt-&gt;FileHeader.NumberOfSections);</span><br><span class="line"></span><br><span class="line">        //创建指向块表的指针</span><br><span class="line">        _IMAGE_SECTION_HEADER* sectionHeader;</span><br><span class="line">        //让块表的指针指向其对应的地址，区别在于这里加上的偏移为_IMAGE_NT_HEADERS64</span><br><span class="line">        sectionHeader = (_IMAGE_SECTION_HEADER*)((UINT)nt + sizeof(_IMAGE_NT_HEADERS64));</span><br><span class="line">        //计数，用来计算块表地址</span><br><span class="line">        int cnt = 0;</span><br><span class="line">        //比较 计数 和 块表的个数，即遍历所有块表</span><br><span class="line">        while (cnt &lt; nt-&gt;FileHeader.NumberOfSections) &#123;</span><br><span class="line">            //创建指向块表的指针</span><br><span class="line">            _IMAGE_SECTION_HEADER* section;</span><br><span class="line">            //让块表的指针指向其对应的地址=第一个块表地址+计数*块表的大小</span><br><span class="line">            section = (_IMAGE_SECTION_HEADER*)((UINT)sectionHeader + sizeof(_IMAGE_SECTION_HEADER) * cnt);</span><br><span class="line">            //将得到的块表指针存入数组</span><br><span class="line">            sectionArr[cnt++] = section;</span><br><span class="line">            //输出块表名称</span><br><span class="line">            printf(&quot;%s\n&quot;, section-&gt;Name);</span><br><span class="line">        &#125;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    default:</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;error!\n&quot;);</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><h4 id="32位运行结果"><a href="#32位运行结果" class="headerlink" title="32位运行结果"></a>32位运行结果</h4><p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210401230600646.png" alt="image-20210401230600646"></p>
+<hr>
+<h4 id="64位运行结果"><a href="#64位运行结果" class="headerlink" title="64位运行结果"></a>64位运行结果</h4><p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210401230508810.png" alt="image-20210401230508810"></p>
+<hr>
+<h3 id="代码说明"><a href="#代码说明" class="headerlink" title="代码说明"></a>代码说明</h3><p>代码基于上一次的笔记<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1405930-1-1.html">PE文件笔记五 PE文件头之扩展PE头</a>增加了对块表的解析</p>
+<p>此次代码中用到了动态声明数组，只不过声明的数组为指针数组</p>
+<p>关于指针数组可以回顾<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1388861-1-1.html">逆向基础笔记二十三 汇编 指针（四）</a></p>
+<p>这里补充一下动态数组的声明：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;malloc.h&gt;</span><br><span class="line">int main() &#123;   </span><br><span class="line">    //普通的数组声明</span><br><span class="line">    int arr[5];</span><br><span class="line">    //动态的数组声明</span><br><span class="line">    int num = 5;</span><br><span class="line">    int* arr2 =(int*) malloc(sizeof(int) * 5);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>普通的数组声明转动态的数组声明</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;malloc.h&gt;</span><br><span class="line">int main() &#123;   </span><br><span class="line">    //普通的数组声明</span><br><span class="line">    类型 arr[5];</span><br><span class="line">    //动态的数组声明</span><br><span class="line">    int num = 5;</span><br><span class="line">    类型* arr2 =(类型*) malloc(sizeof(类型) * 5);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>对于前面的代码无非就是类型为_IMAGE_SECTION_HEADER*的情况</p>
+<p>代入可得</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;malloc.h&gt;</span><br><span class="line">int main() &#123;   </span><br><span class="line">    //普通的数组声明</span><br><span class="line">    _IMAGE_SECTION_HEADER* arr[5];</span><br><span class="line">    //动态的数组声明</span><br><span class="line">    int num = 5;</span><br><span class="line">    _IMAGE_SECTION_HEADER** arr2 =(_IMAGE_SECTION_HEADER**) malloc(sizeof(_IMAGE_SECTION_HEADER*) * 5);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>大致将PE文件的各个结构都说明了一遍，数据目录项之后也会补充，掌握了结构后，就要开始操作这些结构了</p>
+<p>在节表中比较重要的成员就是和内存对齐或文件对齐有关的那几个成员，这次的笔记也稍微提到了FOA、RVA、VA的概念，为后续作个铺垫</p>
+<p>PE文件的学习可能有些枯燥，但只有在了解了其结构以后才能更好地搞事情<del>(￣▽￣)</del>*</p>
+<p>现在看似只是做个类似弱化的PEID，只能读取PE文件的相关数据貌似没有什么意思</p>
+<p>后续有了PE的知识，就可以结合知识，来修改程序使其呈现我们想要的内容以及自己写个保护壳等等，尽请期待</p>
+<h1 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h1><p>附上本笔记中分析的EverEdit文件：<a target="_blank" rel="noopener" href="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/EverEdit.zip?versionId=CAEQHhiBgID6g6vXxBciIDMxMjY5Y2Q0NGE5NTRkNmNiNTUwOGM0YjdmZTQxMTI3">点我下载</a></p>
+<p>转载自吾爱破解上的一个<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1407996-1-1.html">大佬</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">西城</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/06/15/PE%E6%80%BB%E7%BB%936/">http://example.com/2021/06/15/PE总结6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://goat2003.github.io/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">西城の博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/pe/">pe</a></div><div class="post_share"><div class="social-share" data-image="/images/004.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/img/qq.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/qq.jpg" alt="QQ"/></a><div class="post-qr-code-desc">QQ</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/06/15/pe%E6%80%BB%E7%BB%937/"><img class="prev-cover" src="/img/loading.gif" data-original="/images/004.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">PE文件笔记七 RVA与FOA转换</div></div></a></div><div class="next-post pull-right"><a href="/2021/06/15/pe%E6%80%BB%E7%BB%935/"><img class="next-cover" src="/img/loading.gif" data-original="/images/004.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">PE文件笔记五 PE文件头之扩展PE头</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/06/15/PE总结4/" title="PE文件笔记四 PE文件头之标准PE头"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="title">PE文件笔记四 PE文件头之标准PE头</div></div></a></div><div><a href="/2021/06/01/pe总结/" title="pe字段总结(持续更新中...)"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-01</div><div class="title">pe字段总结(持续更新中...)</div></div></a></div><div><a href="/2021/06/12/pe总结1/" title="PE文件笔记一 PE介绍"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-12</div><div class="title">PE文件笔记一 PE介绍</div></div></a></div><div><a href="/2021/06/15/pe总结10/" title="PE文件笔记十 扩大节"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="title">PE文件笔记十 扩大节</div></div></a></div><div><a href="/2021/06/15/pe总结3/" title="PE文件笔记三 DOS部分"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="title">PE文件笔记三 DOS部分</div></div></a></div><div><a href="/2021/06/15/pe总结9/" title="PE文件笔记九 实战之HOOK程序添加弹窗续"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="title">PE文件笔记九 实战之HOOK程序添加弹窗续</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/loading.gif" data-original="/img/tit.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">西城</div><div class="author-info__description">一只想成为大佬的小菜鸟</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><a class="button--animated" id="card-info-btn" href="/img/alipay.jpg"><i class="iconfont icon-zhifubao"></i><span>鼓励一下我吧</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="iconfont icon-github card_icon"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS链接"><i class="iconfont icon-RSS_flat card_icon"></i></a><a class="social-icon" href="https://blog.csdn.net/goat_2003?spm=1010.2135.3001.5343" target="_blank" title=""><i class="iconfont icon-csdn card_icon"></i></a><a class="social-icon" href="https://wpa.qq.com/msgrd?v=3&amp;uin=1679369498&amp;site=qqq&amp;menu=yes" target="_blank" title=""><i class="iconfont icon-QQ card_icon"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">一只想赚大钱的懒狗</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PE%E8%8A%82%E8%A1%A8"><span class="toc-number">1.</span> <span class="toc-text">PE节表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PE%E8%8A%82%E8%A1%A8%E4%BD%9C%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">PE节表作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PE%E8%8A%82%E8%A1%A8%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">PE节表结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%AA%E5%9B%BE"><span class="toc-number">1.3.</span> <span class="toc-text">结构体截图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E4%BB%A3%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">结构体代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%90%E5%91%98%E5%88%86%E6%9E%90"><span class="toc-number">1.5.</span> <span class="toc-text">结构体成员分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Name"><span class="toc-number">1.5.1.</span> <span class="toc-text">Name</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E7%BF%BB%E8%AF%91"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">官方翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%89%88"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">通俗版</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Misc"><span class="toc-number">1.5.2.</span> <span class="toc-text">Misc</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E7%BF%BB%E8%AF%91-1"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">官方翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%89%88-1"><span class="toc-number">1.5.2.2.</span> <span class="toc-text">通俗版</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Misc-PhysicalAddress"><span class="toc-number">1.5.2.3.</span> <span class="toc-text">Misc.PhysicalAddress</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Misc-VirtualSize"><span class="toc-number">1.5.2.4.</span> <span class="toc-text">Misc.VirtualSize</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VirtualAddress"><span class="toc-number">1.5.3.</span> <span class="toc-text">VirtualAddress</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E7%BF%BB%E8%AF%91-2"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">官方翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%89%88-2"><span class="toc-number">1.5.3.2.</span> <span class="toc-text">通俗版</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SizeOfRawData"><span class="toc-number">1.5.4.</span> <span class="toc-text">SizeOfRawData</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E7%BF%BB%E8%AF%91-3"><span class="toc-number">1.5.4.1.</span> <span class="toc-text">官方翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%89%88-3"><span class="toc-number">1.5.4.2.</span> <span class="toc-text">通俗版</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PointerToRawData"><span class="toc-number">1.5.5.</span> <span class="toc-text">PointerToRawData</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E7%BF%BB%E8%AF%91-4"><span class="toc-number">1.5.5.1.</span> <span class="toc-text">官方翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%89%88-4"><span class="toc-number">1.5.5.2.</span> <span class="toc-text">通俗版</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PointerToRelocations"><span class="toc-number">1.5.6.</span> <span class="toc-text">PointerToRelocations</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E7%BF%BB%E8%AF%91-5"><span class="toc-number">1.5.6.1.</span> <span class="toc-text">官方翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%89%88-5"><span class="toc-number">1.5.6.2.</span> <span class="toc-text">通俗版</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PointerToLinenumbers"><span class="toc-number">1.5.7.</span> <span class="toc-text">PointerToLinenumbers</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E7%BF%BB%E8%AF%91-6"><span class="toc-number">1.5.7.1.</span> <span class="toc-text">官方翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%89%88-6"><span class="toc-number">1.5.7.2.</span> <span class="toc-text">通俗版</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NumberOfRelocations"><span class="toc-number">1.5.8.</span> <span class="toc-text">NumberOfRelocations</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E7%BF%BB%E8%AF%91-7"><span class="toc-number">1.5.8.1.</span> <span class="toc-text">官方翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%89%88-7"><span class="toc-number">1.5.8.2.</span> <span class="toc-text">通俗版</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NumberOfLinenumbers"><span class="toc-number">1.5.9.</span> <span class="toc-text">NumberOfLinenumbers</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E7%BF%BB%E8%AF%91-8"><span class="toc-number">1.5.9.1.</span> <span class="toc-text">官方翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%89%88-8"><span class="toc-number">1.5.9.2.</span> <span class="toc-text">通俗版</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Characteristics"><span class="toc-number">1.5.10.</span> <span class="toc-text">Characteristics</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E7%BF%BB%E8%AF%91-9"><span class="toc-number">1.5.10.1.</span> <span class="toc-text">官方翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%97%E7%89%88-9"><span class="toc-number">1.5.10.2.</span> <span class="toc-text">通俗版</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E5%88%86%E6%9E%90"><span class="toc-number">1.6.</span> <span class="toc-text">实战分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Name-1"><span class="toc-number">1.6.1.</span> <span class="toc-text">Name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VirtualAddress-1"><span class="toc-number">1.6.2.</span> <span class="toc-text">VirtualAddress</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Misc%E5%92%8CSizeOfRawData"><span class="toc-number">1.6.3.</span> <span class="toc-text">Misc和SizeOfRawData</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90%E5%90%8E%E7%9A%84%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.6.3.1.</span> <span class="toc-text">内存对齐后的大小</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PointerToRawData-1"><span class="toc-number">1.6.4.</span> <span class="toc-text">PointerToRawData</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Characteristics-1"><span class="toc-number">1.6.5.</span> <span class="toc-text">Characteristics</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%86%99%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90%E8%8A%82%E8%A1%A8"><span class="toc-number">1.7.</span> <span class="toc-text">自写代码解析节表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="toc-number">1.7.1.</span> <span class="toc-text">运行结果</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="toc-number">1.7.1.1.</span> <span class="toc-text">32位运行结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#64%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="toc-number">1.7.1.2.</span> <span class="toc-text">64位运行结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%AF%B4%E6%98%8E"><span class="toc-number">1.7.2.</span> <span class="toc-text">代码说明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%84%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">附件</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/06/15/pe%E6%80%BB%E7%BB%9310/" title="PE文件笔记十 扩大节"><img src="/img/loading.gif" data-original="/images/004.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PE文件笔记十 扩大节"/></a><div class="content"><a class="title" href="/2021/06/15/pe%E6%80%BB%E7%BB%9310/" title="PE文件笔记十 扩大节">PE文件笔记十 扩大节</a><time datetime="2021-06-15T07:59:28.000Z" title="发表于 2021-06-15 15:59:28">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/15/pe%E6%80%BB%E7%BB%939/" title="PE文件笔记九 实战之HOOK程序添加弹窗续"><img src="/img/loading.gif" data-original="/images/004.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PE文件笔记九 实战之HOOK程序添加弹窗续"/></a><div class="content"><a class="title" href="/2021/06/15/pe%E6%80%BB%E7%BB%939/" title="PE文件笔记九 实战之HOOK程序添加弹窗续">PE文件笔记九 实战之HOOK程序添加弹窗续</a><time datetime="2021-06-15T07:58:28.000Z" title="发表于 2021-06-15 15:58:28">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/15/pe%E6%80%BB%E7%BB%938/" title="PE文件笔记八 实战之HOOK程序添加弹窗"><img src="/img/loading.gif" data-original="/images/004.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PE文件笔记八 实战之HOOK程序添加弹窗"/></a><div class="content"><a class="title" href="/2021/06/15/pe%E6%80%BB%E7%BB%938/" title="PE文件笔记八 实战之HOOK程序添加弹窗">PE文件笔记八 实战之HOOK程序添加弹窗</a><time datetime="2021-06-15T07:56:28.000Z" title="发表于 2021-06-15 15:56:28">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/15/pe%E6%80%BB%E7%BB%937/" title="PE文件笔记七 RVA与FOA转换"><img src="/img/loading.gif" data-original="/images/004.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PE文件笔记七 RVA与FOA转换"/></a><div class="content"><a class="title" href="/2021/06/15/pe%E6%80%BB%E7%BB%937/" title="PE文件笔记七 RVA与FOA转换">PE文件笔记七 RVA与FOA转换</a><time datetime="2021-06-15T07:53:28.000Z" title="发表于 2021-06-15 15:53:28">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/15/PE%E6%80%BB%E7%BB%936/" title="PE文件笔记六 节表和节"><img src="/img/loading.gif" data-original="/images/004.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PE文件笔记六 节表和节"/></a><div class="content"><a class="title" href="/2021/06/15/PE%E6%80%BB%E7%BB%936/" title="PE文件笔记六 节表和节">PE文件笔记六 节表和节</a><time datetime="2021-06-15T07:50:28.000Z" title="发表于 2021-06-15 15:50:28">2021-06-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 西城</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">努力赚大钱</div></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script>var gitcalendar = new Vue({
+  el: '#gitcalendar',
+  data: {
+    simplemode: true,
+    user: 'goat2003',
+    fixed: 'fixed',
+    px: 'px',
+    x: '',
+    y: '',
+    span1: '',
+    span2: '',
+    month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    monthchange: [],
+    oneyearbeforeday: '',
+    thisday: '',
+    amonthago: '',
+    aweekago: '',
+    weekdatacore: 0,
+    datacore: 0,
+    total: 0,
+    datadate: '',
+    data: [],
+    positionplusdata: [],
+    firstweek: [],
+    lastweek: [],
+    beforeweek: [],
+    thisweekdatacore: 0,
+    mounthbeforeday: 0,
+    mounthfirstindex: 0,
+    crispedges: 'crispedges',
+    thisdayindex: 0,
+    amonthagoindex: 0,
+    amonthagoweek: [],
+    firstdate: [],
+    first2date: [],
+    montharrbefore: [],
+    monthindex: 0,
+    color: ['#ebedf0', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f']
+  },
+  methods: {
+    selectStyle(data, event) {
+      document.querySelector('.angle-wrapper').style.display = 'block'
+      this.span1 = data.date;
+      this.span2 = data.count;
+      this.x = event.clientX - 100;
+      this.y = event.clientY - 60
+    },
+    outStyle() {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+    },
+    thiscolor(x) {
+      if (x === 0) {
+        let i = parseInt(x / 2);
+        return this.color[0]
+      } else if (x < 2) {
+        return this.color[1]
+      } else if (x < 20) {
+        let i = parseInt(x / 2);
+        return this.color[i]
+      } else {
+        return this.color[9]
+      }
+    },
+  }
+});
+var apiurl = '' ? 'https:///api?' : 'https://githubapi.ryanchristian.dev/user/'
+var githubapiurl = apiurl + gitcalendar.user;
+//canvas绘图
+function responsiveChart() {
+  let c = document.getElementById("gitcanvas");
+  if (c) {
+    let cmessage = document.getElementById("gitmessage");
+    let ctx = c.getContext("2d");
+    c.width = document.getElementById("gitcalendarcanvasbox").offsetWidth;
+    let linemaxwitdh = 0.96 * c.width / gitcalendar.data.length;
+    c.height = 9 * linemaxwitdh;
+    let lineminwitdh = 0.8 * linemaxwitdh;
+    let setposition = {
+      x: 0.02 * c.width,
+      y: 0.025 * c.width
+    };
+    for (let week in gitcalendar.data) {
+      weekdata = gitcalendar.data[week];
+      for (let day in weekdata) {
+        let dataitem = {
+          date: "",
+          count: "",
+          x: 0,
+          y: 0
+        };
+        gitcalendar.positionplusdata.push(dataitem);
+        ctx.fillStyle = gitcalendar.thiscolor(weekdata[day].count);
+        setposition.y = Math.round(setposition.y * 100) / 100;
+        dataitem.date = weekdata[day].date;
+        dataitem.count = weekdata[day].count;
+        dataitem.x = setposition.x;
+        dataitem.y = setposition.y;
+        ctx.fillRect(setposition.x, setposition.y, lineminwitdh, lineminwitdh);
+        setposition.y = setposition.y + linemaxwitdh
+      };
+      setposition.y = 0.025 * c.width;
+      setposition.x = setposition.x + linemaxwitdh
+    };
+    ctx.font = "600  Arial";
+    ctx.fillStyle = '#aaa';
+    ctx.fillText("日", 0, 1.9 * linemaxwitdh);
+    ctx.fillText("二", 0, 3.9 * linemaxwitdh);
+    ctx.fillText("四", 0, 5.9 * linemaxwitdh);
+    ctx.fillText("六", 0, 7.9 * linemaxwitdh);
+    let monthindexlist = c.width / 24;
+    for (let index in gitcalendar.monthchange) {
+      ctx.fillText(gitcalendar.monthchange[index], monthindexlist, 0.7 * linemaxwitdh);
+      monthindexlist = monthindexlist + c.width / 12
+    };
+    cmessage.onmousemove = function(event) {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+    };
+    c.onmousemove = function(event) {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+      getMousePos(c, event);
+    };
+
+    function getMousePos(canvas, event) {
+      var rect = canvas.getBoundingClientRect();
+      var x = event.clientX - rect.left * (canvas.width / rect.width);
+      var y = event.clientY - rect.top * (canvas.height / rect.height);
+      //console.log("x:"+x+",y:"+y);
+      for (let item of gitcalendar.positionplusdata) {
+        let lenthx = x - item.x;
+        let lenthy = y - item.y;
+        //console.log(lenthx,lenthy);
+        if (0 < lenthx && lenthx < lineminwitdh) {
+          if (0 < lenthy && lenthy < lineminwitdh) {
+            //console.log(item.date,item.count)
+            document.querySelector('.angle-wrapper').style.display = 'block'
+            gitcalendar.span1 = item.date;
+            gitcalendar.span2 = item.count;
+            gitcalendar.x = event.clientX - 100;
+            gitcalendar.y = event.clientY - 60
+          }
+        }
+        //if(0< x - item.x <lineminwitdh&&0< y - item.y <lineminwitdh){
+        //console.log(item.count,item.date);
+        //}
+      }
+    }
+  }
+}
+//数据统计算法
+function addlastmonth() {
+  if (gitcalendar.thisdayindex === 0) {
+    thisweekcore(52);
+    thisweekcore(51);
+    thisweekcore(50);
+    thisweekcore(49);
+    thisweekcore(48);
+    gitcalendar.thisweekdatacore += gitcalendar.firstdate[6].count;
+    gitcalendar.amonthago = gitcalendar.firstdate[6].date
+  } else {
+    thisweekcore(52);
+    thisweekcore(51);
+    thisweekcore(50);
+    thisweekcore(49);
+    thisweek2core();
+    gitcalendar.amonthago = gitcalendar.first2date[gitcalendar.thisdayindex - 1].date
+  }
+};
+
+function thisweek2core() {
+  for (let i = gitcalendar.thisdayindex - 1; i < gitcalendar.first2date.length; i++) {
+    gitcalendar.thisweekdatacore += gitcalendar.first2date[i].count
+  }
+};
+
+function thisweekcore(index) {
+  for (let item of gitcalendar.data[index]) {
+    gitcalendar.thisweekdatacore += item.count
+  }
+};
+
+function addlastweek() {
+  for (let item of gitcalendar.lastweek) {
+    gitcalendar.weekdatacore += item.count
+  }
+};
+
+function addbeforeweek() {
+  for (let i = gitcalendar.thisdayindex; i < gitcalendar.beforeweek.length; i++) {
+    gitcalendar.weekdatacore += gitcalendar.beforeweek[i].count
+  }
+};
+
+function addweek(data) {
+  if (gitcalendar.thisdayindex === 6) {
+    gitcalendar.aweekago = gitcalendar.lastweek[0].date;
+    addlastweek()
+  } else {
+    lastweek = data.contributions[51];
+    gitcalendar.aweekago = lastweek[gitcalendar.thisdayindex + 1].date;
+    addlastweek();
+    addbeforeweek()
+  }
+}
+
+fetch(githubapiurl)
+  .then(data => data.json())
+  .then(data => {
+    gitcalendar.data = data.contributions;
+    gitcalendar.total = data.total;
+    gitcalendar.first2date = gitcalendar.data[48];
+    gitcalendar.firstdate = gitcalendar.data[47];
+    gitcalendar.firstweek = data.contributions[0];
+    gitcalendar.lastweek = data.contributions[52];
+    gitcalendar.beforeweek = data.contributions[51];
+    gitcalendar.thisdayindex = gitcalendar.lastweek.length - 1;
+    gitcalendar.thisday = gitcalendar.lastweek[gitcalendar.thisdayindex].date;
+    gitcalendar.oneyearbeforeday = gitcalendar.firstweek[0].date;
+    gitcalendar.monthindex = gitcalendar.thisday.substring(5, 7) * 1;
+    gitcalendar.montharrbefore = gitcalendar.month.splice(gitcalendar.monthindex, 12 - gitcalendar.monthindex);
+    gitcalendar.monthchange = gitcalendar.montharrbefore.concat(gitcalendar.month);
+    addweek(data);
+    addlastmonth();
+    responsiveChart();
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+
+//手机版更换为svg绘制
+if (document.getElementById("gitcalendarcanvasbox").offsetWidth < 500) {
+  gitcalendar.simplemode = false
+}
+
+//当改变窗口大小时重新绘制canvas
+window.onresize = function() {
+  if (gitcalendar.simplemode) responsiveChart()
+}
+
+//解决滚动滑轮时出现的标签显示
+window.onscroll = function() {
+  if (document.querySelector('.angle-wrapper')) {
+    document.querySelector('.angle-wrapper').style.display = 'none'
+  }
+};</script><script type="text/javascript" src="/js/fairyDustCursor.js"></script><script type="text/javascript" src="/js/zhedie.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="吃饭,睡觉,敲代码,敲代码" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":true},"log":false});</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body></html><script type="text/javascript" src="/js/crash_cheat.js"></script>
