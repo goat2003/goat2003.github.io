@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-06-15T05:52:11.376Z</updated>
+  <updated>2021-06-15T07:55:09.300Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,117 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title></title>
+    <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%938/"/>
+    <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%938/</id>
+    <published>2021-06-15T07:55:09.210Z</published>
+    <updated>2021-06-15T07:55:09.300Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;title: pe总结8&lt;br&gt;date: 2021-06-15 15:56:28&lt;br&gt;top_img: /images/002.jpg&lt;br&gt;cover: /images/004.jpg&lt;br&gt;tags: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;pe&lt;br&gt;categories:</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>pe总结5</title>
+    <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%935/"/>
+    <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%935/</id>
+    <published>2021-06-15T07:47:28.000Z</published>
+    <updated>2021-06-15T07:47:52.878Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;继续具体学习PE的各个结构细节，前面学完了标准PE头，接着学习扩展PE头&lt;/p&gt;
+&lt;p&gt;由于PE文件头的内容较多，故要拆分为多个笔记，此笔记主要为&lt;strong&gt;扩展PE头&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;PS：扩展PE头的成员较多，可以&lt;strong&gt;先看个大概后结合下面</summary>
+        
+      
+    
+    
+    
+    <category term="pe" scheme="http://example.com/categories/pe/"/>
+    
+    
+    <category term="pe" scheme="http://example.com/tags/pe/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pe总结4</title>
+    <link href="http://example.com/2021/06/15/PE%E6%80%BB%E7%BB%934/"/>
+    <id>http://example.com/2021/06/15/PE%E6%80%BB%E7%BB%934/</id>
+    <published>2021-06-15T07:45:28.000Z</published>
+    <updated>2021-06-15T07:45:48.908Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;转载好文 (๑•̀ㅂ•́)و✧&lt;/p&gt;
+&lt;p&gt;继续具体学习PE的各个结构细节，前面学完了DOS部首，接着学习PE文件头&lt;/p&gt;
+&lt;p&gt;由于PE文件头的内容较多，故要拆分为多个笔记，此笔记主要为&lt;strong&gt;标准PE头&lt;/strong&gt;&lt;/p&gt;
+&lt;h1</summary>
+        
+      
+    
+    
+    
+    <category term="pe" scheme="http://example.com/categories/pe/"/>
+    
+    
+    <category term="pe" scheme="http://example.com/tags/pe/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pe总结3</title>
+    <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%933/"/>
+    <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%933/</id>
+    <published>2021-06-15T07:38:28.000Z</published>
+    <updated>2021-06-15T07:39:52.422Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;先转载一下怕以后找不到ヽ(✿ﾟ▽ﾟ)ノ&lt;/p&gt;
+&lt;p&gt;前面学习了PE结构的总体结构，接下来将具体学习PE的各个结构细节&lt;/p&gt;
+&lt;p&gt;这次学习的结构为DOS 部首&lt;/p&gt;
+&lt;h1 id=&quot;DOS部首&quot;&gt;&lt;a href=&quot;#DOS部首&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="pe" scheme="http://example.com/categories/pe/"/>
+    
+    
+    <category term="pe" scheme="http://example.com/tags/pe/"/>
+    
+  </entry>
+  
+  <entry>
     <title>攻防世界 re -re1</title>
     <link href="http://example.com/2021/06/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cre1/"/>
     <id>http://example.com/2021/06/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cre1/</id>
     <published>2021-06-15T05:51:28.000Z</published>
-    <updated>2021-06-15T05:52:11.376Z</updated>
+    <updated>2021-06-15T07:42:20.185Z</updated>
     
     
       
@@ -35,10 +141,10 @@
     
     
     
-    <category term="ctf" scheme="http://example.com/categories/ctf/"/>
+    <category term="ctf-re" scheme="http://example.com/categories/ctf-re/"/>
     
     
-    <category term="ctf" scheme="http://example.com/tags/ctf/"/>
+    <category term="ctf-re" scheme="http://example.com/tags/ctf-re/"/>
     
   </entry>
   
