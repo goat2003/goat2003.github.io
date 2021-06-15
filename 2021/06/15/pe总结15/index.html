@@ -1,0 +1,853 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PE文件笔记十五 导入表 | 西城の博客</title><meta name="keywords" content="pe"><meta name="author" content="西城"><meta name="copyright" content="西城"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前面在PE文件笔记十四 导出表学习了导出表，接着学习导入表 导入表导入表作用当程序运行时，需要多个PE文件共同组成 PE文件提供哪些功能→导出表 PE文件需要依赖的模块以及依赖这些模块中的哪些函数→导入表  什么是导入表导入表就是记录该PE文件还需要依赖的模块以及依赖这些模块中的哪些函数的一种结构  定位导入表定位导入表原理在上一个笔记：PE文件笔记十四 导出表中以及提到了，像导入表、导出表、重定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PE文件笔记十五 导入表">
+<meta property="og:url" content="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%9315/index.html">
+<meta property="og:site_name" content="西城の博客">
+<meta property="og:description" content="前面在PE文件笔记十四 导出表学习了导出表，接着学习导入表 导入表导入表作用当程序运行时，需要多个PE文件共同组成 PE文件提供哪些功能→导出表 PE文件需要依赖的模块以及依赖这些模块中的哪些函数→导入表  什么是导入表导入表就是记录该PE文件还需要依赖的模块以及依赖这些模块中的哪些函数的一种结构  定位导入表定位导入表原理在上一个笔记：PE文件笔记十四 导出表中以及提到了，像导入表、导出表、重定">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/004.jpg">
+<meta property="article:published_time" content="2021-06-15T08:45:07.000Z">
+<meta property="article:modified_time" content="2021-06-15T08:53:38.258Z">
+<meta property="article:author" content="西城">
+<meta property="article:tag" content="pe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/004.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%9315/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 西城","link":"链接: ","source":"来源: 西城の博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PE文件笔记十五 导入表',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-06-15 16:53:38'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="/css/gundong.css"><link rel="stylesheet" href="/css/jianbian.css"><link rel="stylesheet" href="/css/touming.css"><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/shubiao.css"><link rel="stylesheet" href="/css/zhedie.css"><script src="/js/sakura.js"></script><!--在线聊天if theme.daovoice
+  script(src=url_for(theme.CDN.daovoice) defer)--><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="西城の博客" type="application/atom+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/loading.gif" data-original="/img/tit.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/images/002.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">西城の博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">PE文件笔记十五 导入表</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-06-15T08:45:07.000Z" title="发表于 2021-06-15 16:45:07">2021-06-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-06-15T08:53:38.258Z" title="更新于 2021-06-15 16:53:38">2021-06-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/pe/">pe</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="PE文件笔记十五 导入表"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>前面在<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1412395-1-1.html">PE文件笔记十四 导出表</a>学习了导出表，接着学习导入表</p>
+<h1 id="导入表"><a href="#导入表" class="headerlink" title="导入表"></a>导入表</h1><h2 id="导入表作用"><a href="#导入表作用" class="headerlink" title="导入表作用"></a>导入表作用</h2><p>当程序<strong>运行时</strong>，需要<strong>多个</strong>PE文件共同组成</p>
+<p>PE文件提供哪些功能→导出表</p>
+<p>PE文件需要依赖的模块以及依赖这些模块中的哪些函数→导入表</p>
+<hr>
+<h2 id="什么是导入表"><a href="#什么是导入表" class="headerlink" title="什么是导入表"></a>什么是导入表</h2><p>导入表就是记录该PE文件还需要依赖的模块以及依赖这些模块中的哪些函数的一种结构</p>
+<hr>
+<h2 id="定位导入表"><a href="#定位导入表" class="headerlink" title="定位导入表"></a>定位导入表</h2><h3 id="定位导入表原理"><a href="#定位导入表原理" class="headerlink" title="定位导入表原理"></a>定位导入表原理</h3><p>在上一个笔记：<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1412395-1-1.html">PE文件笔记十四 导出表</a>中以及提到了，像导入表、导出表、重定位表、资源表等表，这些表的起始地址和大小都存储在扩展PE头里的DataDirectory这个数组的成员中，DataDirectory是一个数组，每个数组成员对应一张表</p>
+<p>回顾先前的笔记，能得到导入表对应的下标为1</p>
+<table>
+<thead>
+<tr>
+<th align="left">宏定义</th>
+<th align="left">值</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">IMAGE_DIRECTORY_ENTRY_IMPORT</td>
+<td align="left">1</td>
+<td align="left">导入表</td>
+</tr>
+</tbody></table>
+<p>即DataDirectory[1]表示导入表</p>
+<p>关于DataDirectory的具体描述在上一个笔记中已经详细说明过了，这里不再赘述：</p>
+<table>
+<thead>
+<tr>
+<th align="left">IMAGE_DATA_DIRECTORY成员</th>
+<th align="left">数据宽度</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">VirtualAddress</td>
+<td align="left">DWORD(4字节)</td>
+<td align="left">表的起始位置（RVA）</td>
+</tr>
+<tr>
+<td align="left">Size</td>
+<td align="left">DWORD(4字节)</td>
+<td align="left">表的大小</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="定位导入表流程"><a href="#定位导入表流程" class="headerlink" title="定位导入表流程"></a>定位导入表流程</h3><ol>
+<li>找到扩展PE头的最后一个成员DataDirectory</li>
+<li>获取DataDirectory[1]</li>
+<li>通过DataDirectory[1].VirtualAddress得到导入表的RVA</li>
+<li>将导出表的RVA转换为FOA，在文件中定位到导入表</li>
+</ol>
+<hr>
+<h2 id="按流程定位导入表"><a href="#按流程定位导入表" class="headerlink" title="按流程定位导入表"></a>按流程定位导入表</h2><h3 id="要分析的实例"><a href="#要分析的实例" class="headerlink" title="要分析的实例"></a>要分析的实例</h3><p>这次要分析的实例又回归到先前的EverEdit.exe了</p>
+<p>程序在后面的附件中，有需要可以自行取用</p>
+<hr>
+<h3 id="找到DataDirectory"><a href="#找到DataDirectory" class="headerlink" title="找到DataDirectory"></a>找到DataDirectory</h3><p>使用WinHex打开EverEdit.exe，先找到PE文件头的起始地址：0xF0</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408115132092.png" alt="image-20210408115132092"></p>
+<hr>
+<p>再数24个字节（PE文件头标志大小+标准PE头大小），到达扩展PE头：0xF0+24=240+24=264=0x108</p>
+<p>然后在数224-128=96个字节（扩展PE头大小减去DataDirectory大小）DataDirectory大小= _IMAGE_DATA_DIRECTORY大小×16=8*16</p>
+<p>DataDirectory首地址 = 扩展PE头地址+96=0x108+96=264+96=360=0x168</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408115736939.png" alt="image-20210408115736939"></p>
+<hr>
+<h3 id="获取DataDirectory-1"><a href="#获取DataDirectory-1" class="headerlink" title="获取DataDirectory[1]"></a>获取DataDirectory[1]</h3><p>而导入表为DataDirectory[1]，也就是从首地址开始的DataDirectory[0]的偏移之后的8个字节就是描述导入表的IMAGE_DATA_DIRECTORY</p>
+<p>导入表地址 = DataDirectory首地址 + sizeof(IMAGE_DATA_DIRECTORY)=0x168+8=360+8=368=0x170</p>
+<table>
+<thead>
+<tr>
+<th align="left">IMAGE_DATA_DIRECTORY成员</th>
+<th align="left">值</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">VirtualAddress</td>
+<td align="left">0x001CF47C</td>
+<td align="left">表的起始位置（RVA）</td>
+</tr>
+<tr>
+<td align="left">Size</td>
+<td align="left">0x00000140</td>
+<td align="left">表的大小</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="得到导出表的RVA"><a href="#得到导出表的RVA" class="headerlink" title="得到导出表的RVA"></a>得到导出表的RVA</h3><p>于是得到导出表对应的RVA为：0x1CF47C</p>
+<hr>
+<h3 id="RVA转换FOA"><a href="#RVA转换FOA" class="headerlink" title="RVA转换FOA"></a>RVA转换FOA</h3><p>但是IMAGE_DATA_DIRECTORY中的VirtualAddress是RVA，需要将其转换成FOA</p>
+<p>关于RVA转FOA的内容在<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1408576-1-1.html"> PE文件笔记七 VA与FOA转换</a>中已经详细说明了，这里不再赘述</p>
+<p>直接使用在笔记七中写的转换代码计算出对应的FOA：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码// PE.cpp : Defines the entry point for the console application.</span><br><span class="line">//</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;malloc.h&gt;</span><br><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">#include &lt;winnt.h&gt;</span><br><span class="line">#include &lt;math.h&gt;</span><br><span class="line">//在VC6这个比较旧的环境里，没有定义64位的这个宏，需要自己定义，在VS2019中无需自己定义</span><br><span class="line">#define IMAGE_FILE_MACHINE_AMD64  0x8664</span><br><span class="line"></span><br><span class="line">//VA转FOA 32位</span><br><span class="line">//第一个参数为要转换的在内存中的地址：VA</span><br><span class="line">//第二个参数为指向dos头的指针</span><br><span class="line">//第三个参数为指向nt头的指针</span><br><span class="line">//第四个参数为存储指向节指针的数组</span><br><span class="line">UINT VaToFoa32(UINT va, _IMAGE_DOS_HEADER* dos, _IMAGE_NT_HEADERS* nt, _IMAGE_SECTION_HEADER** sectionArr) &#123;</span><br><span class="line">        //得到RVA的值：RVA = VA - ImageBase</span><br><span class="line">        UINT rva = va - nt-&gt;OptionalHeader.ImageBase;</span><br><span class="line">        //输出rva</span><br><span class="line">        printf(&quot;rva:%X\n&quot;, rva);</span><br><span class="line">        //找到PE文件头后的地址 = PE文件头首地址+PE文件头大小</span><br><span class="line">        UINT PeEnd = (UINT)dos-&gt;e_lfanew + sizeof(_IMAGE_NT_HEADERS);</span><br><span class="line">        //输出PeEnd</span><br><span class="line">        printf(&quot;PeEnd:%X\n&quot;, PeEnd);</span><br><span class="line">        //判断rva是否位于PE文件头中</span><br><span class="line">        if (rva &lt; PeEnd) &#123;</span><br><span class="line">                //如果rva位于PE文件头中，则foa==rva，直接返回rva即可</span><br><span class="line">                printf(&quot;foa:%X\n&quot;, rva);</span><br><span class="line">                return rva;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">                //如果rva在PE文件头外</span><br><span class="line">                //判断rva属于哪个节</span><br><span class="line">                int i;</span><br><span class="line">                for (i = 0; i &lt; nt-&gt;FileHeader.NumberOfSections; i++) &#123;</span><br><span class="line">                        //计算内存对齐后节的大小</span><br><span class="line">                        UINT SizeInMemory = ceil((double)max((UINT)sectionArr[i]-&gt;Misc.VirtualSize, (UINT)sectionArr[i]-&gt;SizeOfRawData) / (double)nt-&gt;OptionalHeader.SectionAlignment) * nt-&gt;OptionalHeader.SectionAlignment;</span><br><span class="line"></span><br><span class="line">                        if (rva &gt;= sectionArr[i]-&gt;VirtualAddress &amp;&amp; rva &lt; (sectionArr[i]-&gt;VirtualAddress + SizeInMemory)) &#123;</span><br><span class="line">                                //找到所属的节</span><br><span class="line">                                //输出内存对齐后的节的大小</span><br><span class="line">                                printf(&quot;SizeInMemory:%X\n&quot;, SizeInMemory);</span><br><span class="line">                                break;</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                if (i &gt;= nt-&gt;FileHeader.NumberOfSections) &#123;</span><br><span class="line">                        //未找到</span><br><span class="line">                        printf(&quot;没有找到匹配的节\n&quot;);</span><br><span class="line">                        return -1;</span><br><span class="line">                &#125;</span><br><span class="line">                else &#123;</span><br><span class="line">                        //计算差值= RVA - 节.VirtualAddress</span><br><span class="line">                        UINT offset = rva - sectionArr[i]-&gt;VirtualAddress;</span><br><span class="line">                        //FOA = 节.PointerToRawData + 差值</span><br><span class="line">                        UINT foa = sectionArr[i]-&gt;PointerToRawData + offset;</span><br><span class="line">                        printf(&quot;foa:%X\n&quot;, foa);</span><br><span class="line">                        return foa;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char* argv[])</span><br><span class="line">&#123;</span><br><span class="line">        //创建DOS对应的结构体指针</span><br><span class="line">        _IMAGE_DOS_HEADER* dos;</span><br><span class="line">        //读取文件，返回文件句柄</span><br><span class="line">        HANDLE hFile = CreateFileA(&quot;C:\\Documents and Settings\\Administrator\\桌面\\user32.dll&quot;, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, 0);</span><br><span class="line">        //根据文件句柄创建映射</span><br><span class="line">        HANDLE hMap = CreateFileMappingA(hFile, NULL, PAGE_READWRITE, 0, 0, 0);</span><br><span class="line">        //映射内容</span><br><span class="line">        LPVOID pFile = MapViewOfFile(hMap, FILE_SHARE_WRITE, 0, 0, 0);</span><br><span class="line">        //类型转换，用结构体的方式来读取</span><br><span class="line">        dos = (_IMAGE_DOS_HEADER*)pFile;</span><br><span class="line">        //输出dos-&gt;e_magic，以十六进制输出</span><br><span class="line">        printf(&quot;dos-&gt;e_magic:%X\n&quot;, dos-&gt;e_magic);</span><br><span class="line"></span><br><span class="line">        //创建指向PE文件头标志的指针</span><br><span class="line">        DWORD* peId;</span><br><span class="line">        //让PE文件头标志指针指向其对应的地址=DOS首地址+偏移</span><br><span class="line">        peId = (DWORD*)((UINT)dos + dos-&gt;e_lfanew);</span><br><span class="line">        //输出PE文件头标志，其值应为4550，否则不是PE文件</span><br><span class="line">        printf(&quot;peId:%X\n&quot;, *peId);</span><br><span class="line"></span><br><span class="line">        //创建指向可选PE头的第一个成员magic的指针</span><br><span class="line">        WORD* magic;</span><br><span class="line">        //让magic指针指向其对应的地址=PE文件头标志地址+PE文件头标志大小+标准PE头大小</span><br><span class="line">        magic = (WORD*)((UINT)peId + sizeof(DWORD) + sizeof(_IMAGE_FILE_HEADER));</span><br><span class="line">        //输出magic，其值为0x10b代表32位程序，其值为0x20b代表64位程序</span><br><span class="line">        printf(&quot;magic:%X\n&quot;, *magic);</span><br><span class="line">        //根据magic判断为32位程序还是64位程序</span><br><span class="line">        switch (*magic) &#123;</span><br><span class="line">        case IMAGE_NT_OPTIONAL_HDR32_MAGIC:</span><br><span class="line">        &#123;</span><br><span class="line">                printf(&quot;32位程序\n&quot;);</span><br><span class="line">                //确定为32位程序后，就可以使用_IMAGE_NT_HEADERS来接收数据了</span><br><span class="line">                //创建指向PE文件头的指针</span><br><span class="line">                _IMAGE_NT_HEADERS* nt;</span><br><span class="line">                //让PE文件头指针指向其对应的地址</span><br><span class="line">                nt = (_IMAGE_NT_HEADERS*)peId;</span><br><span class="line">                printf(&quot;Machine:%X\n&quot;, nt-&gt;FileHeader.Machine);</span><br><span class="line">                printf(&quot;Magic:%X\n&quot;, nt-&gt;OptionalHeader.Magic);</span><br><span class="line">                //创建一个指针数组，该指针数组用来存储所有的节表指针</span><br><span class="line">                //这里相当于_IMAGE_SECTION_HEADER* sectionArr[nt-&gt;FileHeader.NumberOfSections],声明了一个动态数组</span><br><span class="line">                _IMAGE_SECTION_HEADER** sectionArr = (_IMAGE_SECTION_HEADER**)malloc(sizeof(_IMAGE_SECTION_HEADER*) * nt-&gt;FileHeader.NumberOfSections);</span><br><span class="line"></span><br><span class="line">                //创建指向块表的指针</span><br><span class="line">                _IMAGE_SECTION_HEADER* sectionHeader;</span><br><span class="line">                //让块表的指针指向其对应的地址</span><br><span class="line">                sectionHeader = (_IMAGE_SECTION_HEADER*)((UINT)nt + sizeof(_IMAGE_NT_HEADERS));</span><br><span class="line">                //计数，用来计算块表地址</span><br><span class="line">                int cnt = 0;</span><br><span class="line">                //比较 计数 和 块表的个数，即遍历所有块表</span><br><span class="line">                while (cnt &lt; nt-&gt;FileHeader.NumberOfSections) &#123;</span><br><span class="line">                        //创建指向块表的指针</span><br><span class="line">                        _IMAGE_SECTION_HEADER* section;</span><br><span class="line">                        //让块表的指针指向其对应的地址=第一个块表地址+计数*块表的大小</span><br><span class="line">                        section = (_IMAGE_SECTION_HEADER*)((UINT)sectionHeader + sizeof(_IMAGE_SECTION_HEADER) * cnt);</span><br><span class="line">                        //将得到的块表指针存入数组</span><br><span class="line">                        sectionArr[cnt++] = section;</span><br><span class="line">                        //输出块表名称</span><br><span class="line">                        printf(&quot;%s\n&quot;, section-&gt;Name);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                VaToFoa32(nt-&gt;OptionalHeader.ImageBase +0x1CF47C,dos,nt,sectionArr);</span><br><span class="line"></span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        case IMAGE_NT_OPTIONAL_HDR64_MAGIC:</span><br><span class="line">        &#123;</span><br><span class="line">                printf(&quot;64位程序\n&quot;);</span><br><span class="line">                //确定为64位程序后，就可以使用_IMAGE_NT_HEADERS64来接收数据了</span><br><span class="line">                //创建指向PE文件头的指针</span><br><span class="line">                _IMAGE_NT_HEADERS64* nt;</span><br><span class="line">                nt = (_IMAGE_NT_HEADERS64*)peId;</span><br><span class="line">                printf(&quot;Machine:%X\n&quot;, nt-&gt;FileHeader.Machine);</span><br><span class="line">                printf(&quot;Magic:%X\n&quot;, nt-&gt;OptionalHeader.Magic);</span><br><span class="line"></span><br><span class="line">                //创建一个指针数组，该指针数组用来存储所有的节表指针</span><br><span class="line">                //这里相当于_IMAGE_SECTION_HEADER* sectionArr[nt-&gt;FileHeader.NumberOfSections],声明了一个动态数组</span><br><span class="line">                _IMAGE_SECTION_HEADER** sectionArr = (_IMAGE_SECTION_HEADER**)malloc(sizeof(_IMAGE_SECTION_HEADER*) * nt-&gt;FileHeader.NumberOfSections);</span><br><span class="line"></span><br><span class="line">                //创建指向块表的指针</span><br><span class="line">                _IMAGE_SECTION_HEADER* sectionHeader;</span><br><span class="line">                //让块表的指针指向其对应的地址，区别在于这里加上的偏移为_IMAGE_NT_HEADERS64</span><br><span class="line">                sectionHeader = (_IMAGE_SECTION_HEADER*)((UINT)nt + sizeof(_IMAGE_NT_HEADERS64));</span><br><span class="line">                //计数，用来计算块表地址</span><br><span class="line">                int cnt = 0;</span><br><span class="line">                //比较 计数 和 块表的个数，即遍历所有块表</span><br><span class="line">                while (cnt &lt; nt-&gt;FileHeader.NumberOfSections) &#123;</span><br><span class="line">                        //创建指向块表的指针</span><br><span class="line">                        _IMAGE_SECTION_HEADER* section;</span><br><span class="line">                        //让块表的指针指向其对应的地址=第一个块表地址+计数*块表的大小</span><br><span class="line">                        section = (_IMAGE_SECTION_HEADER*)((UINT)sectionHeader + sizeof(_IMAGE_SECTION_HEADER) * cnt);</span><br><span class="line">                        //将得到的块表指针存入数组</span><br><span class="line">                        sectionArr[cnt++] = section;</span><br><span class="line">                        //输出块表名称</span><br><span class="line">                        printf(&quot;%s\n&quot;, section-&gt;Name);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        default:</span><br><span class="line">        &#123;</span><br><span class="line">                printf(&quot;error!\n&quot;);</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键代码:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码</span><br><span class="line">VaToFoa32(nt-&gt;OptionalHeader.ImageBase +0x1CF47C,dos,nt,sectionArr);</span><br></pre></td></tr></table></figure>
+
+<p>因为先前写的函数是VA转FOA，这里得到的是RVA，于是要先用RVA+ImageBase得到VA</p>
+<p>运行代码得到：</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408122153869.png" alt="image-20210408122153869"></p>
+<p>获得了FOA为0x1CDA7C，也就是导入表的位置了，定位完成</p>
+<hr>
+<h2 id="导入表的结构"><a href="#导入表的结构" class="headerlink" title="导入表的结构"></a>导入表的结构</h2><p>定位到了导入表后自然要了解导入表的结构才能解读导入表的内容</p>
+<h3 id="导入表的个数"><a href="#导入表的个数" class="headerlink" title="导入表的个数"></a>导入表的个数</h3><p>与导出表不同，导入表通常要包含多个模块，而不像导出表只需要提供本PE文件需要提供的导出函数即可</p>
+<p>因此，导出表只有一个，但<strong>导入表则可能有多个</strong></p>
+<p>当程序<strong>运行时</strong>，需要依赖几个模块，就对应有几张导入表</p>
+<hr>
+<h3 id="导入表的结构体"><a href="#导入表的结构体" class="headerlink" title="导入表的结构体"></a>导入表的结构体</h3><p>给出导入表在C语言中的结构体（在winnt.h中可以找到）</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408124452121.png" alt="image-20210408124452121"></p>
+<hr>
+<p>即：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码typedef struct _IMAGE_IMPORT_DESCRIPTOR &#123;</span><br><span class="line">    union &#123;</span><br><span class="line">        DWORD   Characteristics;            // 0 for terminating null import descriptor</span><br><span class="line">        DWORD   OriginalFirstThunk;         // RVA to original unbound IAT (PIMAGE_THUNK_DATA)</span><br><span class="line">    &#125;;</span><br><span class="line">    DWORD   TimeDateStamp;                  // 0 if not bound,</span><br><span class="line">                                            // -1 if bound, and real date\time stamp</span><br><span class="line">                                            //     in IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT (new BIND)</span><br><span class="line">                                            // O.W. date/time stamp of DLL bound to (Old BIND)</span><br><span class="line"></span><br><span class="line">    DWORD   ForwarderChain;                 // -1 if no forwarders</span><br><span class="line">    DWORD   Name;</span><br><span class="line">    DWORD   FirstThunk;                     // RVA to IAT (if bound this IAT has actual addresses)</span><br><span class="line">&#125; IMAGE_IMPORT_DESCRIPTOR;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="结构体分析"><a href="#结构体分析" class="headerlink" title="结构体分析"></a>结构体分析</h3><table>
+<thead>
+<tr>
+<th align="left">成员</th>
+<th align="left">数据宽度</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Characteristics</td>
+<td align="left">DWORD(4字节)</td>
+<td align="left">标志 为0表示结束 没有导入描述符了</td>
+</tr>
+<tr>
+<td align="left">OriginalFirstThunk</td>
+<td align="left">DWORD(4字节)</td>
+<td align="left">RVA指向IMAGE_THUNK_DATA结构数组（桥1）</td>
+</tr>
+<tr>
+<td align="left">TimeDateStamp</td>
+<td align="left">DWORD(4字节)</td>
+<td align="left">时间戳</td>
+</tr>
+<tr>
+<td align="left">ForwarderChain</td>
+<td align="left">DWORD(4字节)</td>
+<td align="left">链表的前一个结构</td>
+</tr>
+<tr>
+<td align="left">Name</td>
+<td align="left">DWORD(4字节)</td>
+<td align="left">RVA，指向DLL名字，该名字以’’\0’’结尾</td>
+</tr>
+<tr>
+<td align="left">FirstThunk</td>
+<td align="left">DWORD(4字节)</td>
+<td align="left">RVA指向IMAGE_THUNK_DATA结构数组（桥2）</td>
+</tr>
+</tbody></table>
+<hr>
+<h4 id="Characteristics"><a href="#Characteristics" class="headerlink" title="Characteristics"></a>Characteristics</h4><p>标志 为0表示结束 没有导入描述符了</p>
+<hr>
+<h4 id="IMAGE-THUNK-DATA"><a href="#IMAGE-THUNK-DATA" class="headerlink" title="IMAGE_THUNK_DATA"></a>IMAGE_THUNK_DATA</h4><p>在介绍OriginalFirstThunk之前，要先了解一下OriginalFirstThunk和FirstThunk所指向的<strong>结构数组</strong></p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408141537209.png" alt="image-20210408141537209"></p>
+<hr>
+<p>指向的数组中每一项为一个结构，此结构名称是<strong>IMAGE_THUNK_DATA</strong></p>
+<p>数组<strong>最后以一个内容全为0的IMAGE_THUNK_DATA作为结束</strong></p>
+<p>IMAGE_THUNK_DATA实际上只是一个DWORD，但在不同的时刻却拥有不同的解释</p>
+<p>IMAGE_THUNK_DATA有<strong>两种解释</strong>：</p>
+<ul>
+<li>DWORD最高位为0，那么该数值是一个RVA，指向_IMAGE_IMPORT_BY_NAME结构，表明函数是<strong>以字符串类型的函数名导入</strong>的</li>
+<li>DWORD最高位为1，那么该数值的低31位就是函数的<strong>导出函数的序号</strong></li>
+</ul>
+<hr>
+<p>_IMAGE_IMPORT_BY_NAME结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码typedef struct _IMAGE_IMPORT_BY_NAME &#123;</span><br><span class="line">    WORD    Hint;</span><br><span class="line">    BYTE    Name[1];</span><br><span class="line">&#125; IMAGE_IMPORT_BY_NAME, *PIMAGE_IMPORT_BY_NAME;</span><br></pre></td></tr></table></figure>
+
+<p>该结构即为：”编号—名称”（Hint/Name）描述部分</p>
+<ul>
+<li>Hint：导出函数地址表的<strong>索引编号</strong>，可能为空且<strong>不一定准确</strong>，由编译器决定，一般不使用该值</li>
+<li>Name：这个是一个以”\0”结尾的字符串，表示函数名</li>
+</ul>
+<hr>
+<p>这里不难发现，IMAGE_THUNK_DATA最终提供的数据也只有2个：</p>
+<ul>
+<li>DWORD最高位为0时：需要导入函数的名称（Hint不一定准确，所以不使用）</li>
+<li>DWORD最高位为1时：需要导入的函数在导出表中的序号</li>
+</ul>
+<p>正好对应了在上一个笔记：<a target="_blank" rel="noopener" href="https://www.52pojie.cn/forum.php?mod=viewthread&tid=1412395&page=1#37915237_%E7%94%B1%E5%AF%BC%E5%87%BA%E8%A1%A8%E8%8E%B7%E5%BE%97%E5%AF%BC%E5%87%BA%E5%87%BD%E6%95%B0">PE文件笔记十四 导出表</a>中由导出表获得导出函数所需的两种方法</p>
+<p>即：</p>
+<ol>
+<li>根据函数名称获取导出函数地址</li>
+<li>根据函数序号获取导出函数地址</li>
+</ol>
+<hr>
+<h4 id="OriginalFirstThunk"><a href="#OriginalFirstThunk" class="headerlink" title="OriginalFirstThunk"></a>OriginalFirstThunk</h4><p>因为它是指向另外数据结构的通路，因此简称为桥1。该字段指向一个包含了一系列结构的数组：IMAGE_THUNK_DATA</p>
+<p>桥1所指向的地址列表被定义为：<strong>INT</strong>（Import Name Table） 导入名称表</p>
+<hr>
+<h4 id="TimeDateStamp"><a href="#TimeDateStamp" class="headerlink" title="TimeDateStamp"></a>TimeDateStamp</h4><p>时间戳，一般不用，大多情况下都为0。如果该导入表项被绑定，那么绑定后的这个时间戳就被设置为对应DLL文件的时间戳。操作系统在加载时，可以通过这个时间戳来判断绑定的信息是否过时</p>
+<hr>
+<h4 id="ForwarderChain"><a href="#ForwarderChain" class="headerlink" title="ForwarderChain"></a>ForwarderChain</h4><p>链表的前一个结构</p>
+<hr>
+<h4 id="Name"><a href="#Name" class="headerlink" title="Name"></a>Name</h4><p>这里的Name是一个RVA，它指向该结构对应的DLL文件的名称，而这个名称是以”\0”结尾的ANSI字符串</p>
+<p>ANSI编码是一种对ASCII码的拓展</p>
+<hr>
+<h4 id="FirstThunk"><a href="#FirstThunk" class="headerlink" title="FirstThunk"></a>FirstThunk</h4><p>与OriginalFirstThunk相同，它指向的链表定义了针对Name这个动态链接库引入的所有导入函数，简称桥2</p>
+<p>桥2所指向的地址列表被定义为：<strong>IAT</strong>（Import Adress Table） 导入地址表</p>
+<hr>
+<h2 id="导入表的双桥结构"><a href="#导入表的双桥结构" class="headerlink" title="导入表的双桥结构"></a>导入表的双桥结构</h2><p>桥1和桥2最终的目的地是一致的，都指向了引入函数的”编号—名称”（Hint/Name）描述部分</p>
+<p>桥1到目的地的过程中，经过了：<strong>INT</strong>（Import Name Table）导入名称表</p>
+<p>而桥2到目的地的过程中，经过了：<strong>IAT</strong>(Import Address Table)导入地址表</p>
+<hr>
+<h3 id="PE文件加载前"><a href="#PE文件加载前" class="headerlink" title="PE文件加载前"></a>PE文件加载前</h3><p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/%E5%8F%8C%E6%A1%A5.png" alt="双桥"></p>
+<hr>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408162001903.png" alt="image-20210408162001903"></p>
+<h3 id="PE文件加载后"><a href="#PE文件加载后" class="headerlink" title="PE文件加载后"></a>PE文件加载后</h3><p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408162839413.png" alt="image-20210408162839413"></p>
+<hr>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408162937094.png" alt="image-20210408162937094"></p>
+<hr>
+<h3 id="加载前后对比"><a href="#加载前后对比" class="headerlink" title="加载前后对比"></a>加载前后对比</h3><ul>
+<li>在PE文件加载前：桥1指向的INT和桥2指向的IAT的数据值是<strong>相同</strong>的，但是其<strong>存储位置是不同的</strong></li>
+<li>在PE文件加载后：桥1指向的INT<strong>不变</strong>，但桥2指向的IAT的数据值<strong>变为了函数相应的RVA地址</strong></li>
+</ul>
+<p>PS：函数相应的RVA地址是根据IAT中的函数名称或者导出表中的序号获得的</p>
+<hr>
+<h2 id="按结构分析导入表"><a href="#按结构分析导入表" class="headerlink" title="按结构分析导入表"></a>按结构分析导入表</h2><p>回到先前得到的导入表的FOA，在WinHex中找到FOA：0x1CDA7C</p>
+<p>这里取第一个_IMAGE_IMPORT_DESCRIPTOR进行分析</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408182130674.png" alt="image-20210408182130674"></p>
+<hr>
+<p>将对应的数据填入结构体成员中得到：</p>
+<table>
+<thead>
+<tr>
+<th align="left">成员</th>
+<th align="left">值</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Characteristics</td>
+<td align="left">0x001CF790</td>
+<td align="left">标志 为0表示结束 没有导入描述符了</td>
+</tr>
+<tr>
+<td align="left">OriginalFirstThunk</td>
+<td align="left">0x001CF790</td>
+<td align="left">RVA指向IMAGE_THUNK_DATA结构数组（桥1）</td>
+</tr>
+<tr>
+<td align="left">TimeDateStamp</td>
+<td align="left">0x00000000</td>
+<td align="left">时间戳</td>
+</tr>
+<tr>
+<td align="left">ForwarderChain</td>
+<td align="left">0x00000000</td>
+<td align="left">链表的前一个结构</td>
+</tr>
+<tr>
+<td align="left">Name</td>
+<td align="left">0x001D0788</td>
+<td align="left">RVA，指向DLL名字，该名字以’’\0’’结尾</td>
+</tr>
+<tr>
+<td align="left">FirstThunk</td>
+<td align="left">0x0019B1D4</td>
+<td align="left">RVA指向IMAGE_THUNK_DATA结构数组（桥2）</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="Characteristics-1"><a href="#Characteristics-1" class="headerlink" title="Characteristics"></a>Characteristics</h3><p>不为0，表示还有导入描述符</p>
+<hr>
+<h3 id="OriginalFirstThunk-1"><a href="#OriginalFirstThunk-1" class="headerlink" title="OriginalFirstThunk"></a>OriginalFirstThunk</h3><p>指向IMAGE_THUNK_DATA结构数组，先将RVA：0x001CF790转换为FOA：0x1CDD90</p>
+<p>转换代码为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码</span><br><span class="line">VaToFoa32(nt-&gt;OptionalHeader.ImageBase +0x001CF790,dos,nt,sectionArr);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>用WinHex找到0x1CDD90的位置：</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408144944386.png" alt="image-20210408144944386"></p>
+<hr>
+<p>得到结构体数组 INT为：</p>
+<table>
+<thead>
+<tr>
+<th align="left">数组下标</th>
+<th align="left">IMAGE_THUNK_DATA(RVA)</th>
+<th align="left">对应FOA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">0</td>
+<td align="left">0x001D0774</td>
+<td align="left">0x1CED74</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">0x001D2620</td>
+<td align="left">0x1D0C20</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">0x001D2606</td>
+<td align="left">0x1D0C06</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">0x001D25F4</td>
+<td align="left">0x1D0BF4</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">0x001D25E0</td>
+<td align="left">0x1D0BE0</td>
+</tr>
+<tr>
+<td align="left">…………..</td>
+<td align="left">……………………………….</td>
+<td align="left">…………</td>
+</tr>
+<tr>
+<td align="left">n</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+</tbody></table>
+<p>因为这里前面的几个IMAGE_THUNK_DATA的最高位都为0，于是其表示的为内容表示指向_IMAGE_IMPORT_BY_NAME的RVA</p>
+<p>PS：若最高位为1，则其表示的内容去掉最高位后为：导出函数的序号</p>
+<hr>
+<p>先查看下标为0 对应的FOA：</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408150058936.png" alt="image-20210408150058936"></p>
+<hr>
+<p>将得到的数据填入_IMAGE_IMPORT_BY_NAME</p>
+<table>
+<thead>
+<tr>
+<th align="left">_IMAGE_IMPORT_BY_NAME成员</th>
+<th align="left">值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Hint</td>
+<td align="left">0x018F</td>
+</tr>
+<tr>
+<td align="left">Name</td>
+<td align="left">ANSI码为”GetComputerNameW”</td>
+</tr>
+</tbody></table>
+<p>这里就获得了需要导入的函数的名称和Hint，这个Hint不一定准确，不使用</p>
+<hr>
+<h3 id="TimeDateStamp-1"><a href="#TimeDateStamp-1" class="headerlink" title="TimeDateStamp"></a>TimeDateStamp</h3><p>值为0，编译器并未填写时间戳</p>
+<hr>
+<h3 id="ForwarderChain-1"><a href="#ForwarderChain-1" class="headerlink" title="ForwarderChain"></a>ForwarderChain</h3><p>值为0，没有链表的前一个结构</p>
+<hr>
+<h3 id="Name-1"><a href="#Name-1" class="headerlink" title="Name"></a>Name</h3><p>值为0x001D0788，是个RVA地址，先将其转换成FOA：0x1CED88</p>
+<p>转换代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码</span><br><span class="line">VaToFoa32(nt-&gt;OptionalHeader.ImageBase +0x001D0788,dos,nt,sectionArr);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>用WinHex找到0x1CED88的位置：</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408150719798.png" alt="image-20210408150719798"></p>
+<p>得到第一个导入描述符 描述的导入模块名为：”KERNEL32.dll”</p>
+<hr>
+<h3 id="FirstThunk-1"><a href="#FirstThunk-1" class="headerlink" title="FirstThunk"></a>FirstThunk</h3><p>值为0x0019B1D4，是个RVA地址，先将其转换成FOA：0x1997D4</p>
+<p>转换代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码</span><br><span class="line">VaToFoa32(nt-&gt;OptionalHeader.ImageBase +0x0019B1D4,dos,nt,sectionArr);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>用WinHex找到0x1997D4的位置：</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408152225017.png" alt="image-20210408152225017"></p>
+<hr>
+<p>得到结构体数组 IAT为：</p>
+<table>
+<thead>
+<tr>
+<th align="left">数组下标</th>
+<th align="left">IMAGE_THUNK_DATA(RVA)</th>
+<th align="left">对应FOA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">0</td>
+<td align="left">0x001D0774</td>
+<td align="left">0x1CED74</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">0x001D2620</td>
+<td align="left">0x1D0C20</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">0x001D2606</td>
+<td align="left">0x1D0C06</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">0x001D25F4</td>
+<td align="left">0x1D0BF4</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">0x001D25E0</td>
+<td align="left">0x1D0BE0</td>
+</tr>
+<tr>
+<td align="left">…………..</td>
+<td align="left">……………………………….</td>
+<td align="left">…………</td>
+</tr>
+<tr>
+<td align="left">n</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+</tbody></table>
+<hr>
+<p>这里会发现IAT和INT中的内容是一致的，但是它们存储在不同的地址上（FOA不同，前面INT的FOA为：0x1CDD90，这里IAT的FOA为：0x1997D4）</p>
+<p>验证了：在PE文件加载前，桥1指向的INT和桥2指向的IAT的数据值是相同的，但是其存储位置是不同的</p>
+<hr>
+<h2 id="验证PE文件加载后的IAT变化"><a href="#验证PE文件加载后的IAT变化" class="headerlink" title="验证PE文件加载后的IAT变化"></a>验证PE文件加载后的IAT变化</h2><p>上面只分析了PE文件加载前的IAT，其内容和INT一致；当程序运行后，再用OD来查看其对应的IAT的变化：</p>
+<p>先前获得的IAT地址为：0x0019B1D4（RVA），用OD打开EverEdit.exe</p>
+<p>选中数据窗口</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408164539480.png" alt="image-20210408164539480"></p>
+<hr>
+<p>然后按快捷键：Ctrl+G，弹出窗口</p>
+<p>在弹出的窗口中填写要跳转的RVA地址</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408165048250.png" alt="image-20210408165048250"></p>
+<hr>
+<p>然后会发现内存窗口中的内容发生了改变，但显示方式并不是很友好</p>
+<p>于是修改一下显示方式，在内存窗口中 右键→长型→ASCII数据地址</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408165318175.png" alt="image-20210408165318175"></p>
+<hr>
+<p>可以看到：</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408165346670.png" alt="image-20210408165346670"></p>
+<p>可以看到这里的kerner32.GetComputerNameW正是前面分析出来的名称</p>
+<p>验证了IAT表在PE文件加载后发生了变化</p>
+<hr>
+<h1 id="代码实现分析导入表"><a href="#代码实现分析导入表" class="headerlink" title="代码实现分析导入表"></a>代码实现分析导入表</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> 复制代码 隐藏代码// PE.cpp : Defines the entry point for the console application.</span><br><span class="line">//</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;malloc.h&gt;</span><br><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">#include &lt;winnt.h&gt;</span><br><span class="line">#include &lt;math.h&gt;</span><br><span class="line">//在VC6这个比较旧的环境里，没有定义64位的这个宏，需要自己定义，在VS2019中无需自己定义</span><br><span class="line">#define IMAGE_FILE_MACHINE_AMD64  0x8664</span><br><span class="line"></span><br><span class="line">//VA转FOA 32位</span><br><span class="line">//第一个参数为要转换的在内存中的地址：VA</span><br><span class="line">//第二个参数为指向dos头的指针</span><br><span class="line">//第三个参数为指向nt头的指针</span><br><span class="line">//第四个参数为存储指向节指针的数组</span><br><span class="line">UINT VaToFoa32(UINT va, _IMAGE_DOS_HEADER* dos, _IMAGE_NT_HEADERS* nt, _IMAGE_SECTION_HEADER** sectionArr) &#123;</span><br><span class="line">        //得到RVA的值：RVA = VA - ImageBase</span><br><span class="line">        UINT rva = va - nt-&gt;OptionalHeader.ImageBase;</span><br><span class="line">        //输出rva</span><br><span class="line">        //printf(&quot;rva:%X\n&quot;, rva);</span><br><span class="line">        //找到PE文件头后的地址 = PE文件头首地址+PE文件头大小</span><br><span class="line">        UINT PeEnd = (UINT)dos-&gt;e_lfanew + sizeof(_IMAGE_NT_HEADERS);</span><br><span class="line">        //输出PeEnd</span><br><span class="line">        //printf(&quot;PeEnd:%X\n&quot;, PeEnd);</span><br><span class="line">        //判断rva是否位于PE文件头中</span><br><span class="line">        if (rva &lt; PeEnd) &#123;</span><br><span class="line">                //如果rva位于PE文件头中，则foa==rva，直接返回rva即可</span><br><span class="line">                //printf(&quot;foa:%X\n&quot;, rva);</span><br><span class="line">                return rva;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">                //如果rva在PE文件头外</span><br><span class="line">                //判断rva属于哪个节</span><br><span class="line">                int i;</span><br><span class="line">                for (i = 0; i &lt; nt-&gt;FileHeader.NumberOfSections; i++) &#123;</span><br><span class="line">                        //计算内存对齐后节的大小</span><br><span class="line">                        UINT SizeInMemory = ceil((double)max((UINT)sectionArr[i]-&gt;Misc.VirtualSize, (UINT)sectionArr[i]-&gt;SizeOfRawData) / (double)nt-&gt;OptionalHeader.SectionAlignment) * nt-&gt;OptionalHeader.SectionAlignment;</span><br><span class="line"></span><br><span class="line">                        if (rva &gt;= sectionArr[i]-&gt;VirtualAddress &amp;&amp; rva &lt; (sectionArr[i]-&gt;VirtualAddress + SizeInMemory)) &#123;</span><br><span class="line">                                //找到所属的节</span><br><span class="line">                                //输出内存对齐后的节的大小</span><br><span class="line">                                //printf(&quot;SizeInMemory:%X\n&quot;, SizeInMemory);</span><br><span class="line">                                break;</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                if (i &gt;= nt-&gt;FileHeader.NumberOfSections) &#123;</span><br><span class="line">                        //未找到</span><br><span class="line">                        printf(&quot;没有找到匹配的节\n&quot;);</span><br><span class="line">                        return -1;</span><br><span class="line">                &#125;</span><br><span class="line">                else &#123;</span><br><span class="line">                        //计算差值= RVA - 节.VirtualAddress</span><br><span class="line">                        UINT offset = rva - sectionArr[i]-&gt;VirtualAddress;</span><br><span class="line">                        //FOA = 节.PointerToRawData + 差值</span><br><span class="line">                        UINT foa = sectionArr[i]-&gt;PointerToRawData + offset;</span><br><span class="line">                        //printf(&quot;foa:%X\n&quot;, foa);</span><br><span class="line">                        return foa;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void getImportTable(_IMAGE_DOS_HEADER* dos, _IMAGE_NT_HEADERS* nt, _IMAGE_SECTION_HEADER** sectionArr) &#123;</span><br><span class="line">        _IMAGE_DATA_DIRECTORY importDataDirectory = nt-&gt;OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];</span><br><span class="line"></span><br><span class="line">        //计数，用来记录导入了多少个模块</span><br><span class="line">        int cnt = 0;</span><br><span class="line">        while (true) &#123;</span><br><span class="line">                UINT importAddress = VaToFoa32(importDataDirectory.VirtualAddress + nt-&gt;OptionalHeader.ImageBase, dos, nt, sectionArr);</span><br><span class="line">                _IMAGE_IMPORT_DESCRIPTOR* importDirectory = (_IMAGE_IMPORT_DESCRIPTOR*)((UINT)dos + importAddress + sizeof(_IMAGE_IMPORT_DESCRIPTOR) * cnt) ;</span><br><span class="line">                if (importDirectory-&gt;OriginalFirstThunk != 0) &#123;</span><br><span class="line">                        UINT nameOffset = VaToFoa32(importDirectory-&gt;Name + nt-&gt;OptionalHeader.ImageBase, dos, nt, sectionArr);</span><br><span class="line">                        char* name = (char*)((UINT)dos + nameOffset);</span><br><span class="line">                        cnt++;</span><br><span class="line">                        UINT offset=VaToFoa32(nt-&gt;OptionalHeader.ImageBase+importDirectory-&gt;OriginalFirstThunk, dos, nt, sectionArr);</span><br><span class="line">                        if (offset == -1)return;</span><br><span class="line">                        IMAGE_THUNK_DATA* INTTableBegin=(IMAGE_THUNK_DATA*)((UINT)dos + offset);</span><br><span class="line">                        //计数，用来记录导入了该模块多少个函数</span><br><span class="line">                        int cnt2 = 0;</span><br><span class="line">                        while (true) &#123;</span><br><span class="line"></span><br><span class="line">                                IMAGE_THUNK_DATA* address = INTTableBegin + cnt2;</span><br><span class="line">                                if (address-&gt;u1.AddressOfData == 0) &#123;</span><br><span class="line">                                        break;</span><br><span class="line">                                &#125;</span><br><span class="line">                                else &#123;</span><br><span class="line">                                        //判断最高位</span><br><span class="line">                                        if ((UINT)address-&gt;u1.AddressOfData &gt;= 0x80000000) &#123;</span><br><span class="line">                                                //最高位为1</span><br><span class="line">                                                printf(&quot;模块名:%s\t函数序号:%X\n&quot;, name, address-&gt;u1.Ordinal-0x80000000);</span><br><span class="line">                                        &#125;</span><br><span class="line">                                        else &#123;</span><br><span class="line">                                                //最高位为0</span><br><span class="line">                                                UINT functionNameOffset= VaToFoa32(nt-&gt;OptionalHeader.ImageBase + (UINT)address-&gt;u1.AddressOfData, dos, nt, sectionArr);</span><br><span class="line">                                                _IMAGE_IMPORT_BY_NAME* functionName=(_IMAGE_IMPORT_BY_NAME*)((UINT)dos + functionNameOffset);</span><br><span class="line">                                                printf(&quot;模块名:%s\t函数名:%s\n&quot;, name,functionName-&gt;Name);</span><br><span class="line">                                        &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                                cnt2++;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        printf(&quot;模块%s\t函数数量%d\n&quot;, name,cnt2);</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">                else &#123;</span><br><span class="line">                        break;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        printf(&quot;引用模块数:%d\n&quot;, cnt);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char* argv[])</span><br><span class="line">&#123;</span><br><span class="line">        //创建DOS对应的结构体指针</span><br><span class="line">        _IMAGE_DOS_HEADER* dos;</span><br><span class="line">        //读取文件，返回文件句柄</span><br><span class="line">        HANDLE hFile = CreateFileA(&quot;C:\\Users\\lyl610abc\\Desktop\\EverEdit\\EverEdit.exe&quot;, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, 0);</span><br><span class="line">        //根据文件句柄创建映射</span><br><span class="line">        HANDLE hMap = CreateFileMappingA(hFile, NULL, PAGE_READWRITE, 0, 0, 0);</span><br><span class="line">        //映射内容</span><br><span class="line">        LPVOID pFile = MapViewOfFile(hMap, FILE_SHARE_WRITE, 0, 0, 0);</span><br><span class="line">        //类型转换，用结构体的方式来读取</span><br><span class="line">        dos = (_IMAGE_DOS_HEADER*)pFile;</span><br><span class="line">        //输出dos-&gt;e_magic，以十六进制输出</span><br><span class="line">        printf(&quot;dos-&gt;e_magic:%X\n&quot;, dos-&gt;e_magic);</span><br><span class="line"></span><br><span class="line">        //创建指向PE文件头标志的指针</span><br><span class="line">        DWORD* peId;</span><br><span class="line">        //让PE文件头标志指针指向其对应的地址=DOS首地址+偏移</span><br><span class="line">        peId = (DWORD*)((UINT)dos + dos-&gt;e_lfanew);</span><br><span class="line">        //输出PE文件头标志，其值应为4550，否则不是PE文件</span><br><span class="line">        printf(&quot;peId:%X\n&quot;, *peId);</span><br><span class="line"></span><br><span class="line">        //创建指向可选PE头的第一个成员magic的指针</span><br><span class="line">        WORD* magic;</span><br><span class="line">        //让magic指针指向其对应的地址=PE文件头标志地址+PE文件头标志大小+标准PE头大小</span><br><span class="line">        magic = (WORD*)((UINT)peId + sizeof(DWORD) + sizeof(_IMAGE_FILE_HEADER));</span><br><span class="line">        //输出magic，其值为0x10b代表32位程序，其值为0x20b代表64位程序</span><br><span class="line">        printf(&quot;magic:%X\n&quot;, *magic);</span><br><span class="line">        //根据magic判断为32位程序还是64位程序</span><br><span class="line">        switch (*magic) &#123;</span><br><span class="line">        case IMAGE_NT_OPTIONAL_HDR32_MAGIC:</span><br><span class="line">        &#123;</span><br><span class="line">                printf(&quot;32位程序\n&quot;);</span><br><span class="line">                //确定为32位程序后，就可以使用_IMAGE_NT_HEADERS来接收数据了</span><br><span class="line">                //创建指向PE文件头的指针</span><br><span class="line">                _IMAGE_NT_HEADERS* nt;</span><br><span class="line">                //让PE文件头指针指向其对应的地址</span><br><span class="line">                nt = (_IMAGE_NT_HEADERS*)peId;</span><br><span class="line">                printf(&quot;Machine:%X\n&quot;, nt-&gt;FileHeader.Machine);</span><br><span class="line">                printf(&quot;Magic:%X\n&quot;, nt-&gt;OptionalHeader.Magic);</span><br><span class="line">                //创建一个指针数组，该指针数组用来存储所有的节表指针</span><br><span class="line">                //这里相当于_IMAGE_SECTION_HEADER* sectionArr[nt-&gt;FileHeader.NumberOfSections],声明了一个动态数组</span><br><span class="line">                _IMAGE_SECTION_HEADER** sectionArr = (_IMAGE_SECTION_HEADER**)malloc(sizeof(_IMAGE_SECTION_HEADER*) * nt-&gt;FileHeader.NumberOfSections);</span><br><span class="line"></span><br><span class="line">                //创建指向块表的指针</span><br><span class="line">                _IMAGE_SECTION_HEADER* sectionHeader;</span><br><span class="line">                //让块表的指针指向其对应的地址</span><br><span class="line">                sectionHeader = (_IMAGE_SECTION_HEADER*)((UINT)nt + sizeof(_IMAGE_NT_HEADERS));</span><br><span class="line">                //计数，用来计算块表地址</span><br><span class="line">                int cnt = 0;</span><br><span class="line">                //比较 计数 和 块表的个数，即遍历所有块表</span><br><span class="line">                while (cnt &lt; nt-&gt;FileHeader.NumberOfSections) &#123;</span><br><span class="line">                        //创建指向块表的指针</span><br><span class="line">                        _IMAGE_SECTION_HEADER* section;</span><br><span class="line">                        //让块表的指针指向其对应的地址=第一个块表地址+计数*块表的大小</span><br><span class="line">                        section = (_IMAGE_SECTION_HEADER*)((UINT)sectionHeader + sizeof(_IMAGE_SECTION_HEADER) * cnt);</span><br><span class="line">                        //将得到的块表指针存入数组</span><br><span class="line">                        sectionArr[cnt++] = section;</span><br><span class="line">                        //输出块表名称</span><br><span class="line">                        printf(&quot;%s\n&quot;, section-&gt;Name);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                getImportTable(dos, nt, sectionArr);</span><br><span class="line"></span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        case IMAGE_NT_OPTIONAL_HDR64_MAGIC:</span><br><span class="line">        &#123;</span><br><span class="line">                printf(&quot;64位程序\n&quot;);</span><br><span class="line">                //确定为64位程序后，就可以使用_IMAGE_NT_HEADERS64来接收数据了</span><br><span class="line">                //创建指向PE文件头的指针</span><br><span class="line">                _IMAGE_NT_HEADERS64* nt;</span><br><span class="line">                nt = (_IMAGE_NT_HEADERS64*)peId;</span><br><span class="line">                printf(&quot;Machine:%X\n&quot;, nt-&gt;FileHeader.Machine);</span><br><span class="line">                printf(&quot;Magic:%X\n&quot;, nt-&gt;OptionalHeader.Magic);</span><br><span class="line"></span><br><span class="line">                //创建一个指针数组，该指针数组用来存储所有的节表指针</span><br><span class="line">                //这里相当于_IMAGE_SECTION_HEADER* sectionArr[nt-&gt;FileHeader.NumberOfSections],声明了一个动态数组</span><br><span class="line">                _IMAGE_SECTION_HEADER** sectionArr = (_IMAGE_SECTION_HEADER**)malloc(sizeof(_IMAGE_SECTION_HEADER*) * nt-&gt;FileHeader.NumberOfSections);</span><br><span class="line"></span><br><span class="line">                //创建指向块表的指针</span><br><span class="line">                _IMAGE_SECTION_HEADER* sectionHeader;</span><br><span class="line">                //让块表的指针指向其对应的地址，区别在于这里加上的偏移为_IMAGE_NT_HEADERS64</span><br><span class="line">                sectionHeader = (_IMAGE_SECTION_HEADER*)((UINT)nt + sizeof(_IMAGE_NT_HEADERS64));</span><br><span class="line">                //计数，用来计算块表地址</span><br><span class="line">                int cnt = 0;</span><br><span class="line">                //比较 计数 和 块表的个数，即遍历所有块表</span><br><span class="line">                while (cnt &lt; nt-&gt;FileHeader.NumberOfSections) &#123;</span><br><span class="line">                        //创建指向块表的指针</span><br><span class="line">                        _IMAGE_SECTION_HEADER* section;</span><br><span class="line">                        //让块表的指针指向其对应的地址=第一个块表地址+计数*块表的大小</span><br><span class="line">                        section = (_IMAGE_SECTION_HEADER*)((UINT)sectionHeader + sizeof(_IMAGE_SECTION_HEADER) * cnt);</span><br><span class="line">                        //将得到的块表指针存入数组</span><br><span class="line">                        sectionArr[cnt++] = section;</span><br><span class="line">                        //输出块表名称</span><br><span class="line">                        printf(&quot;%s\n&quot;, section-&gt;Name);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        default:</span><br><span class="line">        &#123;</span><br><span class="line">                printf(&quot;error!\n&quot;);</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h2><p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408203544390.png" alt="image-20210408203544390"></p>
+<hr>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408203623096.png" alt="image-20210408203623096"></p>
+<p>可以看到运行结果和前面手动分析的一致，并且既能解析出函数名也能解析出函数序号</p>
+<hr>
+<p>再用PE工具：DIE验证一下</p>
+<p><img src="/img/loading.gif" data-original="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/image-20210408204013688.png" alt="image-20210408204013688"></p>
+<p>结果是一致的，代码部分完成q(≧▽≦q)</p>
+<hr>
+<h2 id="代码说明"><a href="#代码说明" class="headerlink" title="代码说明"></a>代码说明</h2><p>这次的代码部分其实和先前的解析导出表难度差不多</p>
+<p>要注意的就是解析IMAGE_THUNK_DATA时，要先判断其最高位；根据最高位是否为1来进行类型转换和解读</p>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>导出表<strong>最多</strong>只有一张，而导入表<strong>通常不只一张</strong></li>
+<li>导入表具有<strong>双桥结构</strong>，双桥结构中的<strong>IAT</strong>在PE文件运行前和PE文件运行后<strong>内容不同</strong></li>
+<li>无论是INT还是IAT在PE文件运行前其<strong>内容是一致</strong>的，结构都为IMAGE_THUNK_DATA</li>
+<li>无论是INT还是IAT在PE文件运行前，其存储的内容归根结底要么是<strong>导出函数序号</strong>，要么就是<strong>导出函数名称</strong></li>
+<li>通过导出函数序号和导出函数名称再加上模块名就可以根据导出表获取到对应的<strong>函数地址</strong></li>
+</ul>
+<hr>
+<h1 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h1><p>附上本笔记中分析的EverEdit文件：<a target="_blank" rel="noopener" href="https://610-pic-bed.oss-cn-shenzhen.aliyuncs.com/EverEdit.zip?versionId=CAEQHhiBgID6g6vXxBciIDMxMjY5Y2Q0NGE5NTRkNmNiNTUwOGM0YjdmZTQxMTI3">点我下载</a></p>
+<p>转载自吾爱破解上的一位<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1413220-1-1.html">大佬</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">西城</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%9315/">http://example.com/2021/06/15/pe总结15/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://goat2003.github.io/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">西城の博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/pe/">pe</a></div><div class="post_share"><div class="social-share" data-image="/images/004.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/img/qq.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/qq.jpg" alt="QQ"/></a><div class="post-qr-code-desc">QQ</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/06/15/pe%E6%80%BB%E7%BB%9311/"><img class="prev-cover" src="/img/loading.gif" data-original="/images/004.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">PE文件笔记十一 新增节</div></div></a></div><div class="next-post pull-right"><a href="/2021/06/15/pe%E6%80%BB%E7%BB%9310/"><img class="next-cover" src="/img/loading.gif" data-original="/images/004.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">PE文件笔记十 扩大节</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/06/15/PE总结4/" title="PE文件笔记四 PE文件头之标准PE头"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="title">PE文件笔记四 PE文件头之标准PE头</div></div></a></div><div><a href="/2021/06/01/pe总结/" title="pe字段总结(持续更新中...)"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-01</div><div class="title">pe字段总结(持续更新中...)</div></div></a></div><div><a href="/2021/06/15/pe总结10/" title="PE文件笔记十 扩大节"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="title">PE文件笔记十 扩大节</div></div></a></div><div><a href="/2021/06/12/pe总结1/" title="PE文件笔记一 PE介绍"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-12</div><div class="title">PE文件笔记一 PE介绍</div></div></a></div><div><a href="/2021/06/15/pe总结16/" title="PE文件笔记十六 代码重定位"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="title">PE文件笔记十六 代码重定位</div></div></a></div><div><a href="/2021/06/15/pe总结3/" title="PE文件笔记三 DOS部分"><img class="cover" src="/img/loading.gif" data-original="/images/004.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="title">PE文件笔记三 DOS部分</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/loading.gif" data-original="/img/tit.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">西城</div><div class="author-info__description">一只想成为大佬的小菜鸟</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><a class="button--animated" id="card-info-btn" href="/img/alipay.jpg"><i class="iconfont icon-zhifubao"></i><span>鼓励一下我吧</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="iconfont icon-github card_icon"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS链接"><i class="iconfont icon-RSS_flat card_icon"></i></a><a class="social-icon" href="https://blog.csdn.net/goat_2003?spm=1010.2135.3001.5343" target="_blank" title=""><i class="iconfont icon-csdn card_icon"></i></a><a class="social-icon" href="https://wpa.qq.com/msgrd?v=3&amp;uin=1679369498&amp;site=qqq&amp;menu=yes" target="_blank" title=""><i class="iconfont icon-QQ card_icon"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">一只想赚大钱的懒狗</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E8%A1%A8"><span class="toc-number">1.</span> <span class="toc-text">导入表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E8%A1%A8%E4%BD%9C%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">导入表作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AF%BC%E5%85%A5%E8%A1%A8"><span class="toc-number">1.2.</span> <span class="toc-text">什么是导入表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D%E5%AF%BC%E5%85%A5%E8%A1%A8"><span class="toc-number">1.3.</span> <span class="toc-text">定位导入表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D%E5%AF%BC%E5%85%A5%E8%A1%A8%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.1.</span> <span class="toc-text">定位导入表原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D%E5%AF%BC%E5%85%A5%E8%A1%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.2.</span> <span class="toc-text">定位导入表流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E6%B5%81%E7%A8%8B%E5%AE%9A%E4%BD%8D%E5%AF%BC%E5%85%A5%E8%A1%A8"><span class="toc-number">1.4.</span> <span class="toc-text">按流程定位导入表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%81%E5%88%86%E6%9E%90%E7%9A%84%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.4.1.</span> <span class="toc-text">要分析的实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%BE%E5%88%B0DataDirectory"><span class="toc-number">1.4.2.</span> <span class="toc-text">找到DataDirectory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96DataDirectory-1"><span class="toc-number">1.4.3.</span> <span class="toc-text">获取DataDirectory[1]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%97%E5%88%B0%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%9A%84RVA"><span class="toc-number">1.4.4.</span> <span class="toc-text">得到导出表的RVA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RVA%E8%BD%AC%E6%8D%A2FOA"><span class="toc-number">1.4.5.</span> <span class="toc-text">RVA转换FOA</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E8%A1%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">1.5.</span> <span class="toc-text">导入表的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E8%A1%A8%E7%9A%84%E4%B8%AA%E6%95%B0"><span class="toc-number">1.5.1.</span> <span class="toc-text">导入表的个数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E8%A1%A8%E7%9A%84%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.5.2.</span> <span class="toc-text">导入表的结构体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%88%86%E6%9E%90"><span class="toc-number">1.5.3.</span> <span class="toc-text">结构体分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Characteristics"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">Characteristics</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IMAGE-THUNK-DATA"><span class="toc-number">1.5.3.2.</span> <span class="toc-text">IMAGE_THUNK_DATA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#OriginalFirstThunk"><span class="toc-number">1.5.3.3.</span> <span class="toc-text">OriginalFirstThunk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TimeDateStamp"><span class="toc-number">1.5.3.4.</span> <span class="toc-text">TimeDateStamp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ForwarderChain"><span class="toc-number">1.5.3.5.</span> <span class="toc-text">ForwarderChain</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Name"><span class="toc-number">1.5.3.6.</span> <span class="toc-text">Name</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FirstThunk"><span class="toc-number">1.5.3.7.</span> <span class="toc-text">FirstThunk</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E8%A1%A8%E7%9A%84%E5%8F%8C%E6%A1%A5%E7%BB%93%E6%9E%84"><span class="toc-number">1.6.</span> <span class="toc-text">导入表的双桥结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PE%E6%96%87%E4%BB%B6%E5%8A%A0%E8%BD%BD%E5%89%8D"><span class="toc-number">1.6.1.</span> <span class="toc-text">PE文件加载前</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PE%E6%96%87%E4%BB%B6%E5%8A%A0%E8%BD%BD%E5%90%8E"><span class="toc-number">1.6.2.</span> <span class="toc-text">PE文件加载后</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E5%89%8D%E5%90%8E%E5%AF%B9%E6%AF%94"><span class="toc-number">1.6.3.</span> <span class="toc-text">加载前后对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E7%BB%93%E6%9E%84%E5%88%86%E6%9E%90%E5%AF%BC%E5%85%A5%E8%A1%A8"><span class="toc-number">1.7.</span> <span class="toc-text">按结构分析导入表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Characteristics-1"><span class="toc-number">1.7.1.</span> <span class="toc-text">Characteristics</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OriginalFirstThunk-1"><span class="toc-number">1.7.2.</span> <span class="toc-text">OriginalFirstThunk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TimeDateStamp-1"><span class="toc-number">1.7.3.</span> <span class="toc-text">TimeDateStamp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ForwarderChain-1"><span class="toc-number">1.7.4.</span> <span class="toc-text">ForwarderChain</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Name-1"><span class="toc-number">1.7.5.</span> <span class="toc-text">Name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FirstThunk-1"><span class="toc-number">1.7.6.</span> <span class="toc-text">FirstThunk</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81PE%E6%96%87%E4%BB%B6%E5%8A%A0%E8%BD%BD%E5%90%8E%E7%9A%84IAT%E5%8F%98%E5%8C%96"><span class="toc-number">1.8.</span> <span class="toc-text">验证PE文件加载后的IAT变化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90%E5%AF%BC%E5%85%A5%E8%A1%A8"><span class="toc-number">2.</span> <span class="toc-text">代码实现分析导入表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="toc-number">2.1.</span> <span class="toc-text">运行结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%AF%B4%E6%98%8E"><span class="toc-number">2.2.</span> <span class="toc-text">代码说明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%84%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">附件</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/06/15/pe%E6%80%BB%E7%BB%9317/" title="PE文件笔记十七 重定位表"><img src="/img/loading.gif" data-original="/images/004.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PE文件笔记十七 重定位表"/></a><div class="content"><a class="title" href="/2021/06/15/pe%E6%80%BB%E7%BB%9317/" title="PE文件笔记十七 重定位表">PE文件笔记十七 重定位表</a><time datetime="2021-06-15T08:57:07.000Z" title="发表于 2021-06-15 16:57:07">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/15/pe%E6%80%BB%E7%BB%9316/" title="PE文件笔记十六 代码重定位"><img src="/img/loading.gif" data-original="/images/004.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PE文件笔记十六 代码重定位"/></a><div class="content"><a class="title" href="/2021/06/15/pe%E6%80%BB%E7%BB%9316/" title="PE文件笔记十六 代码重定位">PE文件笔记十六 代码重定位</a><time datetime="2021-06-15T08:56:07.000Z" title="发表于 2021-06-15 16:56:07">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/15/pe%E6%80%BB%E7%BB%9314/" title="PE文件笔记十四 导出表"><img src="/img/loading.gif" data-original="/images/004.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PE文件笔记十四 导出表"/></a><div class="content"><a class="title" href="/2021/06/15/pe%E6%80%BB%E7%BB%9314/" title="PE文件笔记十四 导出表">PE文件笔记十四 导出表</a><time datetime="2021-06-15T08:53:07.000Z" title="发表于 2021-06-15 16:53:07">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/15/pe%E6%80%BB%E7%BB%9313/" title="PE文件笔记十三 合并节"><img src="/img/loading.gif" data-original="/images/004.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PE文件笔记十三 合并节"/></a><div class="content"><a class="title" href="/2021/06/15/pe%E6%80%BB%E7%BB%9313/" title="PE文件笔记十三 合并节">PE文件笔记十三 合并节</a><time datetime="2021-06-15T08:51:07.000Z" title="发表于 2021-06-15 16:51:07">2021-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/15/pe%E6%80%BB%E7%BB%9312/" title="PE文件笔记十二 修正内存对齐"><img src="/img/loading.gif" data-original="/images/004.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PE文件笔记十二 修正内存对齐"/></a><div class="content"><a class="title" href="/2021/06/15/pe%E6%80%BB%E7%BB%9312/" title="PE文件笔记十二 修正内存对齐">PE文件笔记十二 修正内存对齐</a><time datetime="2021-06-15T08:49:07.000Z" title="发表于 2021-06-15 16:49:07">2021-06-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 西城</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">努力赚大钱</div></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script>var gitcalendar = new Vue({
+  el: '#gitcalendar',
+  data: {
+    simplemode: true,
+    user: 'goat2003',
+    fixed: 'fixed',
+    px: 'px',
+    x: '',
+    y: '',
+    span1: '',
+    span2: '',
+    month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    monthchange: [],
+    oneyearbeforeday: '',
+    thisday: '',
+    amonthago: '',
+    aweekago: '',
+    weekdatacore: 0,
+    datacore: 0,
+    total: 0,
+    datadate: '',
+    data: [],
+    positionplusdata: [],
+    firstweek: [],
+    lastweek: [],
+    beforeweek: [],
+    thisweekdatacore: 0,
+    mounthbeforeday: 0,
+    mounthfirstindex: 0,
+    crispedges: 'crispedges',
+    thisdayindex: 0,
+    amonthagoindex: 0,
+    amonthagoweek: [],
+    firstdate: [],
+    first2date: [],
+    montharrbefore: [],
+    monthindex: 0,
+    color: ['#ebedf0', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f']
+  },
+  methods: {
+    selectStyle(data, event) {
+      document.querySelector('.angle-wrapper').style.display = 'block'
+      this.span1 = data.date;
+      this.span2 = data.count;
+      this.x = event.clientX - 100;
+      this.y = event.clientY - 60
+    },
+    outStyle() {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+    },
+    thiscolor(x) {
+      if (x === 0) {
+        let i = parseInt(x / 2);
+        return this.color[0]
+      } else if (x < 2) {
+        return this.color[1]
+      } else if (x < 20) {
+        let i = parseInt(x / 2);
+        return this.color[i]
+      } else {
+        return this.color[9]
+      }
+    },
+  }
+});
+var apiurl = '' ? 'https:///api?' : 'https://githubapi.ryanchristian.dev/user/'
+var githubapiurl = apiurl + gitcalendar.user;
+//canvas绘图
+function responsiveChart() {
+  let c = document.getElementById("gitcanvas");
+  if (c) {
+    let cmessage = document.getElementById("gitmessage");
+    let ctx = c.getContext("2d");
+    c.width = document.getElementById("gitcalendarcanvasbox").offsetWidth;
+    let linemaxwitdh = 0.96 * c.width / gitcalendar.data.length;
+    c.height = 9 * linemaxwitdh;
+    let lineminwitdh = 0.8 * linemaxwitdh;
+    let setposition = {
+      x: 0.02 * c.width,
+      y: 0.025 * c.width
+    };
+    for (let week in gitcalendar.data) {
+      weekdata = gitcalendar.data[week];
+      for (let day in weekdata) {
+        let dataitem = {
+          date: "",
+          count: "",
+          x: 0,
+          y: 0
+        };
+        gitcalendar.positionplusdata.push(dataitem);
+        ctx.fillStyle = gitcalendar.thiscolor(weekdata[day].count);
+        setposition.y = Math.round(setposition.y * 100) / 100;
+        dataitem.date = weekdata[day].date;
+        dataitem.count = weekdata[day].count;
+        dataitem.x = setposition.x;
+        dataitem.y = setposition.y;
+        ctx.fillRect(setposition.x, setposition.y, lineminwitdh, lineminwitdh);
+        setposition.y = setposition.y + linemaxwitdh
+      };
+      setposition.y = 0.025 * c.width;
+      setposition.x = setposition.x + linemaxwitdh
+    };
+    ctx.font = "600  Arial";
+    ctx.fillStyle = '#aaa';
+    ctx.fillText("日", 0, 1.9 * linemaxwitdh);
+    ctx.fillText("二", 0, 3.9 * linemaxwitdh);
+    ctx.fillText("四", 0, 5.9 * linemaxwitdh);
+    ctx.fillText("六", 0, 7.9 * linemaxwitdh);
+    let monthindexlist = c.width / 24;
+    for (let index in gitcalendar.monthchange) {
+      ctx.fillText(gitcalendar.monthchange[index], monthindexlist, 0.7 * linemaxwitdh);
+      monthindexlist = monthindexlist + c.width / 12
+    };
+    cmessage.onmousemove = function(event) {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+    };
+    c.onmousemove = function(event) {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+      getMousePos(c, event);
+    };
+
+    function getMousePos(canvas, event) {
+      var rect = canvas.getBoundingClientRect();
+      var x = event.clientX - rect.left * (canvas.width / rect.width);
+      var y = event.clientY - rect.top * (canvas.height / rect.height);
+      //console.log("x:"+x+",y:"+y);
+      for (let item of gitcalendar.positionplusdata) {
+        let lenthx = x - item.x;
+        let lenthy = y - item.y;
+        //console.log(lenthx,lenthy);
+        if (0 < lenthx && lenthx < lineminwitdh) {
+          if (0 < lenthy && lenthy < lineminwitdh) {
+            //console.log(item.date,item.count)
+            document.querySelector('.angle-wrapper').style.display = 'block'
+            gitcalendar.span1 = item.date;
+            gitcalendar.span2 = item.count;
+            gitcalendar.x = event.clientX - 100;
+            gitcalendar.y = event.clientY - 60
+          }
+        }
+        //if(0< x - item.x <lineminwitdh&&0< y - item.y <lineminwitdh){
+        //console.log(item.count,item.date);
+        //}
+      }
+    }
+  }
+}
+//数据统计算法
+function addlastmonth() {
+  if (gitcalendar.thisdayindex === 0) {
+    thisweekcore(52);
+    thisweekcore(51);
+    thisweekcore(50);
+    thisweekcore(49);
+    thisweekcore(48);
+    gitcalendar.thisweekdatacore += gitcalendar.firstdate[6].count;
+    gitcalendar.amonthago = gitcalendar.firstdate[6].date
+  } else {
+    thisweekcore(52);
+    thisweekcore(51);
+    thisweekcore(50);
+    thisweekcore(49);
+    thisweek2core();
+    gitcalendar.amonthago = gitcalendar.first2date[gitcalendar.thisdayindex - 1].date
+  }
+};
+
+function thisweek2core() {
+  for (let i = gitcalendar.thisdayindex - 1; i < gitcalendar.first2date.length; i++) {
+    gitcalendar.thisweekdatacore += gitcalendar.first2date[i].count
+  }
+};
+
+function thisweekcore(index) {
+  for (let item of gitcalendar.data[index]) {
+    gitcalendar.thisweekdatacore += item.count
+  }
+};
+
+function addlastweek() {
+  for (let item of gitcalendar.lastweek) {
+    gitcalendar.weekdatacore += item.count
+  }
+};
+
+function addbeforeweek() {
+  for (let i = gitcalendar.thisdayindex; i < gitcalendar.beforeweek.length; i++) {
+    gitcalendar.weekdatacore += gitcalendar.beforeweek[i].count
+  }
+};
+
+function addweek(data) {
+  if (gitcalendar.thisdayindex === 6) {
+    gitcalendar.aweekago = gitcalendar.lastweek[0].date;
+    addlastweek()
+  } else {
+    lastweek = data.contributions[51];
+    gitcalendar.aweekago = lastweek[gitcalendar.thisdayindex + 1].date;
+    addlastweek();
+    addbeforeweek()
+  }
+}
+
+fetch(githubapiurl)
+  .then(data => data.json())
+  .then(data => {
+    gitcalendar.data = data.contributions;
+    gitcalendar.total = data.total;
+    gitcalendar.first2date = gitcalendar.data[48];
+    gitcalendar.firstdate = gitcalendar.data[47];
+    gitcalendar.firstweek = data.contributions[0];
+    gitcalendar.lastweek = data.contributions[52];
+    gitcalendar.beforeweek = data.contributions[51];
+    gitcalendar.thisdayindex = gitcalendar.lastweek.length - 1;
+    gitcalendar.thisday = gitcalendar.lastweek[gitcalendar.thisdayindex].date;
+    gitcalendar.oneyearbeforeday = gitcalendar.firstweek[0].date;
+    gitcalendar.monthindex = gitcalendar.thisday.substring(5, 7) * 1;
+    gitcalendar.montharrbefore = gitcalendar.month.splice(gitcalendar.monthindex, 12 - gitcalendar.monthindex);
+    gitcalendar.monthchange = gitcalendar.montharrbefore.concat(gitcalendar.month);
+    addweek(data);
+    addlastmonth();
+    responsiveChart();
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+
+//手机版更换为svg绘制
+if (document.getElementById("gitcalendarcanvasbox").offsetWidth < 500) {
+  gitcalendar.simplemode = false
+}
+
+//当改变窗口大小时重新绘制canvas
+window.onresize = function() {
+  if (gitcalendar.simplemode) responsiveChart()
+}
+
+//解决滚动滑轮时出现的标签显示
+window.onscroll = function() {
+  if (document.querySelector('.angle-wrapper')) {
+    document.querySelector('.angle-wrapper').style.display = 'none'
+  }
+};</script><script type="text/javascript" src="/js/fairyDustCursor.js"></script><script type="text/javascript" src="/js/zhedie.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="吃饭,睡觉,敲代码,敲代码" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":true},"log":false});</script></body></html><script type="text/javascript" src="/js/crash_cheat.js"></script>
