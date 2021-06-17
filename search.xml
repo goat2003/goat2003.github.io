@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>攻防世界 re -re1</title>
+      <link href="2021/06/17/buuctf%20reverse%20%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84flag/"/>
+      <url>2021/06/17/buuctf%20reverse%20%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84flag/</url>
+      
+        <content type="html"><![CDATA[<p>BUUctf reverse 不一样的flag</p><p>每天一到ctf，能多不能少</p><p>今天这道题感觉挺有意思的，题目<a href="https://blog.csdn.net/qq_42967398/article/details/96372054">链接</a></p><p><img src="https://img-blog.csdnimg.cn/20190717220237378.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyOTY3Mzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p>啊这，考眼力，天真的我直接跑到ida里面搜索字符串去了，搜索半天发现找不到，那么就只能分析一波代码了。</p><p><code>int __cdecl main(int argc, const char **argv, const char **envp)</code><br><code>&#123;</code><br>  <code>char v3; // [esp+17h] [ebp-35h]</code><br>  <code>int v4; // [esp+30h] [ebp-1Ch]</code><br>  <code>int v5; // [esp+34h] [ebp-18h]</code><br>  <code>signed int v6; // [esp+38h] [ebp-14h]</code><br>  <code>int i; // [esp+3Ch] [ebp-10h]</code><br>  <code>int v8; // [esp+40h] [ebp-Ch]</code></p><p>  <code>__main();   v4 = 0;   v5 = 0;   qmemcpy(&amp;v3, _data_start__, 0x19u);</code><br>  <code>while ( 1 )</code><br>  <code>&#123;</code><br>    <code>puts(&quot;you can choose one action to execute&quot;);</code><br>    <code>puts(&quot;1 up&quot;);</code><br>    <code>puts(&quot;2 down&quot;);</code><br>    <code>puts(&quot;3 left&quot;);</code><br>    <code>printf(&quot;4 right\n:&quot;);</code><br>    <code>scanf(&quot;%d&quot;, &amp;v6);</code><br>    <code>if ( v6 == 2 )</code><br>    <code>&#123;</code><br>      <code>++v4;</code><br>    <code>&#125;</code><br>    <code>else if ( v6 &gt; 2 )</code><br>    <code>&#123;</code><br>      <code>if ( v6 == 3 )</code><br>      <code>&#123;</code><br>        <code>--v5;</code><br>      <code>&#125;</code><br>      <code>else</code><br>      <code>&#123;</code><br>        <code>if ( v6 != 4 )</code><br><code>LABEL_13:</code><br>          <code>exit(1);</code><br>        <code>++v5;</code><br>      <code>&#125;</code><br>    <code>&#125;</code><br>    <code>else</code><br>    <code>&#123;</code><br>      <code>if ( v6 != 1 )</code><br>        <code>goto LABEL_13;</code><br>      <code>--v4;</code><br>    <code>&#125;</code><br>    <code>for ( i = 0; i &lt;= 1; ++i )</code><br>    <code>&#123;</code><br>      <code>if ( *(&amp;v4 + i) &lt; 0 || *(&amp;v4 + i) &gt; 4 )</code><br>        <code>exit(1);</code><br>    <code>&#125;</code><br>    <code>if ( *((_BYTE *)&amp;v8 + 5 * v4 + v5 - 41) == 49 )       exit(1);     if ( *((_BYTE *)&amp;v8 + 5 * v4 + v5 - 41) == 35 )</code><br>    <code>&#123;</code><br>      <code>puts(&quot;\nok, the order you enter is the flag!&quot;);</code><br>      <code>exit(0);</code><br>    <code>&#125;</code><br>  <code>&#125;</code><br><code>&#125;</code><br>找到主要的部分</p><p> <code>if ( v6 != 1 )</code><br>        <code>goto LABEL_13;</code><br>      <code>--v4;</code><br>    <code>&#125;</code><br>    <code>for ( i = 0; i &lt;= 1; ++i )</code><br>    <code>&#123;</code><br>      <code>if ( *(&amp;v4 + i) &lt; 0 || *(&amp;v4 + i) &gt; 4 )</code><br>        <code>exit(1);</code><br>    <code>&#125;</code><br>    <code>if ( *((_BYTE *)&amp;v8 + 5 * v4 + v5 - 41) == 49 )       exit(1);     if ( *((_BYTE *)&amp;v8 + 5 * v4 + v5 - 41) == 35 )</code></p><p>代码看完了以后，一脸懵逼，所以就先看了下面的if语句，看到了49,35？转换成字符看一下</p><p><img src="https://img-blog.csdnimg.cn/20190717220339226.png" alt="在这里插入图片描述"></p><p>还是不太懂，就去看了一下大佬写的wp，才发现这竟然是一道迷宫，纳闷就恍然大悟了，上面的if语句里的v4和v5分别代表着x轴和y轴，我们再看看13行的那个函数，打开以后发现了一串数字，大佬们直接将这个数字分成了五行，就组成了一个迷宫，至于为什么要分成五行，而不是四行，我也不懂，可能是刚好能被5整除组成5X5的迷宫吧，字符串时这个样子的   *11110100001010000101111#，转成迷宫就是这个样子的：</p><p>* 1 1 1 1</p><p>0 1 0 0 0</p><p>0 1 0 1 0</p><p>0 0 0 1 0</p><p>1 1 1 1 #</p><p>按照下面的if语句，可以得出当值等于1的时候就退出，当值等于#的时候就成功钻出了迷宫，再结合前面分析过的if语句，可以得出我们应该这么走</p><p><img src="/.com//Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20210617183430724.png" alt="image-20210617183430724"></p><p>转换成走迷宫的指令就是</p><p>222441144222</p><p>走出迷宫，得到flag：222441144222</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> ctf-re </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ctf-re </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>PE文件笔记十七 重定位表</title>
       <link href="2021/06/15/pe%E6%80%BB%E7%BB%9317/"/>
       <url>2021/06/15/pe%E6%80%BB%E7%BB%9317/</url>
@@ -633,7 +658,7 @@
       <link href="2021/05/30/001/"/>
       <url>2021/05/30/001/</url>
       
-        <content type="html"><![CDATA[<p><strong>1、hexo初始化博客</strong><br>这里主要有两个命令，一个是npm install -g hexo-cli，这个命令能碰到的的问题主要是卡住，建议下载一个淘宝镜像<br>第二个是hexo init，这里的问题整整卡了我两天，我的报错是（fatal: unable to access …）解决方法:首先我们可以去添加三条新的环境变量，添加万这三条以后去博客根目录里hexobush并再次输入命令，问题基本解决，如果还不行的话，可以去cmd里再次输入。<br><img src="/images/001/001.jpg" alt="001"><br><strong>2、hexo d命令</strong><br>该命令意思是讲你的本地文件夹上传到github上，解决方法是查看你的根目录配置文件，翻到最下面查看branch后的代码，如果是march请将它改为main，具体原因好像是因为github最近讲march分支改为了main分支。如果还未解决的话可能是因为你的repository设置有问题（还是根目录配置文件的最底层）这里我们放置的链接必须是ssh链接，如下图，因为我们是通过ssh与github获得连接的，所以使用https的形式会报错。<br><img src="/images/001/002.jpg" alt="002"></p><p><strong>3、git clone命令</strong><br>使用该命令时报错 fatal: remote error: You can’t push to git，解决方法参考下面的文章<br><a href="https://xvideos.blog.csdn.net/article/details/52367128">https://xvideos.blog.csdn.net/article/details/52367128</a><br>大概意思是由于我们与github建立的是ssh连接，而我们在git clone时并没有通过ssh的方式去获得连接如一下报错<br>fatal: remote error:<br>You can’t push to git://github.com/user_name/user_repo.git<br>Use <a href="mailto:&#103;&#x69;&#116;&#64;&#103;&#105;&#x74;&#104;&#117;&#x62;&#x2e;&#x63;&#x6f;&#109;">&#103;&#x69;&#116;&#64;&#103;&#105;&#x74;&#104;&#117;&#x62;&#x2e;&#x63;&#x6f;&#109;</a>:user_name/user_repo.git<br>这里我们只需要使用以下代码就可以了<br>$ git remote rm origin<br>$ git remote add origin <a href="mailto:&#x67;&#105;&#x74;&#64;&#103;&#105;&#x74;&#x68;&#x75;&#x62;&#46;&#99;&#111;&#x6d;">&#x67;&#105;&#x74;&#64;&#103;&#105;&#x74;&#x68;&#x75;&#x62;&#46;&#99;&#111;&#x6d;</a>:user_name/user_repo.git</p>]]></content>
+        <content type="html"><![CDATA[<p><strong>1、hexo初始化博客</strong><br>这里主要有两个命令，一个是npm install -g hexo-cli，这个命令能碰到的的问题主要是卡住，建议下载一个淘宝镜像<br>第二个是hexo init，这里的问题整整卡了我两天，我的报错是（fatal: unable to access …）解决方法:首先我们可以去添加三条新的环境变量，添加万这三条以后去博客根目录里hexobush并再次输入命令，问题基本解决，如果还不行的话，可以去cmd里再次输入。<br><img src="/images/001/001.jpg" alt="001"><br><strong>2、hexo d命令</strong><br>该命令意思是讲你的本地文件夹上传到github上，解决方法是查看你的根目录配置文件，翻到最下面查看branch后的代码，如果是march请将它改为main，具体原因好像是因为github最近讲march分支改为了main分支。如果还未解决的话可能是因为你的repository设置有问题（还是根目录配置文件的最底层）这里我们放置的链接必须是ssh链接，如下图，因为我们是通过ssh与github获得连接的，所以使用https的形式会报错。<br><img src="/images/001/002.jpg" alt="002"></p><p><strong>3、git clone命令</strong><br>使用该命令时报错 fatal: remote error: You can’t push to git，解决方法参考下面的文章<br><a href="https://xvideos.blog.csdn.net/article/details/52367128">https://xvideos.blog.csdn.net/article/details/52367128</a><br>大概意思是由于我们与github建立的是ssh连接，而我们在git clone时并没有通过ssh的方式去获得连接如一下报错<br>fatal: remote error:<br>You can’t push to git://github.com/user_name/user_repo.git<br>Use <a href="mailto:&#x67;&#x69;&#x74;&#64;&#x67;&#105;&#x74;&#x68;&#117;&#98;&#46;&#x63;&#111;&#x6d;">&#x67;&#x69;&#x74;&#64;&#x67;&#105;&#x74;&#x68;&#117;&#98;&#46;&#x63;&#111;&#x6d;</a>:user_name/user_repo.git<br>这里我们只需要使用以下代码就可以了<br>$ git remote rm origin<br>$ git remote add origin <a href="mailto:&#103;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#x68;&#x75;&#98;&#x2e;&#x63;&#x6f;&#109;">&#103;&#105;&#116;&#x40;&#x67;&#105;&#x74;&#x68;&#x75;&#98;&#x2e;&#x63;&#x6f;&#109;</a>:user_name/user_repo.git</p>]]></content>
       
       
       <categories>
