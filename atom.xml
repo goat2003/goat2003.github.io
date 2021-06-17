@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-06-17T10:37:46.583Z</updated>
+  <updated>2021-06-17T10:39:32.110Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>攻防世界 re -re1</title>
+    <title>BUUctf reverse 不一样的flag</title>
     <link href="http://example.com/2021/06/17/buuctf%20reverse%20%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84flag/"/>
     <id>http://example.com/2021/06/17/buuctf%20reverse%20%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84flag/</id>
     <published>2021-06-17T10:37:06.000Z</published>
-    <updated>2021-06-17T10:37:46.583Z</updated>
+    <updated>2021-06-17T10:39:32.110Z</updated>
     
     
       
