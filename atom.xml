@@ -309,14 +309,15 @@
     <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%938/"/>
     <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%938/</id>
     <published>2021-06-15T07:56:28.000Z</published>
-    <updated>2021-06-15T08:39:34.750Z</updated>
+    <updated>2021-06-19T02:17:09.772Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;前面学习了PE的结构后，尝试结合先前所学，修改PE文件来实现给程序添加弹窗的功能PS：这篇笔记并&lt;strong&gt;没有怎么涉及PE的知识点&lt;/strong&gt;，重点放在了&lt;strong&gt;HOOK、反汇编和硬编码&lt;/strong&gt;上，对PE不是很了解也可以看看，涉及PE知识点的内</summary>
+    <summary type="html">&lt;p&gt;前面学习了PE的结构后，尝试结合先前所学，修改PE文件来实现给程序添加弹窗的功能&lt;/p&gt;
+&lt;p&gt;PS：这篇笔记并没有怎么涉及PE的知识点，重点放在了HOOK、反汇编和硬编码上，对PE不是很了解也可以看看，涉及PE知识点的内容放在了后面的笔记：PE文件笔记九</summary>
         
       
     
