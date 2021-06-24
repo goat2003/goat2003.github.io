@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-06-18T15:42:22.145Z</updated>
+  <updated>2021-06-24T04:02:04.339Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>BUUCTF reverse 刮开有奖</title>
+    <link href="http://example.com/2021/06/24/buuctf%20SimpleRev/"/>
+    <id>http://example.com/2021/06/24/buuctf%20SimpleRev/</id>
+    <published>2021-06-24T04:01:32.000Z</published>
+    <updated>2021-06-24T04:02:04.339Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;每天一道ctf，能多不能少&lt;/p&gt;
+&lt;p&gt;题目&lt;a href=&quot;https://buuoj.cn/challenges#SimpleRev&quot;&gt;链接&lt;/a&gt;&lt;br&gt;首先拖入ida&lt;br&gt;打开以后查看main函数&lt;br&gt;&lt;img</summary>
+        
+      
+    
+    
+    
+    <category term="ctf-re" scheme="http://example.com/categories/ctf-re/"/>
+    
+    
+    <category term="ctf-re" scheme="http://example.com/tags/ctf-re/"/>
+    
+  </entry>
   
   <entry>
     <title>BUUCTF reverse 刮开有奖</title>
@@ -518,31 +544,6 @@
     
     
     <category term="逆向" scheme="http://example.com/tags/%E9%80%86%E5%90%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PE文件笔记二 PE文件的两种状态</title>
-    <link href="http://example.com/2021/06/12/pe%E6%80%BB%E7%BB%932/"/>
-    <id>http://example.com/2021/06/12/pe%E6%80%BB%E7%BB%932/</id>
-    <published>2021-06-12T03:34:28.000Z</published>
-    <updated>2021-06-15T08:41:54.181Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;一篇转载文章，转载于：&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="pe" scheme="http://example.com/categories/pe/"/>
-    
-    
-    <category term="pe" scheme="http://example.com/tags/pe/"/>
     
   </entry>
   
