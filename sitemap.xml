@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20/</loc>
+    
+    <lastmod>2021-06-24</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://example.com/2021/06/24/buuctf%20SimpleRev/</loc>
     
     <lastmod>2021-06-24</lastmod>
@@ -312,14 +319,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/ctf-re/</loc>
+    <loc>http://example.com/tags/vs/</loc>
     <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/vs/</loc>
+    <loc>http://example.com/tags/ctf-re/</loc>
     <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -347,6 +354,13 @@
   </url>
   
   <url>
+    <loc>http://example.com/tags/reserve-crackme/</loc>
+    <lastmod>2021-06-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/</loc>
     <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
@@ -363,14 +377,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/ctf-re/</loc>
+    <loc>http://example.com/categories/c%E8%AF%AD%E8%A8%80/</loc>
     <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/c%E8%AF%AD%E8%A8%80/</loc>
+    <loc>http://example.com/categories/ctf-re/</loc>
     <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -385,6 +399,13 @@
   
   <url>
     <loc>http://example.com/categories/%E9%80%86%E5%90%91/</loc>
+    <lastmod>2021-06-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/reserve-crackme/</loc>
     <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
