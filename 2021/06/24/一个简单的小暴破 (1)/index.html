@@ -1,0 +1,457 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>一个最简单的小暴破 | z1inのblog</title><meta name="keywords" content="reserve -crackme"><meta name="author" content="z1in"><meta name="copyright" content="z1in"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="爆破的软件是自己编写的一个很简单的注册弹窗软件，用e语言编写的，文章写的很粗糙。如有不对还望大佬指正。 首先我们需要理解程序验证的流程  a、点击注册按钮   b、读取注册码   c、判断注册码是否合法   d、提示用户是否注册成功     暴破的时候我们就可以从以上四点为入手点，首先将程序拖入od，此时我们先找到读取编辑框内容的API函数：GetWindowTextA函数，ctrl+g转到该函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个最简单的小暴破">
+<meta property="og:url" content="http://example.com/2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20(1)/index.html">
+<meta property="og:site_name" content="z1inのblog">
+<meta property="og:description" content="爆破的软件是自己编写的一个很简单的注册弹窗软件，用e语言编写的，文章写的很粗糙。如有不对还望大佬指正。 首先我们需要理解程序验证的流程  a、点击注册按钮   b、读取注册码   c、判断注册码是否合法   d、提示用户是否注册成功     暴破的时候我们就可以从以上四点为入手点，首先将程序拖入od，此时我们先找到读取编辑框内容的API函数：GetWindowTextA函数，ctrl+g转到该函数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/009.jpg">
+<meta property="article:published_time" content="2021-06-24T12:04:30.000Z">
+<meta property="article:modified_time" content="2021-06-25T07:53:12.649Z">
+<meta property="article:author" content="z1in">
+<meta property="article:tag" content="reserve -crackme">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/009.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20(1)/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: z1in","link":"链接: ","source":"来源: z1inのblog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '一个最简单的小暴破',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-06-25 15:53:12'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="/css/gundong.css"><link rel="stylesheet" href="/css/jianbian.css"><link rel="stylesheet" href="/css/touming.css"><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/shubiao.css"><link rel="stylesheet" href="/css/zhedie.css"><script src="/js/sakura.js"></script><!--在线聊天if theme.daovoice
+  script(src=url_for(theme.CDN.daovoice) defer)--><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="z1inのblog" type="application/atom+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/loading.gif" data-original="/img/tit.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/images/002.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">z1inのblog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">一个最简单的小暴破</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-06-24T12:04:30.000Z" title="发表于 2021-06-24 20:04:30">2021-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-06-25T07:53:12.649Z" title="更新于 2021-06-25 15:53:12">2021-06-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/reserve-crackme/">reserve -crackme</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="一个最简单的小暴破"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>爆破的软件是自己编写的一个很简单的注册弹窗软件，用e语言编写的，文章写的很粗糙。如有不对还望大佬指正。</p>
+<p>首先我们需要理解程序验证的流程</p>
+<blockquote>
+<p>a、点击注册按钮</p>
+</blockquote>
+<blockquote>
+<p>b、读取注册码</p>
+</blockquote>
+<blockquote>
+<p>c、判断注册码是否合法</p>
+</blockquote>
+<blockquote>
+<p>d、提示用户是否注册成功</p>
+</blockquote>
+<p>   暴破的时候我们就可以从以上四点为入手点，首先将程序拖入od，此时我们先找到读取编辑框内容的API函数：GetWindowTextA函数，ctrl+g转到该函数以后，设置一个断点，然后运行程序，但是我们发现运行不了，为什么呢？<br>   我们看一下对战窗口，可以看到函数的三个参数。第一个参数是：包含文本的窗口或控件的句柄。 第二个参数表示将接收文本的缓冲区。如果字符串与缓冲区一样长或长，则该字符串将被截断并以空字符结尾。，第三个参数表示的是要复制到缓冲区的最大字符数，包括空字符。如果文本超过此限制，则会被截断。<br><img src="/img/loading.gif" data-original="https://img-blog.csdnimg.cn/20210624134132575.png" alt="在这里插入图片描述"><br>有的人这里会发现一直运行不了，就是因为第一个二参数的判断字柄是标签栏而不是编辑框。所以只需要shift+f2加上一个条件断点[esp+4]!=…….就行了<br>，然后我们继续运行，此时我们就可以正常往编辑框输入东西了，我们输入1111111。<br>我们再来回顾一下程序验证的流程，读取注册码后会判断注册码是否合法，然后提示用户是否注册成功。所以我们只需要先找到提示的地方，再往回找就能找到判断注册码的地方了。ctrl+f8自动步过。<br>这里有点小疑惑，因为程序又停止在了我们读取注册码的的地方了。视频上的老师只是说又读了一遍，具体为什么还望各位大佬指点一二。继续自动步过。<br>终于，程序又停止了，并弹出了弹窗提示我们注册失败，所以我们可以判断这个call函数时提示我们注册失败的函数。<br><img src="/img/loading.gif" data-original="https://img-blog.csdnimg.cn/2021062414195230.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dvYXRfMjAwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>我们可以左键对准这个call找到im…点开 edit label，可以重命名：这个就是弹出消息框的call<br><img src="/img/loading.gif" data-original="https://img-blog.csdnimg.cn/20210624142231981.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dvYXRfMjAwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>此时我们再向上翻找，可以看到有个与我们刚才重命名的call的名字一样的call<br><img src="/img/loading.gif" data-original="https://img-blog.csdnimg.cn/20210624142413410.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dvYXRfMjAwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这个可能就是提示注册成功的call。<br>此时提示用户的函数我们找到了，接下来就该往回找我们的判断函数了，王辉翻看了一下，发现了这个<br><img src="/img/loading.gif" data-original="https://img-blog.csdnimg.cn/20210624142958552.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dvYXRfMjAwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以看到这是一个je指令，也就是条件跳转，就是我们的if判断，然后看他跳转的地址，在一个jmp指令的后面，此时我们约摸这就知道这是一个if else语句了。接下来当然就该修改这个if语句了，直接将je指令全部用nop填充，就相当于我们取消了判断。此时我们就相当于将这个程序破解掉了，此时不管我们输入什么，他都会提醒我们注册成功了。这就是一个最简单的暴破了。</p>
+<p>然后我们开始第二种暴破方式，先将我们填充的nop还原，我们知道，jcc指令是否跳转取决于我们的标志寄存器：efl寄存器（efl寄存器有四位，因为od无法显示更多位，我们的c、p、a、z、等寄存器的值都是从efl寄存器的值中拆出来的，所以我们再修改以上寄存器的值是，其实是相当于在修改efl寄存器的值）。所以我们可以通过修改标志寄存器z寄存器，使其等于0，从而使je指令不执行跳转，jcc指令是否跳转取决于z寄存器的值。</p>
+<p>我们还可以将提示是否注册成功作为入手点，ctrl+g查找messagebox函数并跳转，下过断点以后，f8单步一直走，我们也会走到提示失败的地方<br><img src="/img/loading.gif" data-original="https://img-blog.csdnimg.cn/2021062414510046.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dvYXRfMjAwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这种方法视频作者原话是按照经验往回走去寻找关键点，按照经验的意思是走多少没有定值，因为每一个作者，每一种语言写出来的都会不一样。这种方法我找半天没找到，就不找了T^T。大概意思是通过messagebox函数作为入口点继续找到我们的关键点，也就是那个je指令，然后破解就行了。</p>
+<p>还有一种方法是搜索字符串，因为在搜索字符串的时候od会自动给我们加一下备注（我的没有T^T），这些备注又是就会给我们提供巨大的帮助。所以说一个好的工具还是很重要的啊。</p>
+<p>说到字符串搜索，od里面实现这个功能的的不是od本身，而是od中的一个插件。所以我们也可以使用ida来搜索字符串，打开ida，shift+f12查看字符串窗口，然后ctrl+f5搜索字符串。我们先搜索一个“注册失败”尝尝咸淡，芜湖，淡了，啥也没搜出来，为什么呢？因为ida默认是不支持中文的的，所以如果我们使用ida搜索中文的时候，我们需要给ida增添一个属性。<br>先右击ida点开属性，然后在目标里加入: -dCULTURE=all 就可以了。但是我又搜了一下，发现我的还是啥也搜不出来，可能是我的exe文件有点毛病吧，程序员的悲欢并不相通（T^T）。</p>
+<p>我就直接看着视频写笔记吧T^T</p>
+<p>查找“注册失败”，然后双击进去，找到对应的函数，按x可以查看调用该函数的位置，双击进去，记住代码的位置，用od打开，ctrl+g输入我们刚才记住的位置，转到目标地址，发现对这个地址“不太熟啊”，不慌，我们先下个断点，然后继续往下单步运行，很快啊，就弹出了“注册失败”了，那么我们就开始往上寻找我们的关键点了。找到了一个je远眺跳到jmp的下面，这个大概率就是我们的要找的关键点，使用nop填充je，再次运行一下，果然“注册成功”。</p>
+<p>这就是我们关于一个简单的小暴破的一些笔记了，接下来该保存了。选中我们修改的位置，右键 —-&gt;复制到可执行文件—&gt;所有修改—&gt;全部复制，然后在弹出的框上右键—&gt;保存文件 就完成了！</p>
+<p>还有一种方法，内存查找法，我们可以直接在堆栈窗口中查找字符串，点击m，然后右键查找，输入“注册失败”，转到堆栈窗口后下个内存访问断点，然后运行od会发现od自动停了下来，停下来的的地方就是我们下的的断点的地方，此时我们只需要f8单步寻找关键点就可以了。</p>
+<p>还有一种方法是硬件查找发，操作过程与内存查找法差不多，只需要在下内存访问断电的时候下硬件访问断点就可以了</p>
+<p>小笔记：<br>od调用堆栈是通过微软的dbghelp.dll实现的。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">z1in</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20(1)/">http://example.com/2021/06/24/一个简单的小暴破 (1)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://goat2003.github.io/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">z1inのblog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/reserve-crackme/">reserve -crackme</a></div><div class="post_share"><div class="social-share" data-image="/images/009.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/img/qq.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/qq.jpg" alt="QQ"/></a><div class="post-qr-code-desc">QQ</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20/"><img class="next-cover" src="/img/loading.gif" data-original="/images/009.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">一个最简单的小暴破</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/06/24/一个简单的小暴破 /" title="一个最简单的小暴破"><img class="cover" src="/img/loading.gif" data-original="/images/009.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-24</div><div class="title">一个最简单的小暴破</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/loading.gif" data-original="/img/tit.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">z1in</div><div class="author-info__description">一只想成为大佬的小菜鸟</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" href="/img/alipay.jpg"><i class="iconfont icon-zhifubao"></i><span>鼓励一下我吧</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="iconfont icon-github card_icon"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS链接"><i class="iconfont icon-RSS_flat card_icon"></i></a><a class="social-icon" href="https://blog.csdn.net/goat_2003?spm=1010.2135.3001.5343" target="_blank" title=""><i class="iconfont icon-csdn card_icon"></i></a><a class="social-icon" href="https://wpa.qq.com/msgrd?v=3&amp;uin=1679369498&amp;site=qqq&amp;menu=yes" target="_blank" title=""><i class="iconfont icon-QQ card_icon"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">一只想赚大钱的懒狗</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20(1)/" title="一个最简单的小暴破"><img src="/img/loading.gif" data-original="/images/009.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一个最简单的小暴破"/></a><div class="content"><a class="title" href="/2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20(1)/" title="一个最简单的小暴破">一个最简单的小暴破</a><time datetime="2021-06-24T12:04:30.000Z" title="发表于 2021-06-24 20:04:30">2021-06-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20/" title="一个最简单的小暴破"><img src="/img/loading.gif" data-original="/images/009.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一个最简单的小暴破"/></a><div class="content"><a class="title" href="/2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20/" title="一个最简单的小暴破">一个最简单的小暴破</a><time datetime="2021-06-24T12:04:30.000Z" title="发表于 2021-06-24 20:04:30">2021-06-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/24/buuctf%20SimpleRev/" title="BUUCTF reverse SimpleRev"><img src="/img/loading.gif" data-original="/images/007.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BUUCTF reverse SimpleRev"/></a><div class="content"><a class="title" href="/2021/06/24/buuctf%20SimpleRev/" title="BUUCTF reverse SimpleRev">BUUCTF reverse SimpleRev</a><time datetime="2021-06-24T04:01:32.000Z" title="发表于 2021-06-24 12:01:32">2021-06-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/18/BUUCTF%20reverse%20%E5%88%AE%E5%BC%80%E6%9C%89%E5%A5%96/" title="BUUCTF reverse 刮开有奖"><img src="/img/loading.gif" data-original="/images/007.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BUUCTF reverse 刮开有奖"/></a><div class="content"><a class="title" href="/2021/06/18/BUUCTF%20reverse%20%E5%88%AE%E5%BC%80%E6%9C%89%E5%A5%96/" title="BUUCTF reverse 刮开有奖">BUUCTF reverse 刮开有奖</a><time datetime="2021-06-18T15:42:51.000Z" title="发表于 2021-06-18 23:42:51">2021-06-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/06/17/buuctf%20reverse%20%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84flag/" title="BUUctf reverse 不一样的flag"><img src="/img/loading.gif" data-original="/images/007.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BUUctf reverse 不一样的flag"/></a><div class="content"><a class="title" href="/2021/06/17/buuctf%20reverse%20%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84flag/" title="BUUctf reverse 不一样的flag">BUUctf reverse 不一样的flag</a><time datetime="2021-06-17T10:37:06.000Z" title="发表于 2021-06-17 18:37:06">2021-06-17</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021  <i id="heartbeat" class="fa fas fa-heartbeat"></i> z1in</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">努力赚大钱</div></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'h9DnVxAFKDgy6kz4tYbfrMbN-gzGzoHsz',
+      appKey: 'ILBSxX9ilJj2Af7ljW8TmPky',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script>var gitcalendar = new Vue({
+  el: '#gitcalendar',
+  data: {
+    simplemode: true,
+    user: 'goat2003',
+    fixed: 'fixed',
+    px: 'px',
+    x: '',
+    y: '',
+    span1: '',
+    span2: '',
+    month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    monthchange: [],
+    oneyearbeforeday: '',
+    thisday: '',
+    amonthago: '',
+    aweekago: '',
+    weekdatacore: 0,
+    datacore: 0,
+    total: 0,
+    datadate: '',
+    data: [],
+    positionplusdata: [],
+    firstweek: [],
+    lastweek: [],
+    beforeweek: [],
+    thisweekdatacore: 0,
+    mounthbeforeday: 0,
+    mounthfirstindex: 0,
+    crispedges: 'crispedges',
+    thisdayindex: 0,
+    amonthagoindex: 0,
+    amonthagoweek: [],
+    firstdate: [],
+    first2date: [],
+    montharrbefore: [],
+    monthindex: 0,
+    color: ['#ebedf0', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f']
+  },
+  methods: {
+    selectStyle(data, event) {
+      document.querySelector('.angle-wrapper').style.display = 'block'
+      this.span1 = data.date;
+      this.span2 = data.count;
+      this.x = event.clientX - 100;
+      this.y = event.clientY - 60
+    },
+    outStyle() {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+    },
+    thiscolor(x) {
+      if (x === 0) {
+        let i = parseInt(x / 2);
+        return this.color[0]
+      } else if (x < 2) {
+        return this.color[1]
+      } else if (x < 20) {
+        let i = parseInt(x / 2);
+        return this.color[i]
+      } else {
+        return this.color[9]
+      }
+    },
+  }
+});
+var apiurl = '' ? 'https:///api?' : 'https://githubapi.ryanchristian.dev/user/'
+var githubapiurl = apiurl + gitcalendar.user;
+//canvas绘图
+function responsiveChart() {
+  let c = document.getElementById("gitcanvas");
+  if (c) {
+    let cmessage = document.getElementById("gitmessage");
+    let ctx = c.getContext("2d");
+    c.width = document.getElementById("gitcalendarcanvasbox").offsetWidth;
+    let linemaxwitdh = 0.96 * c.width / gitcalendar.data.length;
+    c.height = 9 * linemaxwitdh;
+    let lineminwitdh = 0.8 * linemaxwitdh;
+    let setposition = {
+      x: 0.02 * c.width,
+      y: 0.025 * c.width
+    };
+    for (let week in gitcalendar.data) {
+      weekdata = gitcalendar.data[week];
+      for (let day in weekdata) {
+        let dataitem = {
+          date: "",
+          count: "",
+          x: 0,
+          y: 0
+        };
+        gitcalendar.positionplusdata.push(dataitem);
+        ctx.fillStyle = gitcalendar.thiscolor(weekdata[day].count);
+        setposition.y = Math.round(setposition.y * 100) / 100;
+        dataitem.date = weekdata[day].date;
+        dataitem.count = weekdata[day].count;
+        dataitem.x = setposition.x;
+        dataitem.y = setposition.y;
+        ctx.fillRect(setposition.x, setposition.y, lineminwitdh, lineminwitdh);
+        setposition.y = setposition.y + linemaxwitdh
+      };
+      setposition.y = 0.025 * c.width;
+      setposition.x = setposition.x + linemaxwitdh
+    };
+    ctx.font = "600  Arial";
+    ctx.fillStyle = '#aaa';
+    ctx.fillText("日", 0, 1.9 * linemaxwitdh);
+    ctx.fillText("二", 0, 3.9 * linemaxwitdh);
+    ctx.fillText("四", 0, 5.9 * linemaxwitdh);
+    ctx.fillText("六", 0, 7.9 * linemaxwitdh);
+    let monthindexlist = c.width / 24;
+    for (let index in gitcalendar.monthchange) {
+      ctx.fillText(gitcalendar.monthchange[index], monthindexlist, 0.7 * linemaxwitdh);
+      monthindexlist = monthindexlist + c.width / 12
+    };
+    cmessage.onmousemove = function(event) {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+    };
+    c.onmousemove = function(event) {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+      getMousePos(c, event);
+    };
+
+    function getMousePos(canvas, event) {
+      var rect = canvas.getBoundingClientRect();
+      var x = event.clientX - rect.left * (canvas.width / rect.width);
+      var y = event.clientY - rect.top * (canvas.height / rect.height);
+      //console.log("x:"+x+",y:"+y);
+      for (let item of gitcalendar.positionplusdata) {
+        let lenthx = x - item.x;
+        let lenthy = y - item.y;
+        //console.log(lenthx,lenthy);
+        if (0 < lenthx && lenthx < lineminwitdh) {
+          if (0 < lenthy && lenthy < lineminwitdh) {
+            //console.log(item.date,item.count)
+            document.querySelector('.angle-wrapper').style.display = 'block'
+            gitcalendar.span1 = item.date;
+            gitcalendar.span2 = item.count;
+            gitcalendar.x = event.clientX - 100;
+            gitcalendar.y = event.clientY - 60
+          }
+        }
+        //if(0< x - item.x <lineminwitdh&&0< y - item.y <lineminwitdh){
+        //console.log(item.count,item.date);
+        //}
+      }
+    }
+  }
+}
+//数据统计算法
+function addlastmonth() {
+  if (gitcalendar.thisdayindex === 0) {
+    thisweekcore(52);
+    thisweekcore(51);
+    thisweekcore(50);
+    thisweekcore(49);
+    thisweekcore(48);
+    gitcalendar.thisweekdatacore += gitcalendar.firstdate[6].count;
+    gitcalendar.amonthago = gitcalendar.firstdate[6].date
+  } else {
+    thisweekcore(52);
+    thisweekcore(51);
+    thisweekcore(50);
+    thisweekcore(49);
+    thisweek2core();
+    gitcalendar.amonthago = gitcalendar.first2date[gitcalendar.thisdayindex - 1].date
+  }
+};
+
+function thisweek2core() {
+  for (let i = gitcalendar.thisdayindex - 1; i < gitcalendar.first2date.length; i++) {
+    gitcalendar.thisweekdatacore += gitcalendar.first2date[i].count
+  }
+};
+
+function thisweekcore(index) {
+  for (let item of gitcalendar.data[index]) {
+    gitcalendar.thisweekdatacore += item.count
+  }
+};
+
+function addlastweek() {
+  for (let item of gitcalendar.lastweek) {
+    gitcalendar.weekdatacore += item.count
+  }
+};
+
+function addbeforeweek() {
+  for (let i = gitcalendar.thisdayindex; i < gitcalendar.beforeweek.length; i++) {
+    gitcalendar.weekdatacore += gitcalendar.beforeweek[i].count
+  }
+};
+
+function addweek(data) {
+  if (gitcalendar.thisdayindex === 6) {
+    gitcalendar.aweekago = gitcalendar.lastweek[0].date;
+    addlastweek()
+  } else {
+    lastweek = data.contributions[51];
+    gitcalendar.aweekago = lastweek[gitcalendar.thisdayindex + 1].date;
+    addlastweek();
+    addbeforeweek()
+  }
+}
+
+fetch(githubapiurl)
+  .then(data => data.json())
+  .then(data => {
+    gitcalendar.data = data.contributions;
+    gitcalendar.total = data.total;
+    gitcalendar.first2date = gitcalendar.data[48];
+    gitcalendar.firstdate = gitcalendar.data[47];
+    gitcalendar.firstweek = data.contributions[0];
+    gitcalendar.lastweek = data.contributions[52];
+    gitcalendar.beforeweek = data.contributions[51];
+    gitcalendar.thisdayindex = gitcalendar.lastweek.length - 1;
+    gitcalendar.thisday = gitcalendar.lastweek[gitcalendar.thisdayindex].date;
+    gitcalendar.oneyearbeforeday = gitcalendar.firstweek[0].date;
+    gitcalendar.monthindex = gitcalendar.thisday.substring(5, 7) * 1;
+    gitcalendar.montharrbefore = gitcalendar.month.splice(gitcalendar.monthindex, 12 - gitcalendar.monthindex);
+    gitcalendar.monthchange = gitcalendar.montharrbefore.concat(gitcalendar.month);
+    addweek(data);
+    addlastmonth();
+    responsiveChart();
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+
+//手机版更换为svg绘制
+if (document.getElementById("gitcalendarcanvasbox").offsetWidth < 500) {
+  gitcalendar.simplemode = false
+}
+
+//当改变窗口大小时重新绘制canvas
+window.onresize = function() {
+  if (gitcalendar.simplemode) responsiveChart()
+}
+
+//解决滚动滑轮时出现的标签显示
+window.onscroll = function() {
+  if (document.querySelector('.angle-wrapper')) {
+    document.querySelector('.angle-wrapper').style.display = 'none'
+  }
+};</script><script type="text/javascript" src="/js/fairyDustCursor.js"></script><script type="text/javascript" src="/js/zhedie.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="吃饭,睡觉,敲代码,敲代码" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":true},"log":false});</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body></html><script type="text/javascript" src="/js/crash_cheat.js"></script>

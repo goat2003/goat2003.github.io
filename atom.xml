@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-06-24T13:59:22.513Z</updated>
+  <updated>2021-06-25T07:53:12.649Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一个最简单的小暴破</title>
+    <link href="http://example.com/2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20(1)/"/>
+    <id>http://example.com/2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20(1)/</id>
+    <published>2021-06-24T12:04:30.000Z</published>
+    <updated>2021-06-25T07:53:12.649Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;爆破的软件是自己编写的一个很简单的注册弹窗软件，用e语言编写的，文章写的很粗糙。如有不对还望大佬指正。&lt;/p&gt;
+&lt;p&gt;首先我们需要理解程序验证的流程&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;a、点击注册按钮&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p</summary>
+        
+      
+    
+    
+    
+    <category term="reserve -crackme" scheme="http://example.com/categories/reserve-crackme/"/>
+    
+    
+    <category term="reserve -crackme" scheme="http://example.com/tags/reserve-crackme/"/>
+    
+  </entry>
   
   <entry>
     <title>一个最简单的小暴破</title>
@@ -521,32 +552,6 @@
     
     
     <category term="pe" scheme="http://example.com/tags/pe/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>攻防世界 re -re1</title>
-    <link href="http://example.com/2021/06/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cre1/"/>
-    <id>http://example.com/2021/06/15/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Cre1/</id>
-    <published>2021-06-15T05:51:28.000Z</published>
-    <updated>2021-06-16T11:44:08.974Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;一天一道ctf系列&lt;/p&gt;
-&lt;p&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="ctf-re" scheme="http://example.com/categories/ctf-re/"/>
-    
-    
-    <category term="ctf-re" scheme="http://example.com/tags/ctf-re/"/>
     
   </entry>
   

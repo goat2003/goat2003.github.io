@@ -5,6 +5,31 @@
     
     <entry>
       <title>一个最简单的小暴破</title>
+      <link href="2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20(1)/"/>
+      <url>2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20(1)/</url>
+      
+        <content type="html"><![CDATA[<p>爆破的软件是自己编写的一个很简单的注册弹窗软件，用e语言编写的，文章写的很粗糙。如有不对还望大佬指正。</p><p>首先我们需要理解程序验证的流程</p><blockquote><p>a、点击注册按钮</p></blockquote><blockquote><p>b、读取注册码</p></blockquote><blockquote><p>c、判断注册码是否合法</p></blockquote><blockquote><p>d、提示用户是否注册成功</p></blockquote><p>   暴破的时候我们就可以从以上四点为入手点，首先将程序拖入od，此时我们先找到读取编辑框内容的API函数：GetWindowTextA函数，ctrl+g转到该函数以后，设置一个断点，然后运行程序，但是我们发现运行不了，为什么呢？<br>   我们看一下对战窗口，可以看到函数的三个参数。第一个参数是：包含文本的窗口或控件的句柄。 第二个参数表示将接收文本的缓冲区。如果字符串与缓冲区一样长或长，则该字符串将被截断并以空字符结尾。，第三个参数表示的是要复制到缓冲区的最大字符数，包括空字符。如果文本超过此限制，则会被截断。<br><img src="https://img-blog.csdnimg.cn/20210624134132575.png" alt="在这里插入图片描述"><br>有的人这里会发现一直运行不了，就是因为第一个二参数的判断字柄是标签栏而不是编辑框。所以只需要shift+f2加上一个条件断点[esp+4]!=…….就行了<br>，然后我们继续运行，此时我们就可以正常往编辑框输入东西了，我们输入1111111。<br>我们再来回顾一下程序验证的流程，读取注册码后会判断注册码是否合法，然后提示用户是否注册成功。所以我们只需要先找到提示的地方，再往回找就能找到判断注册码的地方了。ctrl+f8自动步过。<br>这里有点小疑惑，因为程序又停止在了我们读取注册码的的地方了。视频上的老师只是说又读了一遍，具体为什么还望各位大佬指点一二。继续自动步过。<br>终于，程序又停止了，并弹出了弹窗提示我们注册失败，所以我们可以判断这个call函数时提示我们注册失败的函数。<br><img src="https://img-blog.csdnimg.cn/2021062414195230.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dvYXRfMjAwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p>我们可以左键对准这个call找到im…点开 edit label，可以重命名：这个就是弹出消息框的call<br><img src="https://img-blog.csdnimg.cn/20210624142231981.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dvYXRfMjAwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>此时我们再向上翻找，可以看到有个与我们刚才重命名的call的名字一样的call<br><img src="https://img-blog.csdnimg.cn/20210624142413410.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dvYXRfMjAwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这个可能就是提示注册成功的call。<br>此时提示用户的函数我们找到了，接下来就该往回找我们的判断函数了，王辉翻看了一下，发现了这个<br><img src="https://img-blog.csdnimg.cn/20210624142958552.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dvYXRfMjAwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以看到这是一个je指令，也就是条件跳转，就是我们的if判断，然后看他跳转的地址，在一个jmp指令的后面，此时我们约摸这就知道这是一个if else语句了。接下来当然就该修改这个if语句了，直接将je指令全部用nop填充，就相当于我们取消了判断。此时我们就相当于将这个程序破解掉了，此时不管我们输入什么，他都会提醒我们注册成功了。这就是一个最简单的暴破了。</p><p>然后我们开始第二种暴破方式，先将我们填充的nop还原，我们知道，jcc指令是否跳转取决于我们的标志寄存器：efl寄存器（efl寄存器有四位，因为od无法显示更多位，我们的c、p、a、z、等寄存器的值都是从efl寄存器的值中拆出来的，所以我们再修改以上寄存器的值是，其实是相当于在修改efl寄存器的值）。所以我们可以通过修改标志寄存器z寄存器，使其等于0，从而使je指令不执行跳转，jcc指令是否跳转取决于z寄存器的值。</p><p>我们还可以将提示是否注册成功作为入手点，ctrl+g查找messagebox函数并跳转，下过断点以后，f8单步一直走，我们也会走到提示失败的地方<br><img src="https://img-blog.csdnimg.cn/2021062414510046.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dvYXRfMjAwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这种方法视频作者原话是按照经验往回走去寻找关键点，按照经验的意思是走多少没有定值，因为每一个作者，每一种语言写出来的都会不一样。这种方法我找半天没找到，就不找了T^T。大概意思是通过messagebox函数作为入口点继续找到我们的关键点，也就是那个je指令，然后破解就行了。</p><p>还有一种方法是搜索字符串，因为在搜索字符串的时候od会自动给我们加一下备注（我的没有T^T），这些备注又是就会给我们提供巨大的帮助。所以说一个好的工具还是很重要的啊。</p><p>说到字符串搜索，od里面实现这个功能的的不是od本身，而是od中的一个插件。所以我们也可以使用ida来搜索字符串，打开ida，shift+f12查看字符串窗口，然后ctrl+f5搜索字符串。我们先搜索一个“注册失败”尝尝咸淡，芜湖，淡了，啥也没搜出来，为什么呢？因为ida默认是不支持中文的的，所以如果我们使用ida搜索中文的时候，我们需要给ida增添一个属性。<br>先右击ida点开属性，然后在目标里加入: -dCULTURE=all 就可以了。但是我又搜了一下，发现我的还是啥也搜不出来，可能是我的exe文件有点毛病吧，程序员的悲欢并不相通（T^T）。</p><p>我就直接看着视频写笔记吧T^T</p><p>查找“注册失败”，然后双击进去，找到对应的函数，按x可以查看调用该函数的位置，双击进去，记住代码的位置，用od打开，ctrl+g输入我们刚才记住的位置，转到目标地址，发现对这个地址“不太熟啊”，不慌，我们先下个断点，然后继续往下单步运行，很快啊，就弹出了“注册失败”了，那么我们就开始往上寻找我们的关键点了。找到了一个je远眺跳到jmp的下面，这个大概率就是我们的要找的关键点，使用nop填充je，再次运行一下，果然“注册成功”。</p><p>这就是我们关于一个简单的小暴破的一些笔记了，接下来该保存了。选中我们修改的位置，右键 —-&gt;复制到可执行文件—&gt;所有修改—&gt;全部复制，然后在弹出的框上右键—&gt;保存文件 就完成了！</p><p>还有一种方法，内存查找法，我们可以直接在堆栈窗口中查找字符串，点击m，然后右键查找，输入“注册失败”，转到堆栈窗口后下个内存访问断点，然后运行od会发现od自动停了下来，停下来的的地方就是我们下的的断点的地方，此时我们只需要f8单步寻找关键点就可以了。</p><p>还有一种方法是硬件查找发，操作过程与内存查找法差不多，只需要在下内存访问断电的时候下硬件访问断点就可以了</p><p>小笔记：<br>od调用堆栈是通过微软的dbghelp.dll实现的。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> reserve -crackme </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> reserve -crackme </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>一个最简单的小暴破</title>
       <link href="2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20/"/>
       <url>2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20/</url>
       
@@ -733,7 +758,7 @@
       <link href="2021/05/30/001/"/>
       <url>2021/05/30/001/</url>
       
-        <content type="html"><![CDATA[<p><strong>1、hexo初始化博客</strong><br>这里主要有两个命令，一个是npm install -g hexo-cli，这个命令能碰到的的问题主要是卡住，建议下载一个淘宝镜像<br>第二个是hexo init，这里的问题整整卡了我两天，我的报错是（fatal: unable to access …）解决方法:首先我们可以去添加三条新的环境变量，添加万这三条以后去博客根目录里hexobush并再次输入命令，问题基本解决，如果还不行的话，可以去cmd里再次输入。<br><img src="/images/001/001.jpg" alt="001"><br><strong>2、hexo d命令</strong><br>该命令意思是讲你的本地文件夹上传到github上，解决方法是查看你的根目录配置文件，翻到最下面查看branch后的代码，如果是march请将它改为main，具体原因好像是因为github最近讲march分支改为了main分支。如果还未解决的话可能是因为你的repository设置有问题（还是根目录配置文件的最底层）这里我们放置的链接必须是ssh链接，如下图，因为我们是通过ssh与github获得连接的，所以使用https的形式会报错。<br><img src="/images/001/002.jpg" alt="002"></p><p><strong>3、git clone命令</strong><br>使用该命令时报错 fatal: remote error: You can’t push to git，解决方法参考下面的文章<br><a href="https://xvideos.blog.csdn.net/article/details/52367128">https://xvideos.blog.csdn.net/article/details/52367128</a><br>大概意思是由于我们与github建立的是ssh连接，而我们在git clone时并没有通过ssh的方式去获得连接如一下报错<br>fatal: remote error:<br>You can’t push to git://github.com/user_name/user_repo.git<br>Use <a href="mailto:&#x67;&#x69;&#116;&#x40;&#103;&#x69;&#x74;&#x68;&#x75;&#98;&#x2e;&#x63;&#111;&#x6d;">&#x67;&#x69;&#116;&#x40;&#103;&#x69;&#x74;&#x68;&#x75;&#98;&#x2e;&#x63;&#111;&#x6d;</a>:user_name/user_repo.git<br>这里我们只需要使用以下代码就可以了<br>$ git remote rm origin<br>$ git remote add origin <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#46;&#x63;&#111;&#109;">&#103;&#x69;&#116;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#46;&#x63;&#111;&#109;</a>:user_name/user_repo.git</p>]]></content>
+        <content type="html"><![CDATA[<p><strong>1、hexo初始化博客</strong><br>这里主要有两个命令，一个是npm install -g hexo-cli，这个命令能碰到的的问题主要是卡住，建议下载一个淘宝镜像<br>第二个是hexo init，这里的问题整整卡了我两天，我的报错是（fatal: unable to access …）解决方法:首先我们可以去添加三条新的环境变量，添加万这三条以后去博客根目录里hexobush并再次输入命令，问题基本解决，如果还不行的话，可以去cmd里再次输入。<br><img src="/images/001/001.jpg" alt="001"><br><strong>2、hexo d命令</strong><br>该命令意思是讲你的本地文件夹上传到github上，解决方法是查看你的根目录配置文件，翻到最下面查看branch后的代码，如果是march请将它改为main，具体原因好像是因为github最近讲march分支改为了main分支。如果还未解决的话可能是因为你的repository设置有问题（还是根目录配置文件的最底层）这里我们放置的链接必须是ssh链接，如下图，因为我们是通过ssh与github获得连接的，所以使用https的形式会报错。<br><img src="/images/001/002.jpg" alt="002"></p><p><strong>3、git clone命令</strong><br>使用该命令时报错 fatal: remote error: You can’t push to git，解决方法参考下面的文章<br><a href="https://xvideos.blog.csdn.net/article/details/52367128">https://xvideos.blog.csdn.net/article/details/52367128</a><br>大概意思是由于我们与github建立的是ssh连接，而我们在git clone时并没有通过ssh的方式去获得连接如一下报错<br>fatal: remote error:<br>You can’t push to git://github.com/user_name/user_repo.git<br>Use <a href="mailto:&#103;&#105;&#116;&#64;&#103;&#x69;&#116;&#104;&#117;&#98;&#x2e;&#99;&#111;&#109;">&#103;&#105;&#116;&#64;&#103;&#x69;&#116;&#104;&#117;&#98;&#x2e;&#99;&#111;&#109;</a>:user_name/user_repo.git<br>这里我们只需要使用以下代码就可以了<br>$ git remote rm origin<br>$ git remote add origin <a href="mailto:&#103;&#x69;&#x74;&#x40;&#x67;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#x63;&#x6f;&#109;">&#103;&#x69;&#x74;&#x40;&#x67;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#x63;&#x6f;&#109;</a>:user_name/user_repo.git</p>]]></content>
       
       
       <categories>
