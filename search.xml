@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title>nck破解课程03：破解补丁工具的使用</title>
+      <title>nck破解课程02：破解补丁工具的使用</title>
       <link href="2021/06/27/nck%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0%EF%BC%9A%E7%A0%B4%E8%A7%A3%E8%A1%A5%E4%B8%81%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
       <url>2021/06/27/nck%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0%EF%BC%9A%E7%A0%B4%E8%A7%A3%E8%A1%A5%E4%B8%81%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
       
@@ -29,7 +29,7 @@
     
     
     <entry>
-      <title>nck破解课程02：一个最简单的小暴破</title>
+      <title>nck破解课程01：一个最简单的小暴破</title>
       <link href="2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20(1)/"/>
       <url>2021/06/24/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E6%9A%B4%E7%A0%B4%20(1)/</url>
       
@@ -758,7 +758,7 @@
       <link href="2021/05/30/001/"/>
       <url>2021/05/30/001/</url>
       
-        <content type="html"><![CDATA[<p><strong>1、hexo初始化博客</strong><br>这里主要有两个命令，一个是npm install -g hexo-cli，这个命令能碰到的的问题主要是卡住，建议下载一个淘宝镜像<br>第二个是hexo init，这里的问题整整卡了我两天，我的报错是（fatal: unable to access …）解决方法:首先我们可以去添加三条新的环境变量，添加万这三条以后去博客根目录里hexobush并再次输入命令，问题基本解决，如果还不行的话，可以去cmd里再次输入。<br><img src="/images/001/001.jpg" alt="001"><br><strong>2、hexo d命令</strong><br>该命令意思是讲你的本地文件夹上传到github上，解决方法是查看你的根目录配置文件，翻到最下面查看branch后的代码，如果是march请将它改为main，具体原因好像是因为github最近讲march分支改为了main分支。如果还未解决的话可能是因为你的repository设置有问题（还是根目录配置文件的最底层）这里我们放置的链接必须是ssh链接，如下图，因为我们是通过ssh与github获得连接的，所以使用https的形式会报错。<br><img src="/images/001/002.jpg" alt="002"></p><p><strong>3、git clone命令</strong><br>使用该命令时报错 fatal: remote error: You can’t push to git，解决方法参考下面的文章<br><a href="https://xvideos.blog.csdn.net/article/details/52367128">https://xvideos.blog.csdn.net/article/details/52367128</a><br>大概意思是由于我们与github建立的是ssh连接，而我们在git clone时并没有通过ssh的方式去获得连接如一下报错<br>fatal: remote error:<br>You can’t push to git://github.com/user_name/user_repo.git<br>Use <a href="mailto:&#103;&#x69;&#x74;&#x40;&#103;&#x69;&#x74;&#x68;&#117;&#x62;&#x2e;&#99;&#x6f;&#x6d;">&#103;&#x69;&#x74;&#x40;&#103;&#x69;&#x74;&#x68;&#117;&#x62;&#x2e;&#99;&#x6f;&#x6d;</a>:user_name/user_repo.git<br>这里我们只需要使用以下代码就可以了<br>$ git remote rm origin<br>$ git remote add origin <a href="mailto:&#103;&#x69;&#x74;&#64;&#103;&#105;&#116;&#104;&#x75;&#x62;&#x2e;&#99;&#x6f;&#109;">&#103;&#x69;&#x74;&#64;&#103;&#105;&#116;&#104;&#x75;&#x62;&#x2e;&#99;&#x6f;&#109;</a>:user_name/user_repo.git</p>]]></content>
+        <content type="html"><![CDATA[<p><strong>1、hexo初始化博客</strong><br>这里主要有两个命令，一个是npm install -g hexo-cli，这个命令能碰到的的问题主要是卡住，建议下载一个淘宝镜像<br>第二个是hexo init，这里的问题整整卡了我两天，我的报错是（fatal: unable to access …）解决方法:首先我们可以去添加三条新的环境变量，添加万这三条以后去博客根目录里hexobush并再次输入命令，问题基本解决，如果还不行的话，可以去cmd里再次输入。<br><img src="/images/001/001.jpg" alt="001"><br><strong>2、hexo d命令</strong><br>该命令意思是讲你的本地文件夹上传到github上，解决方法是查看你的根目录配置文件，翻到最下面查看branch后的代码，如果是march请将它改为main，具体原因好像是因为github最近讲march分支改为了main分支。如果还未解决的话可能是因为你的repository设置有问题（还是根目录配置文件的最底层）这里我们放置的链接必须是ssh链接，如下图，因为我们是通过ssh与github获得连接的，所以使用https的形式会报错。<br><img src="/images/001/002.jpg" alt="002"></p><p><strong>3、git clone命令</strong><br>使用该命令时报错 fatal: remote error: You can’t push to git，解决方法参考下面的文章<br><a href="https://xvideos.blog.csdn.net/article/details/52367128">https://xvideos.blog.csdn.net/article/details/52367128</a><br>大概意思是由于我们与github建立的是ssh连接，而我们在git clone时并没有通过ssh的方式去获得连接如一下报错<br>fatal: remote error:<br>You can’t push to git://github.com/user_name/user_repo.git<br>Use <a href="mailto:&#x67;&#x69;&#x74;&#x40;&#103;&#105;&#116;&#x68;&#117;&#x62;&#46;&#99;&#111;&#x6d;">&#x67;&#x69;&#x74;&#x40;&#103;&#105;&#116;&#x68;&#117;&#x62;&#46;&#99;&#111;&#x6d;</a>:user_name/user_repo.git<br>这里我们只需要使用以下代码就可以了<br>$ git remote rm origin<br>$ git remote add origin <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#105;&#x74;&#104;&#x75;&#98;&#46;&#99;&#111;&#x6d;">&#103;&#x69;&#116;&#64;&#x67;&#105;&#x74;&#104;&#x75;&#98;&#46;&#99;&#111;&#x6d;</a>:user_name/user_repo.git</p>]]></content>
       
       
       <categories>
