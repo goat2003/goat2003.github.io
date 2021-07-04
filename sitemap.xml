@@ -333,14 +333,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/vs/</loc>
+    <loc>http://example.com/tags/ctf-re/</loc>
     <lastmod>2021-07-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/ctf-re/</loc>
+    <loc>http://example.com/tags/vs/</loc>
     <lastmod>2021-07-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -361,14 +361,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/c%E8%AF%AD%E8%A8%80/</loc>
+    <loc>http://example.com/tags/reserve-crackme/</loc>
     <lastmod>2021-07-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/reserve-crackme/</loc>
+    <loc>http://example.com/tags/c%E8%AF%AD%E8%A8%80/</loc>
     <lastmod>2021-07-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -391,14 +391,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/c%E8%AF%AD%E8%A8%80/</loc>
+    <loc>http://example.com/categories/ctf-re/</loc>
     <lastmod>2021-07-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/ctf-re/</loc>
+    <loc>http://example.com/categories/c%E8%AF%AD%E8%A8%80/</loc>
     <lastmod>2021-07-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
