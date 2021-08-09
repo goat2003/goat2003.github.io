@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-07-25T10:32:55.262Z</updated>
+  <updated>2021-08-09T10:25:00.518Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>160道逆向破解 002</title>
+    <link href="http://example.com/2021/08/09/160%E9%81%93%E9%80%86%E5%90%91%E7%A0%B4%E8%A7%A3%20002/"/>
+    <id>http://example.com/2021/08/09/160%E9%81%93%E9%80%86%E5%90%91%E7%A0%B4%E8%A7%A3%20002/</id>
+    <published>2021-08-09T10:24:23.000Z</published>
+    <updated>2021-08-09T10:25:00.518Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;题目是160道逆向破解题目的二道&lt;/p&gt;
+&lt;p&gt;首先点击运行，发现运行不了，原因是缺少了一个dll文件，直接百度搜索下载道这个exe的根目录里就行了，点击运行，是一个用户密码注册的小窗口&lt;/p&gt;
+&lt;p&gt;&lt;img</summary>
+        
+      
+    
+    
+    
+    <category term="reserve -crackme" scheme="http://example.com/categories/reserve-crackme/"/>
+    
+    
+    <category term="reserve -crackme" scheme="http://example.com/tags/reserve-crackme/"/>
+    
+  </entry>
   
   <entry>
     <title>暑假学习笔记</title>
@@ -506,33 +533,6 @@
 &lt;p&gt;PS：关于PE文件头中扩展PE头的&lt;strong&gt;数据目录项&lt;/strong&gt;，其中包含了导入表、导出表、重定位表等等，暂且留作之后&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1 id=&quot;PE节表&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="pe" scheme="http://example.com/categories/pe/"/>
-    
-    
-    <category term="pe" scheme="http://example.com/tags/pe/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PE文件笔记五 PE文件头之扩展PE头</title>
-    <link href="http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%935/"/>
-    <id>http://example.com/2021/06/15/pe%E6%80%BB%E7%BB%935/</id>
-    <published>2021-06-15T07:47:28.000Z</published>
-    <updated>2021-06-15T08:40:39.134Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;继续具体学习PE的各个结构细节，前面学完了标准PE头，接着学习扩展PE头&lt;/p&gt;
-&lt;p&gt;由于PE文件头的内容较多，故要拆分为多个笔记，此笔记主要为&lt;strong&gt;扩展PE头&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;PS：扩展PE头的成员较多，可以&lt;strong&gt;先看个大概后结合下面</summary>
         
       
     
