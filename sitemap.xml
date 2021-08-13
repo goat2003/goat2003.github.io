@@ -354,13 +354,6 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/ctf-re/</loc>
-    <lastmod>2021-08-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/tags/reserve-crackme/</loc>
     <lastmod>2021-08-13</lastmod>
     <changefreq>daily</changefreq>
@@ -376,6 +369,13 @@
   
   <url>
     <loc>http://example.com/tags/pe/</loc>
+    <lastmod>2021-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/ctf-re/</loc>
     <lastmod>2021-08-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -412,13 +412,6 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/ctf-re/</loc>
-    <lastmod>2021-08-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/categories/reserve-crackme/</loc>
     <lastmod>2021-08-13</lastmod>
     <changefreq>daily</changefreq>
@@ -434,6 +427,13 @@
   
   <url>
     <loc>http://example.com/categories/pe/</loc>
+    <lastmod>2021-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/ctf-re/</loc>
     <lastmod>2021-08-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
