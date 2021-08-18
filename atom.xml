@@ -6,7 +6,7 @@
   <link href="https://goat2003.github.io/atom.xml" rel="self"/>
   
   <link href="https://goat2003.github.io/"/>
-  <updated>2021-08-17T12:17:40.685Z</updated>
+  <updated>2021-08-18T13:09:35.708Z</updated>
   <id>https://goat2003.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>crackme杂记 002</title>
+    <link href="https://goat2003.github.io/2021/08/18/crackme%20%E6%9D%82%E8%AE%B002/"/>
+    <id>https://goat2003.github.io/2021/08/18/crackme%20%E6%9D%82%E8%AE%B002/</id>
+    <published>2021-08-18T13:09:23.000Z</published>
+    <updated>2021-08-18T13:09:35.708Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;实现dll劫持：&lt;br&gt;首先我们需要使用到工具：AheadLIB，这个工具可以帮我们生成dll文件的cpp代码。&lt;/p&gt;
+&lt;p&gt;什么是dll劫持，就是利用程序运行时会通过搜索名字来运行dll文件的方式，自己生成一个同名的dll文件，并且放在程序的同目录下，从而使程序会使用我</summary>
+        
+      
+    
+    
+    
+    <category term="reserve -crackme" scheme="https://goat2003.github.io/categories/reserve-crackme/"/>
+    
+    
+    <category term="reserve -crackme" scheme="https://goat2003.github.io/tags/reserve-crackme/"/>
+    
+  </entry>
   
   <entry>
     <title>crackme杂记</title>
@@ -505,32 +531,6 @@
         
     <summary type="html">&lt;p&gt;前面学习了PE的结构后，尝试结合先前所学，修改PE文件来实现给程序添加弹窗的功能&lt;/p&gt;
 &lt;p&gt;PS：这篇笔记并&lt;strong&gt;没有怎么涉及PE的知识点&lt;/strong&gt;，重点放在了&lt;strong&gt;HOOK、反汇编和硬编码&lt;/strong&gt;上，对PE不是很了解也可以看看，涉</summary>
-        
-      
-    
-    
-    
-    <category term="pe" scheme="https://goat2003.github.io/categories/pe/"/>
-    
-    
-    <category term="pe" scheme="https://goat2003.github.io/tags/pe/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PE文件笔记七 RVA与FOA转换</title>
-    <link href="https://goat2003.github.io/2021/06/15/pe%E6%80%BB%E7%BB%937/"/>
-    <id>https://goat2003.github.io/2021/06/15/pe%E6%80%BB%E7%BB%937/</id>
-    <published>2021-06-15T07:53:28.000Z</published>
-    <updated>2021-06-15T08:38:57.422Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;前面学习了在块表中提到了VA和FOA，这次来学习它们之间的转换&lt;/p&gt;
-&lt;h1 id=&quot;VA转FOA&quot;&gt;&lt;a href=&quot;#VA转FOA&quot; class=&quot;headerlink&quot; title=&quot;VA转FOA&quot;&gt;&lt;/a&gt;VA转FOA&lt;/h1&gt;&lt;p&gt;在先前的笔记&lt;a</summary>
         
       
     
