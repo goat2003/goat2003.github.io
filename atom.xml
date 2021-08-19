@@ -6,7 +6,7 @@
   <link href="https://goat2003.github.io/atom.xml" rel="self"/>
   
   <link href="https://goat2003.github.io/"/>
-  <updated>2021-08-18T13:09:35.708Z</updated>
+  <updated>2021-08-19T15:20:04.437Z</updated>
   <id>https://goat2003.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>crackme杂记 003</title>
+    <link href="https://goat2003.github.io/2021/08/19/crackme%E6%9D%82%E8%AE%B0%20003/"/>
+    <id>https://goat2003.github.io/2021/08/19/crackme%E6%9D%82%E8%AE%B0%20003/</id>
+    <published>2021-08-19T15:19:23.000Z</published>
+    <updated>2021-08-19T15:20:04.437Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;关于dll劫持的一些补充：&lt;/p&gt;
+&lt;p&gt;如何寻找dll文件，dll文件储存在两个文件夹中，一个是system32文件夹，一个是SysWOW64文件夹,但是前者储存的却是64位程序运行的环境，后者则是32位程序运行的环境。&lt;/p&gt;
+&lt;p&gt;如何知道想要劫持的dll是否为系统重</summary>
+        
+      
+    
+    
+    
+    <category term="reserve -crackme" scheme="https://goat2003.github.io/categories/reserve-crackme/"/>
+    
+    
+    <category term="reserve -crackme" scheme="https://goat2003.github.io/tags/reserve-crackme/"/>
+    
+  </entry>
   
   <entry>
     <title>crackme杂记 002</title>
@@ -505,32 +532,6 @@
         
         
     <summary type="html">&lt;p&gt;在前面的&lt;a href=&quot;https://www.52pojie.cn/thread-1408866-1-1.html&quot;&gt;PE文件笔记八</summary>
-        
-      
-    
-    
-    
-    <category term="pe" scheme="https://goat2003.github.io/categories/pe/"/>
-    
-    
-    <category term="pe" scheme="https://goat2003.github.io/tags/pe/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PE文件笔记八 实战之HOOK程序添加弹窗</title>
-    <link href="https://goat2003.github.io/2021/06/15/pe%E6%80%BB%E7%BB%938/"/>
-    <id>https://goat2003.github.io/2021/06/15/pe%E6%80%BB%E7%BB%938/</id>
-    <published>2021-06-15T07:56:28.000Z</published>
-    <updated>2021-06-19T02:25:46.248Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;前面学习了PE的结构后，尝试结合先前所学，修改PE文件来实现给程序添加弹窗的功能&lt;/p&gt;
-&lt;p&gt;PS：这篇笔记并&lt;strong&gt;没有怎么涉及PE的知识点&lt;/strong&gt;，重点放在了&lt;strong&gt;HOOK、反汇编和硬编码&lt;/strong&gt;上，对PE不是很了解也可以看看，涉</summary>
         
       
     
