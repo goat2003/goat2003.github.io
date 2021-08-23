@@ -6,7 +6,7 @@
   <link href="https://goat2003.github.io/atom.xml" rel="self"/>
   
   <link href="https://goat2003.github.io/"/>
-  <updated>2021-08-22T15:08:34.606Z</updated>
+  <updated>2021-08-23T15:38:55.701Z</updated>
   <id>https://goat2003.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>crackme杂记 007</title>
+    <link href="https://goat2003.github.io/2021/08/22/crackme%E6%9D%82%E8%AE%B0007/"/>
+    <id>https://goat2003.github.io/2021/08/22/crackme%E6%9D%82%E8%AE%B0007/</id>
+    <published>2021-08-22T15:38:23.000Z</published>
+    <updated>2021-08-23T15:38:55.701Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;花指令的特征：&lt;br&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/475776975dfa4a4890dcfe6f4e0d31b5.png&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="reserve -crackme" scheme="https://goat2003.github.io/categories/reserve-crackme/"/>
+    
+    
+    <category term="reserve -crackme" scheme="https://goat2003.github.io/tags/reserve-crackme/"/>
+    
+  </entry>
   
   <entry>
     <title>crackme杂记 006</title>
@@ -507,32 +532,6 @@
         
         
     <summary type="html">&lt;p&gt;在前面&lt;a href=&quot;https://www.52pojie.cn/thread-1409844-1-1.html&quot;&gt;PE文件笔记十 扩大节&lt;/a&gt;中，需要修正节表成员；修正节表成员时要把Misc（实际大小）和</summary>
-        
-      
-    
-    
-    
-    <category term="pe" scheme="https://goat2003.github.io/categories/pe/"/>
-    
-    
-    <category term="pe" scheme="https://goat2003.github.io/tags/pe/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PE文件笔记十一 新增节</title>
-    <link href="https://goat2003.github.io/2021/06/15/pe%E6%80%BB%E7%BB%9311/"/>
-    <id>https://goat2003.github.io/2021/06/15/pe%E6%80%BB%E7%BB%9311/</id>
-    <published>2021-06-15T08:48:07.000Z</published>
-    <updated>2021-06-15T08:46:50.222Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;前面在&lt;a href=&quot;https://www.52pojie.cn/thread-1409844-1-1.html&quot;&gt;PE文件笔记十 扩大节&lt;/a&gt;学习了关于节的操作之扩大节，接下来继续学习节的操作之新增节&lt;/p&gt;
-&lt;h1 id=&quot;新增节&quot;&gt;&lt;a href=&quot;#新增节&quot;</summary>
         
       
     
