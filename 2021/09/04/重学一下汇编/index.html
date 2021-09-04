@@ -1,0 +1,456 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>重学一下汇编 | z1inのblog</title><meta name="keywords" content="汇编"><meta name="author" content="z1in"><meta name="copyright" content="z1in"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="EAX：累加器                 AccumulatorEBX：基础寄存器          BaseECX：计数器                 CountEDX：数据寄存器          DataESI：源变址寄存器        Source IndexEDI：目的变址寄存器     Destination IndexESP：堆栈指示器           Stack P">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重学一下汇编">
+<meta property="og:url" content="https://goat2003.github.io/2021/09/04/%E9%87%8D%E5%AD%A6%E4%B8%80%E4%B8%8B%E6%B1%87%E7%BC%96/index.html">
+<meta property="og:site_name" content="z1inのblog">
+<meta property="og:description" content="EAX：累加器                 AccumulatorEBX：基础寄存器          BaseECX：计数器                 CountEDX：数据寄存器          DataESI：源变址寄存器        Source IndexEDI：目的变址寄存器     Destination IndexESP：堆栈指示器           Stack P">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://goat2003.github.io/images/007.jpg">
+<meta property="article:published_time" content="2021-09-04T13:38:23.000Z">
+<meta property="article:modified_time" content="2021-09-04T13:39:28.838Z">
+<meta property="article:author" content="z1in">
+<meta property="article:tag" content="汇编">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://goat2003.github.io/images/007.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://goat2003.github.io/2021/09/04/%E9%87%8D%E5%AD%A6%E4%B8%80%E4%B8%8B%E6%B1%87%E7%BC%96/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: z1in","link":"链接: ","source":"来源: z1inのblog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '重学一下汇编',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-09-04 21:39:28'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><link rel="stylesheet" href="/css/gundong.css"><link rel="stylesheet" href="/css/jianbian.css"><link rel="stylesheet" href="/css/touming.css"><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/shubiao.css"><link rel="stylesheet" href="/css/zhedie.css"><script src="/js/sakura.js"></script><!--在线聊天if theme.daovoice
+  script(src=url_for(theme.CDN.daovoice) defer)
+--><div class="aplayer" data-id="6686325036" data-server="netease" data-type="playlist" data-fixed="true" data-listFolded="false" data-order="random" data-preload="auto"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lete114/CDN/music/APlayer/APlayer.min.css"><script src="https://cdn.jsdelivr.net/gh/lete114/CDN/music/APlayer/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="z1inのblog" type="application/atom+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/loading.gif" data-original="/img/tit.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 伙伴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/images/002.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">z1inのblog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 伙伴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">重学一下汇编</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-09-04T13:38:23.000Z" title="发表于 2021-09-04 21:38:23">2021-09-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-09-04T13:39:28.838Z" title="更新于 2021-09-04 21:39:28">2021-09-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B1%87%E7%BC%96/">汇编</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="重学一下汇编"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>EAX：累加器                 Accumulator<br>EBX：基础寄存器          Base<br>ECX：计数器                 Count<br>EDX：数据寄存器          Data<br>ESI：源变址寄存器        Source Index<br>EDI：目的变址寄存器     Destination Index<br>ESP：堆栈指示器           Stack Pointer<br>EBP：堆栈基址寄存器    Base Pointer</p>
+<p>虽然有这么多名称，实际上除了esp和ebp以外，其他寄存器真正使用时并没有太多区分。</p>
+<p><img src="/img/loading.gif" data-original="https://img-blog.csdnimg.cn/93dd949b4a234425905fd06f8903d520.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAejFpbg==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<p>CPU的位宽<br>cpu的位宽暂时没有严格的定义，但是一般从数值上来讲：</p>
+<p>cpu的位宽 = 数据总线的位宽 = cpu内部通用寄存器的位宽 = 机器字长</p>
+<p>放出一个百度百科对于机器字长的定义供大家理解概念：</p>
+<p>机器字长：</p>
+<p>机器字长是指计算机进行一次整数运算所能处理的二进制数据的位数，通常也是CPU数据通道的宽度，通常等于CPU的通用寄存器位宽。机器字长会影响机器的运算速度。倘若CPU字长较短，又要运算位数较多的数据，那么必须经过两次或多次运算才能完成。这样势必会影响整机的运行速度。</p>
+<p>CPU的位宽与cpu寻址能力<br>CPU的寻址能力与它的地址总线位宽有关，与数据总线宽度（CPU位宽=数据总线位宽）无关。16位CPU的地址总线位宽可以是20位，32位CPU的地址总线可以是36位，64位CPU的地址总线位宽可以是40位。</p>
+<p>NOTE:</p>
+<p>CPU内部寄存器之间、CPU和外设的数据交互是通过总线来实现的，下图展示了cpu和外部设备（存储器和IO）之间的总线连接示意图。（地址总线、数据总线、控制总线）</p>
+<p>按照计算机所传输的信息种类，计算机的总线可以划分为</p>
+<p>数据总线： 数据总线DB是双向三态形式的总线，即它既可以把CPU的数据传送到存储器或输入输出接口等其它部件，也可以将其它部件的数据传送到CPU。数据总线的位数是微型计算机的一个重要指标，通常与cpu的字长相一致。我们说的32位，64位计算机指的就是数据总线的宽度。<br>地址总线： 地址总线AB是专门用来传送地址的，由于地址只能从CPU传向外部存储器或I/O端口，所以地址总线总是单向三态的，这与数据总线不同。地址总线的位数决定了CPU可直接寻址的内存空间大小。<br>控制总线：控制总线主要用来传送控制信号和时序信号。控制总线的传送方向由具体控制信号而定，一般是双向的，控制总线的位数要根据系统的实际控制需要而定。其实数据总线和控制总线可以共用。<br>总线也可以按照CPU内外来分类：</p>
+<p>内部总线：在CPU内部，寄存器之间和算术逻辑部件ALU与控制部件之间传输数据所用的总线称为片内部总线。<br>外部总线：通常所说的总线指片外部总线，是CPU与内存RAM、ROM和输入/输出设备接口之间进行通讯的通路,也称系统总线。<br>从上述可知，外部总线包括数据总线、地址总线、控制总线。内部总线：在CPU内部，寄存器之间和算术逻辑部件ALU与控制部件之间传输数据所用的总线（的位宽），内部总线和数据总线在一条线上，和地址总线不在一条线上。</p>
+<p>地址总线用来定位，数据总线用来传输，也就是当CPU需要从内存读取数据或向内存写入数据时，它使用地址总线来指定其需要访问的存储器块的物理地址，然后通过数据总线传输数据。<br>操作系统<br>Windows操作系统也分为32位和64位，平时我们所说的 32 位操作系统也被称为 X86 系统，x64 代表 64 位操作系统。引用来自百科的一句话：</p>
+<p>64位操作系统是指特别为64位架构计算机系统而设计的操作系统。</p>
+<p>64位的CPU就可以运行32位的Windows()，也能运行64位Windows，但32位的CPU就不能用64位的Windows（因为CPU一次只能处理32bit，而操作系统给你的指令是要处理64bit）<br><img src="/img/loading.gif" data-original="https://img-blog.csdnimg.cn/3eebae87e95848d49bb6890e3fe94e2d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAejFpbg==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<p>有个<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43811102/article/details/102218287?spm=1001.2014.3001.5501">文章</a>讲的很好</p>
+<p><img src="/img/loading.gif" data-original="https://img-blog.csdnimg.cn/485638d200f946d38c3af02afdc570fb.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAejFpbg==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>懂得了分段我们看到这个就不难想出这些寄存器储存的是其对应的段的基址。<br><img src="/img/loading.gif" data-original="https://img-blog.csdnimg.cn/d16ea7388ae84df7a6e026d96fa137e8.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAejFpbg==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>首位呼应起来了，不得不说人好学校讲课就是牛逼，瞬间清晰了。</p>
+<p>接下来就有点难懂了<br><img src="/img/loading.gif" data-original="https://img-blog.csdnimg.cn/c04d3b18461d42ec9801105126434984.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAejFpbg==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"><br>简单来说，80X86处理器在开机的时候工作方式是实方式，然后会通过实地址的方式进入保护方式。在此方式下，可以使用32位寄存器和32位操作数，也可以采用32位的寻址方式。32位CPU与16位CPU一样，只能寻址1MB物理存储空间，程序段的大小不超过64KB，段基址和偏移地址都是16位的，这样的段也称为“16位段”。<br>那么采用这种方式有何意义呢？主要是用于兼容8086/8088。MS DOS 操作系统运行在实模式下，Windows 9x/NT/2000操作系统运行在保护模式下。</p>
+<p>说到这里，我有很多疑惑，到底cpu的寻址能力与什么有关呢？<br>为什么寻址能力还要受操作系统的限制呢？<br>一个计算机，它的内存访问能力是由硬件和软件共同决定的。硬件层面就指 CPU 的寻址能力，与地址总线的宽度有关。软件层面，指的就是操作系统。实际上我们（进程）在进行内存访问的时候，访问的都是逻辑地址，而逻辑地址是由操作系统提供的。对于 32 位的操作系统，其逻辑地址编码采用的地址位数是 32 位，那么操作系统所提供的逻辑地址寻址范围就是 4GB。所以，不管你用什么样的CPU，它最多也只支持4GB的内存容量，但这是操作系统的锅，并不是说32位CPU只能寻址4GB空间。</p>
+<p>保护方式，使用32位地址线，寻址4GB的物理存储空间，虚拟存储空间可达64TB。段基址和段内偏移量都是32位的，程序段的大小可达4GB，这样的段也称为“”32位段。该方式提供了支持多任务的硬件机构，能位每个任务提供一台虚拟处理器来仿真多台处理器，此时，操作系统将CPU轮流分配给每一个虚拟处理器运行该空间中的任务，并在各种任务之间来回快速而方便地切换。分段和分页的存储管理功能能对各个任务分配不同的虚拟存储空间，实施执行环境的隔离和保护，对不同的段设立特权级并进行访问权限检查，以防不同的用户程序之间、用户程序与系统程序之间的非法访问和干扰破坏，使操作系统和个应用程序都收到保护。这也是将该工作方式称为保护方式的原因。</p>
+<p>虚拟8086方式，此方式是一种在保护方式下运行的类似实方式的工作环境，因此，能充分利用保护方式提供的多任务硬件机构、强大的存储管理和保护能力。例如，多个8086程序可以通过分页存储管理机制，将各自的1MB地址空间映射到4GB物理地址的不同位置，从而共存于主存且并行运行，没个程序就像在自己的8086中单独运行一样。CPU不但可以执行多个虚拟8086任务，还可以将虚拟8086任务与其他32位CPU任务一起执行。<br>这种方式就是cmd命令窗口的工作方式。</p>
+<p>学习并复制了以下文章的片段，感谢大佬们的总结。<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/liangxiaofeng/p/3500689.html">三种工作方式</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/wwwlyj123321/article/details/99940786">cpu的基础知识</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">z1in</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://goat2003.github.io/2021/09/04/%E9%87%8D%E5%AD%A6%E4%B8%80%E4%B8%8B%E6%B1%87%E7%BC%96/">https://goat2003.github.io/2021/09/04/重学一下汇编/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://goat2003.github.io/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://goat2003.github.io" target="_blank">z1inのblog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B1%87%E7%BC%96/">汇编</a></div><div class="post_share"><div class="social-share" data-image="/images/007.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li><li class="reward-item"><a href="/img/qq.jpg" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-original="/img/qq.jpg" alt="QQ"/></a><div class="post-qr-code-desc">QQ</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/08/22/crackme%E6%9D%82%E8%AE%B0007/"><img class="next-cover" src="/img/loading.gif" data-original="/images/009.jpg" onerror="onerror=null;src='/img/404.gif'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">crackme杂记 007</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/loading.gif" data-original="/img/tit.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">z1in</div><div class="author-info__description">一只想成为大佬的小菜鸟</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div><a class="button--animated" id="card-info-btn" href="/img/alipay.jpg"><i class="iconfont icon-zhifubao"></i><span>鼓励一下我吧</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="iconfont icon-github card_icon"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS链接"><i class="iconfont icon-RSS_flat card_icon"></i></a><a class="social-icon" href="https://blog.csdn.net/goat_2003?spm=1010.2135.3001.5343" target="_blank" title=""><i class="iconfont icon-csdn card_icon"></i></a><a class="social-icon" href="https://wpa.qq.com/msgrd?v=3&amp;uin=1679369498&amp;site=qqq&amp;menu=yes" target="_blank" title=""><i class="iconfont icon-QQ card_icon"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">一只想赚大钱的懒狗</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/09/04/%E9%87%8D%E5%AD%A6%E4%B8%80%E4%B8%8B%E6%B1%87%E7%BC%96/" title="重学一下汇编"><img src="/img/loading.gif" data-original="/images/007.jpg" onerror="this.onerror=null;this.src='/img/404.gif'" alt="重学一下汇编"/></a><div class="content"><a class="title" href="/2021/09/04/%E9%87%8D%E5%AD%A6%E4%B8%80%E4%B8%8B%E6%B1%87%E7%BC%96/" title="重学一下汇编">重学一下汇编</a><time datetime="2021-09-04T13:38:23.000Z" title="发表于 2021-09-04 21:38:23">2021-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/22/crackme%E6%9D%82%E8%AE%B0007/" title="crackme杂记 007"><img src="/img/loading.gif" data-original="/images/009.jpg" onerror="this.onerror=null;this.src='/img/404.gif'" alt="crackme杂记 007"/></a><div class="content"><a class="title" href="/2021/08/22/crackme%E6%9D%82%E8%AE%B0007/" title="crackme杂记 007">crackme杂记 007</a><time datetime="2021-08-22T15:38:23.000Z" title="发表于 2021-08-22 23:38:23">2021-08-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/22/crackme%E6%9D%82%E8%AE%B0%20006/" title="crackme杂记 006"><img src="/img/loading.gif" data-original="/images/009.jpg" onerror="this.onerror=null;this.src='/img/404.gif'" alt="crackme杂记 006"/></a><div class="content"><a class="title" href="/2021/08/22/crackme%E6%9D%82%E8%AE%B0%20006/" title="crackme杂记 006">crackme杂记 006</a><time datetime="2021-08-22T15:08:23.000Z" title="发表于 2021-08-22 23:08:23">2021-08-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/20/crackme%E6%9D%82%E8%AE%B0%20004/" title="crackme杂记 004"><img src="/img/loading.gif" data-original="/images/009.jpg" onerror="this.onerror=null;this.src='/img/404.gif'" alt="crackme杂记 004"/></a><div class="content"><a class="title" href="/2021/08/20/crackme%E6%9D%82%E8%AE%B0%20004/" title="crackme杂记 004">crackme杂记 004</a><time datetime="2021-08-20T15:18:23.000Z" title="发表于 2021-08-20 23:18:23">2021-08-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/19/crackme%E6%9D%82%E8%AE%B0%20003/" title="crackme杂记 003"><img src="/img/loading.gif" data-original="/images/009.jpg" onerror="this.onerror=null;this.src='/img/404.gif'" alt="crackme杂记 003"/></a><div class="content"><a class="title" href="/2021/08/19/crackme%E6%9D%82%E8%AE%B0%20003/" title="crackme杂记 003">crackme杂记 003</a><time datetime="2021-08-19T15:19:23.000Z" title="发表于 2021-08-19 23:19:23">2021-08-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021  <i id="heartbeat" class="fa fas fa-heartbeat"></i> z1in</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">努力赚大钱</div></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'h9DnVxAFKDgy6kz4tYbfrMbN-gzGzoHsz',
+      appKey: 'ILBSxX9ilJj2Af7ljW8TmPky',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script>var gitcalendar = new Vue({
+  el: '#gitcalendar',
+  data: {
+    simplemode: true,
+    user: 'goat2003',
+    fixed: 'fixed',
+    px: 'px',
+    x: '',
+    y: '',
+    span1: '',
+    span2: '',
+    month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    monthchange: [],
+    oneyearbeforeday: '',
+    thisday: '',
+    amonthago: '',
+    aweekago: '',
+    weekdatacore: 0,
+    datacore: 0,
+    total: 0,
+    datadate: '',
+    data: [],
+    positionplusdata: [],
+    firstweek: [],
+    lastweek: [],
+    beforeweek: [],
+    thisweekdatacore: 0,
+    mounthbeforeday: 0,
+    mounthfirstindex: 0,
+    crispedges: 'crispedges',
+    thisdayindex: 0,
+    amonthagoindex: 0,
+    amonthagoweek: [],
+    firstdate: [],
+    first2date: [],
+    montharrbefore: [],
+    monthindex: 0,
+    color: ['#ebedf0', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f']
+  },
+  methods: {
+    selectStyle(data, event) {
+      document.querySelector('.angle-wrapper').style.display = 'block'
+      this.span1 = data.date;
+      this.span2 = data.count;
+      this.x = event.clientX - 100;
+      this.y = event.clientY - 60
+    },
+    outStyle() {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+    },
+    thiscolor(x) {
+      if (x === 0) {
+        let i = parseInt(x / 2);
+        return this.color[0]
+      } else if (x < 2) {
+        return this.color[1]
+      } else if (x < 20) {
+        let i = parseInt(x / 2);
+        return this.color[i]
+      } else {
+        return this.color[9]
+      }
+    },
+  }
+});
+var apiurl = '' ? 'https:///api?' : 'https://githubapi.ryanchristian.dev/user/'
+var githubapiurl = apiurl + gitcalendar.user;
+//canvas绘图
+function responsiveChart() {
+  let c = document.getElementById("gitcanvas");
+  if (c) {
+    let cmessage = document.getElementById("gitmessage");
+    let ctx = c.getContext("2d");
+    c.width = document.getElementById("gitcalendarcanvasbox").offsetWidth;
+    let linemaxwitdh = 0.96 * c.width / gitcalendar.data.length;
+    c.height = 9 * linemaxwitdh;
+    let lineminwitdh = 0.8 * linemaxwitdh;
+    let setposition = {
+      x: 0.02 * c.width,
+      y: 0.025 * c.width
+    };
+    for (let week in gitcalendar.data) {
+      weekdata = gitcalendar.data[week];
+      for (let day in weekdata) {
+        let dataitem = {
+          date: "",
+          count: "",
+          x: 0,
+          y: 0
+        };
+        gitcalendar.positionplusdata.push(dataitem);
+        ctx.fillStyle = gitcalendar.thiscolor(weekdata[day].count);
+        setposition.y = Math.round(setposition.y * 100) / 100;
+        dataitem.date = weekdata[day].date;
+        dataitem.count = weekdata[day].count;
+        dataitem.x = setposition.x;
+        dataitem.y = setposition.y;
+        ctx.fillRect(setposition.x, setposition.y, lineminwitdh, lineminwitdh);
+        setposition.y = setposition.y + linemaxwitdh
+      };
+      setposition.y = 0.025 * c.width;
+      setposition.x = setposition.x + linemaxwitdh
+    };
+    ctx.font = "600  Arial";
+    ctx.fillStyle = '#aaa';
+    ctx.fillText("日", 0, 1.9 * linemaxwitdh);
+    ctx.fillText("二", 0, 3.9 * linemaxwitdh);
+    ctx.fillText("四", 0, 5.9 * linemaxwitdh);
+    ctx.fillText("六", 0, 7.9 * linemaxwitdh);
+    let monthindexlist = c.width / 24;
+    for (let index in gitcalendar.monthchange) {
+      ctx.fillText(gitcalendar.monthchange[index], monthindexlist, 0.7 * linemaxwitdh);
+      monthindexlist = monthindexlist + c.width / 12
+    };
+    cmessage.onmousemove = function(event) {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+    };
+    c.onmousemove = function(event) {
+      document.querySelector('.angle-wrapper').style.display = 'none'
+      getMousePos(c, event);
+    };
+
+    function getMousePos(canvas, event) {
+      var rect = canvas.getBoundingClientRect();
+      var x = event.clientX - rect.left * (canvas.width / rect.width);
+      var y = event.clientY - rect.top * (canvas.height / rect.height);
+      //console.log("x:"+x+",y:"+y);
+      for (let item of gitcalendar.positionplusdata) {
+        let lenthx = x - item.x;
+        let lenthy = y - item.y;
+        //console.log(lenthx,lenthy);
+        if (0 < lenthx && lenthx < lineminwitdh) {
+          if (0 < lenthy && lenthy < lineminwitdh) {
+            //console.log(item.date,item.count)
+            document.querySelector('.angle-wrapper').style.display = 'block'
+            gitcalendar.span1 = item.date;
+            gitcalendar.span2 = item.count;
+            gitcalendar.x = event.clientX - 100;
+            gitcalendar.y = event.clientY - 60
+          }
+        }
+        //if(0< x - item.x <lineminwitdh&&0< y - item.y <lineminwitdh){
+        //console.log(item.count,item.date);
+        //}
+      }
+    }
+  }
+}
+//数据统计算法
+function addlastmonth() {
+  if (gitcalendar.thisdayindex === 0) {
+    thisweekcore(52);
+    thisweekcore(51);
+    thisweekcore(50);
+    thisweekcore(49);
+    thisweekcore(48);
+    gitcalendar.thisweekdatacore += gitcalendar.firstdate[6].count;
+    gitcalendar.amonthago = gitcalendar.firstdate[6].date
+  } else {
+    thisweekcore(52);
+    thisweekcore(51);
+    thisweekcore(50);
+    thisweekcore(49);
+    thisweek2core();
+    gitcalendar.amonthago = gitcalendar.first2date[gitcalendar.thisdayindex - 1].date
+  }
+};
+
+function thisweek2core() {
+  for (let i = gitcalendar.thisdayindex - 1; i < gitcalendar.first2date.length; i++) {
+    gitcalendar.thisweekdatacore += gitcalendar.first2date[i].count
+  }
+};
+
+function thisweekcore(index) {
+  for (let item of gitcalendar.data[index]) {
+    gitcalendar.thisweekdatacore += item.count
+  }
+};
+
+function addlastweek() {
+  for (let item of gitcalendar.lastweek) {
+    gitcalendar.weekdatacore += item.count
+  }
+};
+
+function addbeforeweek() {
+  for (let i = gitcalendar.thisdayindex; i < gitcalendar.beforeweek.length; i++) {
+    gitcalendar.weekdatacore += gitcalendar.beforeweek[i].count
+  }
+};
+
+function addweek(data) {
+  if (gitcalendar.thisdayindex === 6) {
+    gitcalendar.aweekago = gitcalendar.lastweek[0].date;
+    addlastweek()
+  } else {
+    lastweek = data.contributions[51];
+    gitcalendar.aweekago = lastweek[gitcalendar.thisdayindex + 1].date;
+    addlastweek();
+    addbeforeweek()
+  }
+}
+
+fetch(githubapiurl)
+  .then(data => data.json())
+  .then(data => {
+    gitcalendar.data = data.contributions;
+    gitcalendar.total = data.total;
+    gitcalendar.first2date = gitcalendar.data[48];
+    gitcalendar.firstdate = gitcalendar.data[47];
+    gitcalendar.firstweek = data.contributions[0];
+    gitcalendar.lastweek = data.contributions[52];
+    gitcalendar.beforeweek = data.contributions[51];
+    gitcalendar.thisdayindex = gitcalendar.lastweek.length - 1;
+    gitcalendar.thisday = gitcalendar.lastweek[gitcalendar.thisdayindex].date;
+    gitcalendar.oneyearbeforeday = gitcalendar.firstweek[0].date;
+    gitcalendar.monthindex = gitcalendar.thisday.substring(5, 7) * 1;
+    gitcalendar.montharrbefore = gitcalendar.month.splice(gitcalendar.monthindex, 12 - gitcalendar.monthindex);
+    gitcalendar.monthchange = gitcalendar.montharrbefore.concat(gitcalendar.month);
+    addweek(data);
+    addlastmonth();
+    responsiveChart();
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+
+//手机版更换为svg绘制
+if (document.getElementById("gitcalendarcanvasbox").offsetWidth < 500) {
+  gitcalendar.simplemode = false
+}
+
+//当改变窗口大小时重新绘制canvas
+window.onresize = function() {
+  if (gitcalendar.simplemode) responsiveChart()
+}
+
+//解决滚动滑轮时出现的标签显示
+window.onscroll = function() {
+  if (document.querySelector('.angle-wrapper')) {
+    document.querySelector('.angle-wrapper').style.display = 'none'
+  }
+};</script><script type="text/javascript" src="/js/fairyDustCursor.js"></script><script type="text/javascript" src="/js/zhedie.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="吃饭,睡觉,敲代码,敲代码" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/Epsilon2.1.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":true},"log":false});</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body></html><script type="text/javascript" src="/js/crash_cheat.js"></script>

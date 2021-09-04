@@ -6,7 +6,7 @@
   <link href="https://goat2003.github.io/atom.xml" rel="self"/>
   
   <link href="https://goat2003.github.io/"/>
-  <updated>2021-08-23T15:38:55.701Z</updated>
+  <updated>2021-09-04T13:39:28.838Z</updated>
   <id>https://goat2003.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>重学一下汇编</title>
+    <link href="https://goat2003.github.io/2021/09/04/%E9%87%8D%E5%AD%A6%E4%B8%80%E4%B8%8B%E6%B1%87%E7%BC%96/"/>
+    <id>https://goat2003.github.io/2021/09/04/%E9%87%8D%E5%AD%A6%E4%B8%80%E4%B8%8B%E6%B1%87%E7%BC%96/</id>
+    <published>2021-09-04T13:38:23.000Z</published>
+    <updated>2021-09-04T13:39:28.838Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;EAX：累加器                 Accumulator&lt;br&gt;EBX：基础寄存器          Base&lt;br&gt;ECX：计数器                 Count&lt;br&gt;EDX：数据寄存器          Data&lt;br&gt;ESI：源变址寄存器</summary>
+        
+      
+    
+    
+    
+    <category term="汇编" scheme="https://goat2003.github.io/categories/%E6%B1%87%E7%BC%96/"/>
+    
+    
+    <category term="汇编" scheme="https://goat2003.github.io/tags/%E6%B1%87%E7%BC%96/"/>
+    
+  </entry>
   
   <entry>
     <title>crackme杂记 007</title>
@@ -507,31 +532,6 @@
         
     <summary type="html">&lt;p&gt;前面在&lt;a href=&quot;https://www.52pojie.cn/thread-1410348-1-1.html&quot;&gt;PE文件笔记十一 新增节&lt;/a&gt;学习了关于节的操作之新增节，接下来继续学习节的操作之合并节&lt;/p&gt;
 &lt;h1 id=&quot;合并节&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="pe" scheme="https://goat2003.github.io/categories/pe/"/>
-    
-    
-    <category term="pe" scheme="https://goat2003.github.io/tags/pe/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PE文件笔记十二 修正内存对齐</title>
-    <link href="https://goat2003.github.io/2021/06/15/pe%E6%80%BB%E7%BB%9312/"/>
-    <id>https://goat2003.github.io/2021/06/15/pe%E6%80%BB%E7%BB%9312/</id>
-    <published>2021-06-15T08:49:07.000Z</published>
-    <updated>2021-06-19T07:47:25.196Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;在前面&lt;a href=&quot;https://www.52pojie.cn/thread-1409844-1-1.html&quot;&gt;PE文件笔记十 扩大节&lt;/a&gt;中，需要修正节表成员；修正节表成员时要把Misc（实际大小）和</summary>
         
       
     
