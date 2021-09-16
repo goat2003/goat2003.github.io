@@ -6,7 +6,7 @@
   <link href="https://goat2003.github.io/atom.xml" rel="self"/>
   
   <link href="https://goat2003.github.io/"/>
-  <updated>2021-09-04T13:39:28.838Z</updated>
+  <updated>2021-09-16T04:45:18.521Z</updated>
   <id>https://goat2003.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pwn2test</title>
+    <link href="https://goat2003.github.io/2021/09/04/pwn2test/"/>
+    <id>https://goat2003.github.io/2021/09/04/pwn2test/</id>
+    <published>2021-09-04T13:38:23.000Z</published>
+    <updated>2021-09-16T04:45:18.521Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span</summary>
+        
+      
+    
+    
+    
+    <category term="pwn" scheme="https://goat2003.github.io/categories/pwn/"/>
+    
+    
+    <category term="pwn" scheme="https://goat2003.github.io/tags/pwn/"/>
+    
+  </entry>
   
   <entry>
     <title>重学一下汇编</title>
@@ -506,32 +531,6 @@
 &lt;p&gt;这次来学习DataDirectory[0]也就是导出表的具体内容&lt;/p&gt;
 &lt;hr&gt;
 &lt;h1 id=&quot;导出表&quot;&gt;&lt;a href=&quot;#导出表&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="pe" scheme="https://goat2003.github.io/categories/pe/"/>
-    
-    
-    <category term="pe" scheme="https://goat2003.github.io/tags/pe/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PE文件笔记十三 合并节</title>
-    <link href="https://goat2003.github.io/2021/06/15/pe%E6%80%BB%E7%BB%9313/"/>
-    <id>https://goat2003.github.io/2021/06/15/pe%E6%80%BB%E7%BB%9313/</id>
-    <published>2021-06-15T08:51:07.000Z</published>
-    <updated>2021-06-15T08:50:52.489Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;前面在&lt;a href=&quot;https://www.52pojie.cn/thread-1410348-1-1.html&quot;&gt;PE文件笔记十一 新增节&lt;/a&gt;学习了关于节的操作之新增节，接下来继续学习节的操作之合并节&lt;/p&gt;
-&lt;h1 id=&quot;合并节&quot;&gt;&lt;a</summary>
         
       
     
